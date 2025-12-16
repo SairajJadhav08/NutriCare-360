@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Profile - MedVault{% endblock %}
+{% block title %}Profile - NutriCare-360{% endblock %}
 
 {% block content %}
 <div class="profile-page">
     <div class="page-header">
-        <h1><img src="{{ url_for('static', filename='user-icon.svg') }}" alt="User" class="header-svg"> Profile & Settings</h1>
+        <h1><img src="{{ url_for('static', filename='user-icon.svg') }}" alt="User" class="header-svg"> Profile &
+            Settings</h1>
         <p>Manage your account and preferences</p>
     </div>
 
@@ -20,7 +21,7 @@
                 </div>
                 <div class="profile-info">
                     <h3>{{ session.username }}</h3>
-                    <p>MedVault User</p>
+                    <p>NutriCare-360 User</p>
                     <div class="profile-stats">
                         <div class="stat-item">
                             <span class="stat-number" id="total-reminders">0</span>
@@ -43,11 +44,12 @@
             <div class="section-header">
                 <h2>Preferences</h2>
             </div>
-            
+
             <div class="settings-grid">
                 <div class="setting-card">
                     <div class="setting-header">
-                        <h3><img src="{{ url_for('static', filename='bell-icon.svg') }}" alt="Notifications" class="setting-svg"> Notifications</h3>
+                        <h3><img src="{{ url_for('static', filename='bell-icon.svg') }}" alt="Notifications"
+                                class="setting-svg"> Notifications</h3>
                     </div>
                     <div class="setting-content">
                         <div class="setting-item">
@@ -75,21 +77,25 @@
 
                 <div class="setting-card">
                     <div class="setting-header">
-                        <h3><img src="{{ url_for('static', filename='palette-icon.svg') }}" alt="Appearance" class="setting-svg"> Appearance</h3>
+                        <h3><img src="{{ url_for('static', filename='palette-icon.svg') }}" alt="Appearance"
+                                class="setting-svg"> Appearance</h3>
                     </div>
                     <div class="setting-content">
                         <div class="setting-item">
                             <div class="theme-selector">
                                 <button class="theme-option active" data-theme="light">
-                                    <img src="{{ url_for('static', filename='sun-icon.svg') }}" alt="Light Theme" class="theme-svg">
+                                    <img src="{{ url_for('static', filename='sun-icon.svg') }}" alt="Light Theme"
+                                        class="theme-svg">
                                     <span>Light</span>
                                 </button>
                                 <button class="theme-option" data-theme="dark">
-                                    <img src="{{ url_for('static', filename='moon-icon.svg') }}" alt="Dark Theme" class="theme-svg">
+                                    <img src="{{ url_for('static', filename='moon-icon.svg') }}" alt="Dark Theme"
+                                        class="theme-svg">
                                     <span>Dark</span>
                                 </button>
                                 <button class="theme-option" data-theme="auto">
-                                    <img src="{{ url_for('static', filename='adjust-icon.svg') }}" alt="Auto Theme" class="theme-svg">
+                                    <img src="{{ url_for('static', filename='adjust-icon.svg') }}" alt="Auto Theme"
+                                        class="theme-svg">
                                     <span>Auto</span>
                                 </button>
                             </div>
@@ -99,17 +105,20 @@
 
                 <div class="setting-card">
                     <div class="setting-header">
-                        <h3><img src="{{ url_for('static', filename='shield-icon.svg') }}" alt="Privacy & Security" class="setting-svg"> Privacy & Security</h3>
+                        <h3><img src="{{ url_for('static', filename='shield-icon.svg') }}" alt="Privacy & Security"
+                                class="setting-svg"> Privacy & Security</h3>
                     </div>
                     <div class="setting-content">
                         <div class="setting-item">
                             <button class="btn btn-secondary btn-full">
-                                <img src="{{ url_for('static', filename='key-icon.svg') }}" alt="Change Password" class="btn-svg"> Change Password
+                                <img src="{{ url_for('static', filename='key-icon.svg') }}" alt="Change Password"
+                                    class="btn-svg"> Change Password
                             </button>
                         </div>
                         <div class="setting-item">
                             <button class="btn btn-secondary btn-full">
-                                <img src="{{ url_for('static', filename='download-icon.svg') }}" alt="Export Data" class="btn-svg"> Export Data
+                                <img src="{{ url_for('static', filename='download-icon.svg') }}" alt="Export Data"
+                                    class="btn-svg"> Export Data
                             </button>
                         </div>
                     </div>
@@ -124,7 +133,8 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon">
-                        <img src="{{ url_for('static', filename='calendar-check-icon.svg') }}" alt="Weekly Stats" class="stat-svg">
+                        <img src="{{ url_for('static', filename='calendar-check-icon.svg') }}" alt="Weekly Stats"
+                            class="stat-svg">
                     </div>
                     <div class="stat-content">
                         <h3>This Week</h3>
@@ -137,7 +147,8 @@
 
                 <div class="stat-card">
                     <div class="stat-icon">
-                        <img src="{{ url_for('static', filename='chart-icon.svg') }}" alt="Monthly Stats" class="stat-svg">
+                        <img src="{{ url_for('static', filename='chart-icon.svg') }}" alt="Monthly Stats"
+                            class="stat-svg">
                     </div>
                     <div class="stat-content">
                         <h3>This Month</h3>
@@ -150,13 +161,15 @@
 
                 <div class="stat-card">
                     <div class="stat-icon">
-                        <img src="{{ url_for('static', filename='trophy-icon.svg') }}" alt="Streak Achievement" class="stat-svg">
+                        <img src="{{ url_for('static', filename='trophy-icon.svg') }}" alt="Streak Achievement"
+                            class="stat-svg">
                     </div>
                     <div class="stat-content">
                         <h3>Streak</h3>
                         <p>5 days in a row</p>
                         <div class="streak-indicator">
-                            <img src="{{ url_for('static', filename='fire-icon.svg') }}" alt="Fire Streak" class="streak-svg">
+                            <img src="{{ url_for('static', filename='fire-icon.svg') }}" alt="Fire Streak"
+                                class="streak-svg">
                         </div>
                     </div>
                 </div>
@@ -169,7 +182,7 @@
             </div>
             <div class="danger-card">
                 <h3>Logout</h3>
-                <p>Sign out of your MedVault account</p>
+                <p>Sign out of your NutriCare-360 account</p>
                 <a href="{{ url_for('logout') }}" class="btn btn-danger">
                     <img src="{{ url_for('static', filename='logout-icon.svg') }}" alt="Logout" class="btn-svg"> Logout
                 </a>
@@ -179,79 +192,79 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Theme selector
-    const themeOptions = document.querySelectorAll('.theme-option');
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    
-    // Set active theme
-    themeOptions.forEach(option => {
-        if (option.dataset.theme === currentTheme) {
-            option.classList.add('active');
-        } else {
-            option.classList.remove('active');
-        }
-        
-        option.addEventListener('click', function() {
-            const theme = this.dataset.theme;
-            
-            // Remove active class from all options
-            themeOptions.forEach(opt => opt.classList.remove('active'));
-            
-            // Add active class to clicked option
-            this.classList.add('active');
-            
-            // Apply theme
-            applyTheme(theme);
-            localStorage.setItem('theme', theme);
-        });
-    });
-    
-    // Notification settings
-    const browserNotifications = document.getElementById('browser-notifications');
-    const soundAlerts = document.getElementById('sound-alerts');
-    
-    // Load saved preferences
-    browserNotifications.checked = localStorage.getItem('browserNotifications') !== 'false';
-    soundAlerts.checked = localStorage.getItem('soundAlerts') !== 'false';
-    
-    browserNotifications.addEventListener('change', function() {
-        localStorage.setItem('browserNotifications', this.checked);
-        if (this.checked && Notification.permission === 'default') {
-            Notification.requestPermission();
-        }
-    });
-    
-    soundAlerts.addEventListener('change', function() {
-        localStorage.setItem('soundAlerts', this.checked);
-    });
-    
-    // Load profile stats (placeholder)
-    loadProfileStats();
-});
+    document.addEventListener('DOMContentLoaded', function () {
+        // Theme selector
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const currentTheme = localStorage.getItem('theme') || 'light';
 
-function applyTheme(theme) {
-    const body = document.body;
-    
-    if (theme === 'dark') {
-        body.classList.add('dark-theme');
-    } else if (theme === 'light') {
-        body.classList.remove('dark-theme');
-    } else if (theme === 'auto') {
-        // Auto theme based on system preference
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // Set active theme
+        themeOptions.forEach(option => {
+            if (option.dataset.theme === currentTheme) {
+                option.classList.add('active');
+            } else {
+                option.classList.remove('active');
+            }
+
+            option.addEventListener('click', function () {
+                const theme = this.dataset.theme;
+
+                // Remove active class from all options
+                themeOptions.forEach(opt => opt.classList.remove('active'));
+
+                // Add active class to clicked option
+                this.classList.add('active');
+
+                // Apply theme
+                applyTheme(theme);
+                localStorage.setItem('theme', theme);
+            });
+        });
+
+        // Notification settings
+        const browserNotifications = document.getElementById('browser-notifications');
+        const soundAlerts = document.getElementById('sound-alerts');
+
+        // Load saved preferences
+        browserNotifications.checked = localStorage.getItem('browserNotifications') !== 'false';
+        soundAlerts.checked = localStorage.getItem('soundAlerts') !== 'false';
+
+        browserNotifications.addEventListener('change', function () {
+            localStorage.setItem('browserNotifications', this.checked);
+            if (this.checked && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        });
+
+        soundAlerts.addEventListener('change', function () {
+            localStorage.setItem('soundAlerts', this.checked);
+        });
+
+        // Load profile stats (placeholder)
+        loadProfileStats();
+    });
+
+    function applyTheme(theme) {
+        const body = document.body;
+
+        if (theme === 'dark') {
             body.classList.add('dark-theme');
-        } else {
+        } else if (theme === 'light') {
             body.classList.remove('dark-theme');
+        } else if (theme === 'auto') {
+            // Auto theme based on system preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                body.classList.add('dark-theme');
+            } else {
+                body.classList.remove('dark-theme');
+            }
         }
     }
-}
 
-function loadProfileStats() {
-    // In a real app, this would fetch from the backend
-    // For now, using placeholder values
-    document.getElementById('total-reminders').textContent = '0';
-    document.getElementById('total-prescriptions').textContent = '0';
-}
+    function loadProfileStats() {
+        // In a real app, this would fetch from the backend
+        // For now, using placeholder values
+        document.getElementById('total-reminders').textContent = '0';
+        document.getElementById('total-prescriptions').textContent = '0';
+    }
 </script>
 {% endblock %}

@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Nutrition Suggestions - MedVault{% endblock %}
+{% block title %}Nutrition Suggestions - NutriCare-360{% endblock %}
 
 {% block content %}
 <div class="nutrition-page">
     <div class="page-header">
         <h1>
-            <img src="{{ url_for('static', filename='nutrition-icon.svg') }}" alt="Nutrition" class="page-icon"> 
+            <img src="{{ url_for('static', filename='nutrition-icon.svg') }}" alt="Nutrition" class="page-icon">
             Nutrition Suggestions
         </h1>
         <p>Search for nutrition information and track your food intake</p>
@@ -31,12 +31,12 @@
         <div class="section-header">
             <h2>Search Food Nutrition</h2>
         </div>
-        
+
         <form id="nutrition-search-form" class="search-form">
             <div class="search-input-group">
                 <input type="text" id="food-search" placeholder="e.g., 2 chapatis and dal, 1 cup rice" required>
                 <button type="submit" class="btn btn-primary">
-                    <img src="{{ url_for('static', filename='search-icon.svg') }}" alt="Search" class="btn-icon"> 
+                    <img src="{{ url_for('static', filename='search-icon.svg') }}" alt="Search" class="btn-icon">
                     Search
                 </button>
             </div>
@@ -67,7 +67,7 @@
         <div class="section-header">
             <h2>My Nutrition History</h2>
             <button id="refresh-history" class="btn btn-secondary">
-                <img src="{{ url_for('static', filename='refresh-icon.svg') }}" alt="Refresh" class="btn-icon"> 
+                <img src="{{ url_for('static', filename='refresh-icon.svg') }}" alt="Refresh" class="btn-icon">
                 Refresh
             </button>
         </div>
@@ -85,7 +85,7 @@
                 <h3>No Nutrition History</h3>
                 <p>Start searching for foods to build your nutrition history!</p>
             </div>
-            
+
             <div id="history-list" class="history-list">
                 <!-- History items will be populated by JavaScript -->
             </div>
@@ -99,98 +99,98 @@
 </div>
 
 <script>
-// Nutrition page JavaScript functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const apiModeToggle = document.getElementById('api-mode-toggle');
-    const modeText = document.getElementById('mode-text');
-    const searchForm = document.getElementById('nutrition-search-form');
-    const foodSearch = document.getElementById('food-search');
-    const loadingIndicator = document.getElementById('loading-indicator');
-    const searchResults = document.getElementById('search-results');
-    const resultsContainer = document.getElementById('results-container');
-    const errorMessage = document.getElementById('error-message');
-    const historyContent = document.getElementById('history-content');
-    const historyList = document.getElementById('history-list');
-    const historyEmpty = document.getElementById('history-empty');
-    const historyLoading = document.getElementById('history-loading');
-    const refreshHistoryBtn = document.getElementById('refresh-history');
-    const toast = document.getElementById('toast');
-    const toastMessage = document.getElementById('toast-message');
+    // Nutrition page JavaScript functionality
+    document.addEventListener('DOMContentLoaded', function () {
+        const apiModeToggle = document.getElementById('api-mode-toggle');
+        const modeText = document.getElementById('mode-text');
+        const searchForm = document.getElementById('nutrition-search-form');
+        const foodSearch = document.getElementById('food-search');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const searchResults = document.getElementById('search-results');
+        const resultsContainer = document.getElementById('results-container');
+        const errorMessage = document.getElementById('error-message');
+        const historyContent = document.getElementById('history-content');
+        const historyList = document.getElementById('history-list');
+        const historyEmpty = document.getElementById('history-empty');
+        const historyLoading = document.getElementById('history-loading');
+        const refreshHistoryBtn = document.getElementById('refresh-history');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
 
-    // Toggle between API and Local data mode
-    apiModeToggle.addEventListener('change', function() {
-        if (this.checked) {
-            modeText.textContent = 'API Mode';
-        } else {
-            modeText.textContent = 'Local Data';
-        }
-    });
-
-    // Search form submission
-    searchForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        searchNutrition();
-    });
-
-    // Refresh history button
-    refreshHistoryBtn.addEventListener('click', function() {
-        loadNutritionHistory();
-    });
-
-    // Search nutrition function
-    async function searchNutrition() {
-        const query = foodSearch.value.trim();
-        if (!query) return;
-
-        // Show loading, hide results and errors
-        loadingIndicator.style.display = 'flex';
-        searchResults.style.display = 'none';
-        errorMessage.style.display = 'none';
-
-        try {
-            const response = await fetch('/nutrition/search', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    food: query,
-                    use_api: apiModeToggle.checked
-                })
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                displayResults(data.results);
+        // Toggle between API and Local data mode
+        apiModeToggle.addEventListener('change', function () {
+            if (this.checked) {
+                modeText.textContent = 'API Mode';
             } else {
-                showError(data.error || 'Search failed');
+                modeText.textContent = 'Local Data';
             }
-        } catch (error) {
-            showError('Network error occurred');
-        } finally {
-            loadingIndicator.style.display = 'none';
-        }
-    }
-
-    // Display search results
-    function displayResults(results) {
-        resultsContainer.innerHTML = '';
-        
-        results.forEach(result => {
-            const resultCard = createResultCard(result);
-            resultsContainer.appendChild(resultCard);
         });
 
-        searchResults.style.display = 'block';
-    }
+        // Search form submission
+        searchForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            searchNutrition();
+        });
 
-    // Create result card
-    function createResultCard(nutrition) {
-        const card = document.createElement('div');
-        card.className = 'nutrition-card';
-        
-        card.innerHTML = `
+        // Refresh history button
+        refreshHistoryBtn.addEventListener('click', function () {
+            loadNutritionHistory();
+        });
+
+        // Search nutrition function
+        async function searchNutrition() {
+            const query = foodSearch.value.trim();
+            if (!query) return;
+
+            // Show loading, hide results and errors
+            loadingIndicator.style.display = 'flex';
+            searchResults.style.display = 'none';
+            errorMessage.style.display = 'none';
+
+            try {
+                const response = await fetch('/nutrition/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        food: query,
+                        use_api: apiModeToggle.checked
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayResults(data.results);
+                } else {
+                    showError(data.error || 'Search failed');
+                }
+            } catch (error) {
+                showError('Network error occurred');
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // Display search results
+        function displayResults(results) {
+            resultsContainer.innerHTML = '';
+
+            results.forEach(result => {
+                const resultCard = createResultCard(result);
+                resultsContainer.appendChild(resultCard);
+            });
+
+            searchResults.style.display = 'block';
+        }
+
+        // Create result card
+        function createResultCard(nutrition) {
+            const card = document.createElement('div');
+            card.className = 'nutrition-card';
+
+            card.innerHTML = `
             <div class="card-header">
                 <h4>${nutrition.name}</h4>
             </div>
@@ -219,89 +219,89 @@ document.addEventListener('DOMContentLoaded', function() {
                 </button>
             </div>
         `;
-        
-        return card;
-    }
 
-    // Save nutrition to history
-    window.saveNutrition = async function(name, calories, protein, carbs, fat) {
-        try {
-            const response = await fetch('/nutrition/save', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    food_name: name,
-                    calories: calories,
-                    protein: protein,
-                    carbs: carbs,
-                    fat: fat
-                })
+            return card;
+        }
+
+        // Save nutrition to history
+        window.saveNutrition = async function (name, calories, protein, carbs, fat) {
+            try {
+                const response = await fetch('/nutrition/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        food_name: name,
+                        calories: calories,
+                        protein: protein,
+                        carbs: carbs,
+                        fat: fat
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast('Nutrition data saved successfully!', 'success');
+                    loadNutritionHistory(); // Refresh history
+                } else {
+                    showToast(data.error || 'Failed to save nutrition data', 'error');
+                }
+            } catch (error) {
+                showToast('Network error occurred', 'error');
+            }
+        };
+
+        // Load nutrition history
+        async function loadNutritionHistory() {
+            historyLoading.style.display = 'flex';
+            historyList.style.display = 'none';
+            historyEmpty.style.display = 'none';
+
+            try {
+                const response = await fetch('/nutrition/history');
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayHistory(data.history);
+                } else {
+                    showError('Failed to load history');
+                }
+            } catch (error) {
+                showError('Network error occurred');
+            } finally {
+                historyLoading.style.display = 'none';
+            }
+        }
+
+        // Display nutrition history
+        function displayHistory(history) {
+            if (history.length === 0) {
+                historyEmpty.style.display = 'block';
+                historyList.style.display = 'none';
+                return;
+            }
+
+            historyList.innerHTML = '';
+
+            history.forEach(item => {
+                const historyItem = createHistoryItem(item);
+                historyList.appendChild(historyItem);
             });
 
-            const data = await response.json();
-
-            if (response.ok) {
-                showToast('Nutrition data saved successfully!', 'success');
-                loadNutritionHistory(); // Refresh history
-            } else {
-                showToast(data.error || 'Failed to save nutrition data', 'error');
-            }
-        } catch (error) {
-            showToast('Network error occurred', 'error');
-        }
-    };
-
-    // Load nutrition history
-    async function loadNutritionHistory() {
-        historyLoading.style.display = 'flex';
-        historyList.style.display = 'none';
-        historyEmpty.style.display = 'none';
-
-        try {
-            const response = await fetch('/nutrition/history');
-            const data = await response.json();
-
-            if (response.ok) {
-                displayHistory(data.history);
-            } else {
-                showError('Failed to load history');
-            }
-        } catch (error) {
-            showError('Network error occurred');
-        } finally {
-            historyLoading.style.display = 'none';
-        }
-    }
-
-    // Display nutrition history
-    function displayHistory(history) {
-        if (history.length === 0) {
-            historyEmpty.style.display = 'block';
-            historyList.style.display = 'none';
-            return;
+            historyList.style.display = 'block';
+            historyEmpty.style.display = 'none';
         }
 
-        historyList.innerHTML = '';
-        
-        history.forEach(item => {
-            const historyItem = createHistoryItem(item);
-            historyList.appendChild(historyItem);
-        });
+        // Create history item
+        function createHistoryItem(item) {
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item';
 
-        historyList.style.display = 'block';
-        historyEmpty.style.display = 'none';
-    }
+            const date = new Date(item.created_at).toLocaleDateString();
 
-    // Create history item
-    function createHistoryItem(item) {
-        const historyItem = document.createElement('div');
-        historyItem.className = 'history-item';
-        
-        const date = new Date(item.created_at).toLocaleDateString();
-        
-        historyItem.innerHTML = `
+            historyItem.innerHTML = `
             <div class="history-content">
                 <div class="history-header">
                     <h4>${item.food_name}</h4>
@@ -319,54 +319,54 @@ document.addEventListener('DOMContentLoaded', function() {
                 Delete
             </button>
         `;
-        
-        return historyItem;
-    }
 
-    // Delete history item
-    window.deleteHistoryItem = async function(id) {
-        if (!confirm('Are you sure you want to delete this nutrition record?')) {
-            return;
+            return historyItem;
         }
 
-        try {
-            const response = await fetch(`/nutrition/history/${id}`, {
-                method: 'DELETE'
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                showToast('Nutrition record deleted successfully!', 'success');
-                loadNutritionHistory(); // Refresh history
-            } else {
-                showToast(data.error || 'Failed to delete nutrition record', 'error');
+        // Delete history item
+        window.deleteHistoryItem = async function (id) {
+            if (!confirm('Are you sure you want to delete this nutrition record?')) {
+                return;
             }
-        } catch (error) {
-            showToast('Network error occurred', 'error');
+
+            try {
+                const response = await fetch(`/nutrition/history/${id}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast('Nutrition record deleted successfully!', 'success');
+                    loadNutritionHistory(); // Refresh history
+                } else {
+                    showToast(data.error || 'Failed to delete nutrition record', 'error');
+                }
+            } catch (error) {
+                showToast('Network error occurred', 'error');
+            }
+        };
+
+        // Show error message
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            searchResults.style.display = 'none';
         }
-    };
 
-    // Show error message
-    function showError(message) {
-        errorMessage.textContent = message;
-        errorMessage.style.display = 'block';
-        searchResults.style.display = 'none';
-    }
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            toastMessage.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.style.display = 'block';
 
-    // Show toast notification
-    function showToast(message, type = 'info') {
-        toastMessage.textContent = message;
-        toast.className = `toast ${type}`;
-        toast.style.display = 'block';
-        
-        setTimeout(() => {
-            toast.style.display = 'none';
-        }, 3000);
-    }
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
 
-    // Load history on page load
-    loadNutritionHistory();
-});
+        // Load history on page load
+        loadNutritionHistory();
+    });
 </script>
 {% endblock %}

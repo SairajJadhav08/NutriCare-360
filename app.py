@@ -18,7 +18,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Database initialization
 def init_db():
-    conn = sqlite3.connect('medvault.db')
+    conn = sqlite3.connect('nutricare360.db')
     cursor = conn.cursor()
     
     # Users table
@@ -90,7 +90,7 @@ def init_db():
 
 # Helper function to get database connection
 def get_db_connection():
-    conn = sqlite3.connect('medvault.db')
+    conn = sqlite3.connect('nutricare360.db')
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -219,6 +219,30 @@ def delete_reminder(reminder_id):
     
     flash('Reminder deleted successfully!')
     return redirect(url_for('reminders'))
+
+@app.route('/api/dashboard-stats')
+@login_required
+def dashboard_stats():
+    conn = get_db_connection()
+    
+    # Get reminders count
+    reminders_count = conn.execute(
+        'SELECT COUNT(*) FROM reminders WHERE user_id = ?',
+        (session['user_id'],)
+    ).fetchone()[0]
+    
+    # Get prescriptions count
+    prescriptions_count = conn.execute(
+        'SELECT COUNT(*) FROM prescriptions WHERE user_id = ?',
+        (session['user_id'],)
+    ).fetchone()[0]
+    
+    conn.close()
+    
+    return jsonify({
+        'reminders': reminders_count,
+        'prescriptions': prescriptions_count
+    })
 
 @app.route('/prescriptions')
 @login_required

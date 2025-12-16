@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Yoga Suggestions - MedVault{% endblock %}
+{% block title %}Yoga Suggestions - NutriCare-360{% endblock %}
 
 {% block content %}
 <div class="yoga-container">
     <div class="yoga-header">
         <h1>Yoga Suggestions</h1>
         <p>Discover yoga poses for wellness, stress relief, and fitness</p>
-        
+
         <!-- Mode Toggle -->
         <div class="mode-toggle">
             <label class="toggle-switch">
@@ -18,7 +18,7 @@
                 <span id="currentMode">Premade Data Mode</span>
             </span>
         </div>
-        
+
         <!-- Refresh Button -->
         <button id="refreshBtn" class="refresh-btn">
             <img src="{{ url_for('static', filename='icons/refresh-icon.svg') }}" alt="Refresh" class="btn-icon">
@@ -80,89 +80,89 @@
 </div>
 
 <script>
-let currentMode = 'json'; // 'json' or 'api'
-let allPoses = [];
-let currentPose = null;
+    let currentMode = 'json'; // 'json' or 'api'
+    let allPoses = [];
+    let currentPose = null;
 
-// Initialize page
-document.addEventListener('DOMContentLoaded', function() {
-    loadYogaPoses();
-    setupEventListeners();
-});
-
-function setupEventListeners() {
-    // Mode toggle
-    const modeToggle = document.getElementById('modeToggle');
-    modeToggle.addEventListener('change', function() {
-        currentMode = this.checked ? 'api' : 'json';
-        document.getElementById('currentMode').textContent = 
-            currentMode === 'api' ? 'API Mode' : 'Premade Data Mode';
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function () {
         loadYogaPoses();
+        setupEventListeners();
     });
 
-    // Refresh button
-    document.getElementById('refreshBtn').addEventListener('click', loadYogaPoses);
-
-    // Filter buttons
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            filterPoses(this.dataset.category);
+    function setupEventListeners() {
+        // Mode toggle
+        const modeToggle = document.getElementById('modeToggle');
+        modeToggle.addEventListener('change', function () {
+            currentMode = this.checked ? 'api' : 'json';
+            document.getElementById('currentMode').textContent =
+                currentMode === 'api' ? 'API Mode' : 'Premade Data Mode';
+            loadYogaPoses();
         });
-    });
 
-    // Modal close
-    document.querySelector('.close').addEventListener('click', closeModal);
-    document.getElementById('poseModal').addEventListener('click', function(e) {
-        if (e.target === this) closeModal();
-    });
+        // Refresh button
+        document.getElementById('refreshBtn').addEventListener('click', loadYogaPoses);
 
-    // Save pose button
-    document.getElementById('savePoseBtn').addEventListener('click', savePose);
-}
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                filterPoses(this.dataset.category);
+            });
+        });
 
-async function loadYogaPoses() {
-    showLoading(true);
-    hideError();
-    
-    try {
-        const response = await fetch(`/yoga/poses?mode=${currentMode}`);
-        const data = await response.json();
-        
-        if (data.success) {
-            allPoses = data.poses;
-            displayPoses(allPoses);
-        } else {
-            showError(data.message || 'Failed to load poses');
+        // Modal close
+        document.querySelector('.close').addEventListener('click', closeModal);
+        document.getElementById('poseModal').addEventListener('click', function (e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Save pose button
+        document.getElementById('savePoseBtn').addEventListener('click', savePose);
+    }
+
+    async function loadYogaPoses() {
+        showLoading(true);
+        hideError();
+
+        try {
+            const response = await fetch(`/yoga/poses?mode=${currentMode}`);
+            const data = await response.json();
+
+            if (data.success) {
+                allPoses = data.poses;
+                displayPoses(allPoses);
+            } else {
+                showError(data.message || 'Failed to load poses');
+            }
+        } catch (error) {
+            console.error('Error loading poses:', error);
+            showError('Network error. Please check your connection.');
+        } finally {
+            showLoading(false);
         }
-    } catch (error) {
-        console.error('Error loading poses:', error);
-        showError('Network error. Please check your connection.');
-    } finally {
-        showLoading(false);
     }
-}
 
-function displayPoses(poses) {
-    const grid = document.getElementById('yogaGrid');
-    grid.innerHTML = '';
-    
-    if (poses.length === 0) {
-        grid.innerHTML = '<p class="no-poses">No yoga poses found for this category.</p>';
-        return;
+    function displayPoses(poses) {
+        const grid = document.getElementById('yogaGrid');
+        grid.innerHTML = '';
+
+        if (poses.length === 0) {
+            grid.innerHTML = '<p class="no-poses">No yoga poses found for this category.</p>';
+            return;
+        }
+
+        poses.forEach(pose => {
+            const card = createPoseCard(pose);
+            grid.appendChild(card);
+        });
     }
-    
-    poses.forEach(pose => {
-        const card = createPoseCard(pose);
-        grid.appendChild(card);
-    });
-}
 
-function createPoseCard(pose) {
-    const card = document.createElement('div');
-    card.className = 'yoga-card';
-    card.innerHTML = `
+    function createPoseCard(pose) {
+        const card = document.createElement('div');
+        card.className = 'yoga-card';
+        card.innerHTML = `
         <div class="card-image">
             <img src="${pose.image_url || pose.imageUrl || '/static/images/default-yoga.jpg'}" 
                  alt="${pose.pose_name || pose.name}" 
@@ -177,87 +177,87 @@ function createPoseCard(pose) {
             </button>
         </div>
     `;
-    return card;
-}
-
-function showPoseDetails(pose) {
-    currentPose = pose;
-    
-    document.getElementById('modalImage').src = pose.image_url || pose.imageUrl || '/static/images/default-yoga.jpg';
-    document.getElementById('modalTitle').textContent = pose.pose_name || pose.name;
-    document.getElementById('modalCategory').textContent = pose.category;
-    document.getElementById('modalDescription').textContent = pose.description || 'No description available.';
-    
-    const stepsList = document.getElementById('modalSteps');
-    stepsList.innerHTML = '';
-    
-    if (pose.steps) {
-        const steps = Array.isArray(pose.steps) ? pose.steps : pose.steps.split('\n');
-        steps.forEach(step => {
-            if (step.trim()) {
-                const li = document.createElement('li');
-                li.textContent = step.trim();
-                stepsList.appendChild(li);
-            }
-        });
-    } else {
-        stepsList.innerHTML = '<li>Steps not available for this pose.</li>';
+        return card;
     }
-    
-    document.getElementById('poseModal').style.display = 'block';
-}
 
-function closeModal() {
-    document.getElementById('poseModal').style.display = 'none';
-    currentPose = null;
-}
+    function showPoseDetails(pose) {
+        currentPose = pose;
 
-function filterPoses(category) {
-    if (category === 'all') {
-        displayPoses(allPoses);
-    } else {
-        const filtered = allPoses.filter(pose => pose.category === category);
-        displayPoses(filtered);
-    }
-}
+        document.getElementById('modalImage').src = pose.image_url || pose.imageUrl || '/static/images/default-yoga.jpg';
+        document.getElementById('modalTitle').textContent = pose.pose_name || pose.name;
+        document.getElementById('modalCategory').textContent = pose.category;
+        document.getElementById('modalDescription').textContent = pose.description || 'No description available.';
 
-async function savePose() {
-    if (!currentPose) return;
-    
-    try {
-        const response = await fetch('/yoga/save', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(currentPose)
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            alert('Pose saved successfully!');
+        const stepsList = document.getElementById('modalSteps');
+        stepsList.innerHTML = '';
+
+        if (pose.steps) {
+            const steps = Array.isArray(pose.steps) ? pose.steps : pose.steps.split('\n');
+            steps.forEach(step => {
+                if (step.trim()) {
+                    const li = document.createElement('li');
+                    li.textContent = step.trim();
+                    stepsList.appendChild(li);
+                }
+            });
         } else {
-            alert('Failed to save pose: ' + (data.message || 'Unknown error'));
+            stepsList.innerHTML = '<li>Steps not available for this pose.</li>';
         }
-    } catch (error) {
-        console.error('Error saving pose:', error);
-        alert('Network error. Please try again.');
+
+        document.getElementById('poseModal').style.display = 'block';
     }
-}
 
-function showLoading(show) {
-    document.getElementById('loadingIndicator').style.display = show ? 'block' : 'none';
-}
+    function closeModal() {
+        document.getElementById('poseModal').style.display = 'none';
+        currentPose = null;
+    }
 
-function showError(message) {
-    const errorDiv = document.getElementById('errorMessage');
-    errorDiv.querySelector('p').textContent = message;
-    errorDiv.style.display = 'block';
-}
+    function filterPoses(category) {
+        if (category === 'all') {
+            displayPoses(allPoses);
+        } else {
+            const filtered = allPoses.filter(pose => pose.category === category);
+            displayPoses(filtered);
+        }
+    }
 
-function hideError() {
-    document.getElementById('errorMessage').style.display = 'none';
-}
+    async function savePose() {
+        if (!currentPose) return;
+
+        try {
+            const response = await fetch('/yoga/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(currentPose)
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                alert('Pose saved successfully!');
+            } else {
+                alert('Failed to save pose: ' + (data.message || 'Unknown error'));
+            }
+        } catch (error) {
+            console.error('Error saving pose:', error);
+            alert('Network error. Please try again.');
+        }
+    }
+
+    function showLoading(show) {
+        document.getElementById('loadingIndicator').style.display = show ? 'block' : 'none';
+    }
+
+    function showError(message) {
+        const errorDiv = document.getElementById('errorMessage');
+        errorDiv.querySelector('p').textContent = message;
+        errorDiv.style.display = 'block';
+    }
+
+    function hideError() {
+        document.getElementById('errorMessage').style.display = 'none';
+    }
 </script>
 {% endblock %}

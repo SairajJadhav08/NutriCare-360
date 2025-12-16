@@ -1,4 +1,4 @@
-// Simple MedVault JavaScript - Minimal functionality to avoid errors
+// Simple NutriCare-360 JavaScript - Minimal functionality to avoid errors
 
 // Theme management
 function initTheme() {

@@ -1,89 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}MedVault{% endblock %}</title>
+    <title>{% block title %}NutriCare-360{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body class="{% if session.theme == 'dark' %}dark-theme{% endif %}">
-    {% if session.user_id %}
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <img src="{{ url_for('static', filename='heartbeat-icon.svg') }}" alt="MedVault" class="nav-svg">
-                <span>MedVault</span>
+    <div class="app-container">
+        {% if session.user_id %}
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='heartbeat-icon.svg') }}" alt="logo">
+                    <span>NutriCare-360</span>
+                </div>
             </div>
-            <div class="nav-links">
-                    <!-- Main Dashboard -->
-                    <a href="{{ url_for('dashboard') }}" class="nav-link">
-                        <img src="{{ url_for('static', filename='home-icon.svg') }}" alt="Dashboard" class="nav-svg"> Dashboard
-                    </a>
-                    
-                    <!-- Health Management -->
-                    <a href="{{ url_for('reminders') }}" class="nav-link">
-                        <img src="{{ url_for('static', filename='bell-icon.svg') }}" alt="Reminders" class="nav-svg"> Reminders
-                    </a>
-                    <a href="{{ url_for('prescriptions') }}" class="nav-link">
-                        <img src="{{ url_for('static', filename='prescription-icon.svg') }}" alt="Prescriptions" class="nav-svg"> Prescriptions
-                    </a>
-                    
-                    <!-- Wellness & Lifestyle -->
-                    <a href="{{ url_for('nutrition') }}" class="nav-link">
-                        <img src="{{ url_for('static', filename='nutrition-icon.svg') }}" alt="Nutrition" class="nav-svg"> Nutrition
-                    </a>
-                    <a href="{{ url_for('yoga') }}" class="nav-link">
-                        <img src="{{ url_for('static', filename='icons/yoga-icon.svg') }}" alt="Yoga" class="nav-svg"> Yoga
-                    </a>
-                    
-                    <!-- User Settings -->
-                    <a href="{{ url_for('profile') }}" class="nav-link">
-                        <img src="{{ url_for('static', filename='user-icon.svg') }}" alt="Profile" class="nav-svg"> Profile
-                    </a>
-                    <a href="{{ url_for('toggle_theme') }}" class="nav-link">
-                        {% if session.theme == 'dark' %}
-                            <img src="{{ url_for('static', filename='sun-icon.svg') }}" alt="Theme Toggle" class="nav-svg">
-                        {% else %}
-                            <img src="{{ url_for('static', filename='moon-icon.svg') }}" alt="Theme Toggle" class="nav-svg">
-                        {% endif %}
-                        {% if session.theme == 'dark' %}Light{% else %}Dark{% endif %} Mode
-                    </a>
-                    <a href="{{ url_for('logout') }}" class="nav-link logout-btn">
-                        <img src="{{ url_for('static', filename='logout-icon.svg') }}" alt="Logout" class="nav-svg"> Logout
-                    </a>
-                </div>
-        </div>
-    </nav>
-    {% endif %}
 
-    <main class="main-content">
-        {% with messages = get_flashed_messages() %}
+            <!-- User Profile Snippet in Sidebar -->
+            <div class="sidebar-user">
+                <div class="user-avatar">
+                    <img src="{{ url_for('static', filename='user-icon.svg') }}" alt="User">
+                </div>
+                <div class="user-info">
+                    <h4>{{ session.username }}</h4>
+                    <p>User</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('dashboard') }}"
+                    class="nav-item {% if request.endpoint == 'dashboard' %}active{% endif %}">
+                    <div class="icon"><img src="{{ url_for('static', filename='home-icon.svg') }}" alt="Dashboard">
+                    </div>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="{{ url_for('reminders') }}"
+                    class="nav-item {% if request.endpoint in ['reminders', 'add_reminder'] %}active{% endif %}">
+                    <div class="icon"><img src="{{ url_for('static', filename='bell-icon.svg') }}" alt="Reminders">
+                    </div>
+                    <span>Reminders</span>
+                </a>
+
+                <a href="{{ url_for('prescriptions') }}"
+                    class="nav-item {% if request.endpoint == 'prescriptions' %}active{% endif %}">
+                    <div class="icon"><img src="{{ url_for('static', filename='prescription-icon.svg') }}"
+                            alt="Prescriptions"></div>
+                    <span>Prescriptions</span>
+                </a>
+
+                <a href="{{ url_for('nutrition') }}"
+                    class="nav-item {% if request.endpoint == 'nutrition' %}active{% endif %}">
+                    <div class="icon"><img src="{{ url_for('static', filename='nutrition-icon.svg') }}" alt="Nutrition">
+                    </div>
+                    <span>Nutrition</span>
+                </a>
+
+                <a href="{{ url_for('yoga') }}" class="nav-item {% if request.endpoint == 'yoga' %}active{% endif %}">
+                    <div class="icon"><img src="{{ url_for('static', filename='icons/yoga-icon.svg') }}" alt="Yoga">
+                    </div>
+                    <span>Yoga</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="{{ url_for('profile') }}"
+                    class="nav-item {% if request.endpoint == 'profile' %}active{% endif %}">
+                    <div class="icon"><img src="{{ url_for('static', filename='user-icon.svg') }}" alt="Profile"></div>
+                    <span>Profile</span>
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-item logout">
+                    <div class="icon"><img src="{{ url_for('static', filename='logout-icon.svg') }}" alt="Logout"></div>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+        {% endif %}
+
+        <main class="main-content {% if not session.user_id %}full-width{% endif %}">
+            {% with messages = get_flashed_messages() %}
             {% if messages %}
-                <div class="flash-messages">
-                    {% for message in messages %}
-                        <div class="flash-message">
-                            <i class="fas fa-info-circle"></i>
-                            {{ message }}
-                            <button class="close-flash">&times;</button>
-                        </div>
-                    {% endfor %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                <div class="flash-message">
+                    <i class="fas fa-info-circle"></i>
+                    {{ message }}
+                    <button class="close-flash">&times;</button>
                 </div>
+                {% endfor %}
+            </div>
             {% endif %}
-        {% endwith %}
+            {% endwith %}
 
-        {% block content %}{% endblock %}
-    </main>
+            {% block content %}{% endblock %}
+        </main>
 
-    <!-- Modal for prescription viewing -->
-    <div id="prescriptionModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <img id="modalImage" src="" alt="Prescription">
+        <!-- Modal for prescription viewing -->
+        <div id="prescriptionModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <img id="modalImage" src="" alt="Prescription">
+            </div>
         </div>
-    </div>
 
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-    {% block scripts %}{% endblock %}
+        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+        {% block scripts %}{% endblock %}
 </body>
+
 </html>

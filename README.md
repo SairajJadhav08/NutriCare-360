@@ -1,4 +1,4 @@
-# 🏥 MedVault - Healthcare Management System
+# 🏥 NutriCare-360 - Healthcare Management System
 
 A comprehensive web-based healthcare management platform built with Flask that helps users manage their medical information, prescriptions, reminders, nutrition, and wellness activities including yoga practices.
 
@@ -28,6 +28,24 @@ A comprehensive web-based healthcare management platform built with Flask that h
 - **Intuitive Navigation** - Organized navbar with logical groupings
 - **Modern UI** - Clean, professional healthcare-focused design
 
+## 📸 Screenshots
+
+### Landing Page
+![Landing Page](static/screenshots/landing_page.png)
+
+### Dashboard & Health Management
+<div style="display: flex; gap: 10px;">
+    <img src="static/screenshots/profile_page.png" alt="Profile" width="48%">
+    <img src="static/screenshots/prescriptions_page.png" alt="Prescriptions" width="48%">
+</div>
+
+### Wellness Features
+<div style="display: flex; gap: 10px;">
+    <img src="static/screenshots/nutrition_page.png" alt="Nutrition" width="48%">
+    <img src="static/screenshots/yoga_page.png" alt="Yoga" width="48%">
+</div>
+
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -38,8 +56,8 @@ A comprehensive web-based healthcare management platform built with Flask that h
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/SairajJadhav08/MedVault.git
-   cd MedVault
+   git clone https://github.com/SairajJadhav08/NutriCare-360.git
+   cd NutriCare-360
    ```
 
 2. **Install dependencies**
@@ -58,9 +76,9 @@ A comprehensive web-based healthcare management platform built with Flask that h
 ## 📁 Project Structure
 
 ```
-MedVault/
+NutriCare-360/
 ├── app.py                 # Main Flask application
-├── medvault.db           # SQLite database
+├── nutricare360.db           # SQLite database
 ├── requirements.txt      # Python dependencies
 ├── static/               # Static assets
 │   ├── css/
@@ -137,7 +155,7 @@ The yoga section includes traditional poses with authentic Sanskrit names:
 ## 🔧 Configuration
 
 ### Database Setup
-The application uses SQLite database (`medvault.db`) which is automatically created when you first run the application.
+The application uses SQLite database (`nutricare360.db`) which is automatically created when you first run the application.
 
 ### Theme Customization
 Users can toggle between light and dark themes using the theme toggle in the navigation bar.
@@ -174,4 +192,4 @@ If you encounter any issues or have questions, please:
 
 ---
 
-**MedVault** - Your comprehensive healthcare companion 🏥✨
+**NutriCare-360** - Your comprehensive healthcare companion 🏥✨

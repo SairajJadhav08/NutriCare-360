@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Medicine Reminders - MedVault{% endblock %}
+{% block title %}Medicine Reminders - NutriCare-360{% endblock %}
 
 {% block content %}
 <div class="reminders-page">
@@ -17,22 +17,21 @@
             </button>
         </div>
 
-        <form id="reminder-form" method="POST" action="{{ url_for('add_reminder') }}" class="reminder-form" style="display: none;">
+        <form id="reminder-form" method="POST" action="{{ url_for('add_reminder') }}" class="reminder-form"
+            style="display: none;">
             <div class="form-row">
                 <div class="form-group">
                     <label for="medicine">
                         <i class="fas fa-pills"></i> Medicine Name
                     </label>
-                    <input type="text" id="medicine" name="medicine" required 
-                           placeholder="e.g., Aspirin, Vitamin D">
+                    <input type="text" id="medicine" name="medicine" required placeholder="e.g., Aspirin, Vitamin D">
                 </div>
 
                 <div class="form-group">
                     <label for="dosage">
                         <i class="fas fa-prescription-bottle"></i> Dosage
                     </label>
-                    <input type="text" id="dosage" name="dosage" required 
-                           placeholder="e.g., 100mg, 2 tablets">
+                    <input type="text" id="dosage" name="dosage" required placeholder="e.g., 100mg, 2 tablets">
                 </div>
             </div>
 
@@ -75,135 +74,134 @@
         <div class="section-header">
             <h2>Your Reminders</h2>
             {% if reminders %}
-                <span class="reminder-count">{{ reminders|length }} reminder(s)</span>
+            <span class="reminder-count">{{ reminders|length }} reminder(s)</span>
             {% endif %}
         </div>
 
         {% if reminders %}
-            <div class="reminders-grid">
-                {% for reminder in reminders %}
-                <div class="reminder-card" data-reminder-id="{{ reminder.id }}">
-                    <div class="reminder-header">
-                        <h3>{{ reminder.medicine }}</h3>
-                        <div class="reminder-actions">
-                            <button class="btn-icon edit-reminder" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <a href="{{ url_for('delete_reminder', reminder_id=reminder.id) }}" 
-                               class="btn-icon delete-reminder" title="Delete"
-                               onclick="return confirm('Are you sure you want to delete this reminder?')">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="reminder-details">
-                        <div class="detail-item">
-                            <i class="fas fa-prescription-bottle"></i>
-                            <span>{{ reminder.dosage }}</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-clock"></i>
-                            <span>{{ reminder.time }}</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>{{ reminder.frequency }}</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-calendar-plus"></i>
-                            <span>Added {{ reminder.created_at.split(' ')[0] }}</span>
-                        </div>
-                    </div>
-                    <div class="reminder-status">
-                        <button class="btn btn-sm btn-success test-notification" 
-                                data-medicine="{{ reminder.medicine }}"
-                                data-dosage="{{ reminder.dosage }}">
-                            <i class="fas fa-bell"></i> Test Notification
+        <div class="reminders-grid">
+            {% for reminder in reminders %}
+            <div class="reminder-card" data-reminder-id="{{ reminder.id }}">
+                <div class="reminder-header">
+                    <h3>{{ reminder.medicine }}</h3>
+                    <div class="reminder-actions">
+                        <button class="btn-icon edit-reminder" title="Edit">
+                            <i class="fas fa-edit"></i>
                         </button>
+                        <a href="{{ url_for('delete_reminder', reminder_id=reminder.id) }}"
+                            class="btn-icon delete-reminder" title="Delete"
+                            onclick="return confirm('Are you sure you want to delete this reminder?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
                     </div>
                 </div>
-                {% endfor %}
+                <div class="reminder-details">
+                    <div class="detail-item">
+                        <i class="fas fa-prescription-bottle"></i>
+                        <span>{{ reminder.dosage }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-clock"></i>
+                        <span>{{ reminder.time }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>{{ reminder.frequency }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-calendar-plus"></i>
+                        <span>Added {{ reminder.created_at.split(' ')[0] }}</span>
+                    </div>
+                </div>
+                <div class="reminder-status">
+                    <button class="btn btn-sm btn-success test-notification" data-medicine="{{ reminder.medicine }}"
+                        data-dosage="{{ reminder.dosage }}">
+                        <i class="fas fa-bell"></i> Test Notification
+                    </button>
+                </div>
             </div>
+            {% endfor %}
+        </div>
         {% else %}
-            <div class="empty-state">
-                <i class="fas fa-bell-slash"></i>
-                <h3>No reminders yet</h3>
-                <p>Add your first medicine reminder to get started with medication tracking.</p>
-                <button id="add-first-reminder" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Add Your First Reminder
-                </button>
-            </div>
+        <div class="empty-state">
+            <i class="fas fa-bell-slash"></i>
+            <h3>No reminders yet</h3>
+            <p>Add your first medicine reminder to get started with medication tracking.</p>
+            <button id="add-first-reminder" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add Your First Reminder
+            </button>
+        </div>
         {% endif %}
     </div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const toggleFormBtn = document.getElementById('toggle-form');
-    const addFirstBtn = document.getElementById('add-first-reminder');
-    const reminderForm = document.getElementById('reminder-form');
-    const cancelFormBtn = document.getElementById('cancel-form');
-    const testNotificationBtns = document.querySelectorAll('.test-notification');
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleFormBtn = document.getElementById('toggle-form');
+        const addFirstBtn = document.getElementById('add-first-reminder');
+        const reminderForm = document.getElementById('reminder-form');
+        const cancelFormBtn = document.getElementById('cancel-form');
+        const testNotificationBtns = document.querySelectorAll('.test-notification');
 
-    // Toggle form visibility
-    function toggleForm() {
-        if (reminderForm.style.display === 'none') {
-            reminderForm.style.display = 'block';
-            toggleFormBtn.innerHTML = '<i class="fas fa-minus"></i> Hide Form';
-        } else {
-            reminderForm.style.display = 'none';
-            toggleFormBtn.innerHTML = '<i class="fas fa-plus"></i> Add Reminder';
-        }
-    }
-
-    if (toggleFormBtn) {
-        toggleFormBtn.addEventListener('click', toggleForm);
-    }
-
-    if (addFirstBtn) {
-        addFirstBtn.addEventListener('click', toggleForm);
-    }
-
-    if (cancelFormBtn) {
-        cancelFormBtn.addEventListener('click', function() {
-            reminderForm.style.display = 'none';
-            toggleFormBtn.innerHTML = '<i class="fas fa-plus"></i> Add Reminder';
-        });
-    }
-
-    // Test notification functionality
-    testNotificationBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const medicine = this.dataset.medicine;
-            const dosage = this.dataset.dosage;
-            
-            // Request notification permission if not granted
-            if (Notification.permission === 'default') {
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        showTestNotification(medicine, dosage);
-                    }
-                });
-            } else if (Notification.permission === 'granted') {
-                showTestNotification(medicine, dosage);
+        // Toggle form visibility
+        function toggleForm() {
+            if (reminderForm.style.display === 'none') {
+                reminderForm.style.display = 'block';
+                toggleFormBtn.innerHTML = '<i class="fas fa-minus"></i> Hide Form';
             } else {
-                alert(`Test notification: Time to take ${medicine} (${dosage})`);
+                reminderForm.style.display = 'none';
+                toggleFormBtn.innerHTML = '<i class="fas fa-plus"></i> Add Reminder';
             }
+        }
+
+        if (toggleFormBtn) {
+            toggleFormBtn.addEventListener('click', toggleForm);
+        }
+
+        if (addFirstBtn) {
+            addFirstBtn.addEventListener('click', toggleForm);
+        }
+
+        if (cancelFormBtn) {
+            cancelFormBtn.addEventListener('click', function () {
+                reminderForm.style.display = 'none';
+                toggleFormBtn.innerHTML = '<i class="fas fa-plus"></i> Add Reminder';
+            });
+        }
+
+        // Test notification functionality
+        testNotificationBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const medicine = this.dataset.medicine;
+                const dosage = this.dataset.dosage;
+
+                // Request notification permission if not granted
+                if (Notification.permission === 'default') {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            showTestNotification(medicine, dosage);
+                        }
+                    });
+                } else if (Notification.permission === 'granted') {
+                    showTestNotification(medicine, dosage);
+                } else {
+                    alert(`Test notification: Time to take ${medicine} (${dosage})`);
+                }
+            });
         });
+
+        function showTestNotification(medicine, dosage) {
+            new Notification('NutriCare-360 Reminder', {
+                body: `Time to take ${medicine} (${dosage})`,
+                icon: '/static/favicon.ico',
+                badge: '/static/favicon.ico'
+            });
+        }
+
+        // Auto-request notification permission
+        if (Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
     });
-
-    function showTestNotification(medicine, dosage) {
-        new Notification('MedVault Reminder', {
-            body: `Time to take ${medicine} (${dosage})`,
-            icon: '/static/favicon.ico',
-            badge: '/static/favicon.ico'
-        });
-    }
-
-    // Auto-request notification permission
-    if (Notification.permission === 'default') {
-        Notification.requestPermission();
-    }
-});
 </script>
 {% endblock %}
