@@ -1,3 +1,32 @@
+<div align="center">
+
+<table>
+<tr>
+<td width="30%" align="center">
+  <img src="nutricare_logo.png" alt="NutriCare-360 Logo" width="250"/>
+  <h2>NUTRICARE-360</h2>
+  <p><strong>SMART HEALTHCARE MANAGEMENT SYSTEM</strong></p>
+</td>
+<td width="70%">
+  <h1>🏥 NUTRICARE-360</h1>
+  <hr/>
+  <h3>Comprehensive Healthcare Management Platform For Better Living</h3>
+  <hr/>
+  <p>Empowering individuals with integrated health tracking through prescriptions, reminders, nutrition monitoring and wellness practices</p>
+  <p>
+    <img src="https://img.shields.io/badge/PYTHON-3.7+-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
+    <img src="https://img.shields.io/badge/FLASK-2.3.3-black?style=for-the-badge&logo=flask&logoColor=white" alt="Flask"/>
+    <img src="https://img.shields.io/badge/SQLITE-DATABASE-green?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite"/>
+    <img src="https://img.shields.io/badge/LICENSE-MIT-yellow?style=for-the-badge" alt="MIT License"/>
+  </p>
+</td>
+</tr>
+</table>
+
+</div>
+
+---
+
 # 🏥 NutriCare-360 - Healthcare Management System
 
 A comprehensive web-based healthcare management platform built with Flask that helps users manage their medical information, prescriptions, reminders, nutrition, and wellness activities including yoga practices.
