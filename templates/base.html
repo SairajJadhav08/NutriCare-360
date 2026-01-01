@@ -69,6 +69,10 @@
             </nav>
 
             <div class="sidebar-footer">
+                <div class="interface-update-badge">
+                    <i class="fas fa-sparkles"></i>
+                    <span>Interface Updated v2.0</span>
+                </div>
                 <a href="{{ url_for('profile') }}"
                     class="nav-item {% if request.endpoint == 'profile' %}active{% endif %}">
                     <div class="icon"><img src="{{ url_for('static', filename='user-icon.svg') }}" alt="Profile"></div>
