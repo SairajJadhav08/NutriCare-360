@@ -281,6 +281,12 @@ body {
     z-index: 200;
     transition: width var(--transition);
     overflow: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none;
 }
 
 .sidebar.collapsed {
@@ -418,6 +424,13 @@ body {
     flex: 1;
     padding: 1rem 0;
     overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+    display: none;
 }
 
 .nav-section {
@@ -435,8 +448,41 @@ body {
 }
 
 .sidebar.collapsed .nav-section-title {
-    text-align: center;
+    opacity: 0;
+    height: 0;
+    margin: 0;
     padding: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.sidebar.collapsed .sidebar-user-card {
+    padding: 0.75rem;
+    margin: 1.5rem 0.5rem;
+    justify-content: center;
+    gap: 0;
+}
+
+.sidebar.collapsed .sidebar-brand {
+    padding: 1rem;
+    justify-content: center;
+}
+
+.sidebar.collapsed .brand-logo {
+    margin: 0;
+}
+
+.sidebar.collapsed .interface-badge {
+    padding: 0.625rem;
+    justify-content: center;
+}
+
+.sidebar.collapsed .interface-badge span {
+    display: none;
+}
+
+.sidebar.collapsed .sidebar-footer {
+    padding: 1rem 0.5rem;
 }
 
 .nav-item {
