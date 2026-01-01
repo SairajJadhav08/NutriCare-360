@@ -1,0 +1,7 @@
+{
+  "projectId": "9345cfc9-3359-4afa-adfd-ee36d4c569e3",
+  "createdAt": 1767249953553,
+  "startupCommands": [
+    "pip install Flask==2.3.3 Werkzeug==2.3.7 requests; python app.py"
+  ]
+}
