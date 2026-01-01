@@ -1,106 +1,175 @@
 {% extends "base.html" %}
 
 {% block title %}Dashboard - NutriCare-360{% endblock %}
+{% block page_name %}Dashboard{% endblock %}
 
 {% block content %}
 <div class="dashboard">
-    <div class="dashboard-header">
-        <h1>Welcome back, {{ session.username }}!</h1>
-        <p>Here's your health overview</p>
+    <div class="dashboard-welcome">
+        <h1 class="welcome-title">Welcome back, {{ session.username }}! <span style="font-size: 1.5rem;">&#128075;</span></h1>
+        <p class="welcome-subtitle">Here's your health overview for today</p>
+    </div>
+
+    <div class="bento-grid" style="margin-bottom: 2rem;">
+        <div class="bento-item bento-span-3 stat-card">
+            <div class="stat-card-icon primary">
+                <i class="fas fa-bell"></i>
+            </div>
+            <div>
+                <span class="stat-card-value" id="reminder-count">0</span>
+                <span class="stat-card-label">Active Reminders</span>
+            </div>
+        </div>
+
+        <div class="bento-item bento-span-3 stat-card">
+            <div class="stat-card-icon success">
+                <i class="fas fa-file-prescription"></i>
+            </div>
+            <div>
+                <span class="stat-card-value" id="prescription-count">0</span>
+                <span class="stat-card-label">Prescriptions</span>
+            </div>
+        </div>
+
+        <div class="bento-item bento-span-3 stat-card">
+            <div class="stat-card-icon warning">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div>
+                <span class="stat-card-value">98%</span>
+                <span class="stat-card-label">Adherence Rate</span>
+                <div class="stat-card-trend up">
+                    <i class="fas fa-arrow-up"></i> 5%
+                </div>
+            </div>
+        </div>
+
+        <div class="bento-item bento-span-3 stat-card">
+            <div class="stat-card-icon accent">
+                <i class="fas fa-fire"></i>
+            </div>
+            <div>
+                <span class="stat-card-value">7</span>
+                <span class="stat-card-label">Day Streak</span>
+                <div class="stat-card-trend up">
+                    <i class="fas fa-fire-alt"></i> Keep going!
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="dashboard-grid">
         <div class="dashboard-card">
             <div class="card-header">
-                <h3><img src="{{ url_for('static', filename='bell-icon.svg') }}" alt="Reminders" class="card-svg">
-                    Medicine Reminders</h3>
+                <div class="card-icon primary">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <h3 class="card-title">Medicine Reminders</h3>
             </div>
             <div class="card-content">
                 <p>Manage your medication schedule and never miss a dose.</p>
-                <div class="card-stats">
-                    <div class="stat">
-                        <span class="stat-number" id="reminder-count">0</span>
-                        <span class="stat-label">Active Reminders</span>
-                    </div>
-                </div>
-                <a href="{{ url_for('reminders') }}" class="btn btn-primary">
-                    <img src="{{ url_for('static', filename='plus-icon.svg') }}" alt="Add" class="btn-svg"> Manage
-                    Reminders
-                </a>
             </div>
+            <a href="{{ url_for('reminders') }}" class="btn btn-primary btn-full">
+                <i class="fas fa-plus"></i> Manage Reminders
+            </a>
         </div>
 
         <div class="dashboard-card">
             <div class="card-header">
-                <h3><img src="{{ url_for('static', filename='prescription-icon.svg') }}" alt="Prescriptions"
-                        class="card-svg"> Prescriptions</h3>
+                <div class="card-icon success">
+                    <i class="fas fa-file-prescription"></i>
+                </div>
+                <h3 class="card-title">Prescriptions</h3>
             </div>
             <div class="card-content">
                 <p>Store and organize all your medical prescriptions securely.</p>
-                <div class="card-stats">
-                    <div class="stat">
-                        <span class="stat-number" id="prescription-count">0</span>
-                        <span class="stat-label">Stored Prescriptions</span>
-                    </div>
-                </div>
-                <a href="{{ url_for('prescriptions') }}" class="btn btn-primary">
-                    <img src="{{ url_for('static', filename='upload-icon.svg') }}" alt="Upload" class="btn-svg"> Manage
-                    Prescriptions
-                </a>
             </div>
+            <a href="{{ url_for('prescriptions') }}" class="btn btn-primary btn-full">
+                <i class="fas fa-upload"></i> Manage Prescriptions
+            </a>
         </div>
 
         <div class="dashboard-card">
             <div class="card-header">
-                <h3><img src="{{ url_for('static', filename='tracking-icon.svg') }}" alt="Health Overview"
-                        class="card-svg"> Health Overview</h3>
+                <div class="card-icon warning">
+                    <i class="fas fa-apple-alt"></i>
+                </div>
+                <h3 class="card-title">Nutrition Tracker</h3>
             </div>
             <div class="card-content">
-                <p>Track your health progress and medication adherence.</p>
-                <div class="card-stats">
-                    <div class="stat">
-                        <span class="stat-number">98%</span>
-                        <span class="stat-label">Adherence Rate</span>
-                    </div>
-                </div>
-                <a href="{{ url_for('profile') }}" class="btn btn-primary">
-                    <img src="{{ url_for('static', filename='user-icon.svg') }}" alt="Profile" class="btn-svg"> View
-                    Profile
-                </a>
+                <p>Track your daily nutrition and maintain a healthy diet.</p>
             </div>
+            <a href="{{ url_for('nutrition') }}" class="btn btn-primary btn-full">
+                <i class="fas fa-utensils"></i> View Nutrition
+            </a>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-header">
+                <div class="card-icon accent">
+                    <i class="fas fa-spa"></i>
+                </div>
+                <h3 class="card-title">Yoga & Wellness</h3>
+            </div>
+            <div class="card-content">
+                <p>Explore yoga routines and wellness practices for better health.</p>
+            </div>
+            <a href="{{ url_for('yoga') }}" class="btn btn-primary btn-full">
+                <i class="fas fa-play"></i> Start Yoga
+            </a>
         </div>
     </div>
 
-    <div class="recent-activity">
-        <h2>Recent Activity</h2>
-        <div class="activity-list">
-            <div class="activity-item">
-                <div class="activity-icon">
-                    <img src="{{ url_for('static', filename='bell-icon.svg') }}" alt="Activity" class="activity-svg">
-                </div>
-                <div class="activity-content">
-                    <h4>Welcome to NutriCare-360!</h4>
-                    <p>Start by adding your first medicine reminder or uploading a prescription.</p>
-                    <span class="activity-time">Just now</span>
-                </div>
+    <div class="section-header" style="margin-top: 2rem;">
+        <h2 class="section-title">Recent Activity</h2>
+        <a href="#" class="btn btn-ghost btn-sm">View All</a>
+    </div>
+    <div class="activity-list">
+        <div class="activity-item">
+            <div class="activity-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="activity-content">
+                <h4>Welcome to the New Experience!</h4>
+                <p>We've redesigned the entire interface for a better user experience.</p>
+                <span class="activity-time">Just now</span>
+            </div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+            <div class="activity-content">
+                <h4>Getting Started</h4>
+                <p>Start by adding your first medicine reminder or uploading a prescription.</p>
+                <span class="activity-time">Just now</span>
             </div>
         </div>
     </div>
 
     <div class="quick-actions">
-        <h2>Quick Actions</h2>
+        <div class="section-header">
+            <h2 class="section-title">Quick Actions</h2>
+        </div>
         <div class="actions-grid">
             <a href="{{ url_for('reminders') }}" class="action-card">
-                <img src="{{ url_for('static', filename='plus-icon.svg') }}" alt="Add Reminder" class="action-svg">
+                <i class="fas fa-plus-circle"></i>
                 <span>Add Reminder</span>
             </a>
             <a href="{{ url_for('prescriptions') }}" class="action-card">
-                <img src="{{ url_for('static', filename='upload-icon.svg') }}" alt="Upload Prescription"
-                    class="action-svg">
+                <i class="fas fa-cloud-upload-alt"></i>
                 <span>Upload Prescription</span>
             </a>
+            <a href="{{ url_for('nutrition') }}" class="action-card">
+                <i class="fas fa-utensils"></i>
+                <span>Log Meal</span>
+            </a>
+            <a href="{{ url_for('yoga') }}" class="action-card">
+                <i class="fas fa-spa"></i>
+                <span>Start Yoga</span>
+            </a>
             <a href="{{ url_for('profile') }}" class="action-card">
-                <img src="{{ url_for('static', filename='adjust-icon.svg') }}" alt="Settings" class="action-svg">
+                <i class="fas fa-cog"></i>
                 <span>Settings</span>
             </a>
         </div>
@@ -108,15 +177,11 @@
 </div>
 
 <script>
-    // Load dashboard stats
     document.addEventListener('DOMContentLoaded', function () {
-        // This would typically fetch from an API endpoint
-        // For now, we'll use placeholder values
         updateDashboardStats();
     });
 
     function updateDashboardStats() {
-        // In a real app, this would fetch actual data from the backend
         fetch('/api/dashboard-stats')
             .then(response => response.json())
             .then(data => {

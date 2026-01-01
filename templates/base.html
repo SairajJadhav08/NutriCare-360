@@ -5,96 +5,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}NutriCare-360{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body class="{% if session.theme == 'dark' %}dark-theme{% endif %}">
-    <div class="app-container">
-        {% if session.user_id %}
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <img src="{{ url_for('static', filename='heartbeat-icon.svg') }}" alt="logo">
-                    <span>NutriCare-360</span>
+    {% if session.user_id %}
+    <div class="app-wrapper">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">NutriCare-360</span>
+                    <span class="brand-tagline">Health & Wellness</span>
                 </div>
             </div>
 
-            <!-- User Profile Snippet in Sidebar -->
-            <div class="sidebar-user">
-                <div class="user-avatar">
+            <div class="sidebar-user-card">
+                <div class="sidebar-user-avatar">
                     <img src="{{ url_for('static', filename='user-icon.svg') }}" alt="User">
                 </div>
-                <div class="user-info">
-                    <h4>{{ session.username }}</h4>
-                    <p>User</p>
+                <div class="sidebar-user-info">
+                    <span class="sidebar-user-name">{{ session.username }}</span>
+                    <span class="sidebar-user-status">
+                        <span class="status-dot"></span>
+                        Online
+                    </span>
                 </div>
             </div>
 
             <nav class="sidebar-nav">
-                <a href="{{ url_for('dashboard') }}"
-                    class="nav-item {% if request.endpoint == 'dashboard' %}active{% endif %}">
-                    <div class="icon"><img src="{{ url_for('static', filename='home-icon.svg') }}" alt="Dashboard">
-                    </div>
-                    <span>Dashboard</span>
-                </a>
+                <div class="nav-section">
+                    <span class="nav-section-title">Main Menu</span>
+                    <a href="{{ url_for('dashboard') }}" class="nav-item {% if request.endpoint == 'dashboard' %}active{% endif %}">
+                        <div class="icon"><i class="fas fa-th-large"></i></div>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                    <a href="{{ url_for('reminders') }}" class="nav-item {% if request.endpoint in ['reminders', 'add_reminder'] %}active{% endif %}">
+                        <div class="icon"><i class="fas fa-bell"></i></div>
+                        <span class="nav-text">Reminders</span>
+                    </a>
+                    <a href="{{ url_for('prescriptions') }}" class="nav-item {% if request.endpoint == 'prescriptions' %}active{% endif %}">
+                        <div class="icon"><i class="fas fa-file-prescription"></i></div>
+                        <span class="nav-text">Prescriptions</span>
+                    </a>
+                </div>
 
-                <a href="{{ url_for('reminders') }}"
-                    class="nav-item {% if request.endpoint in ['reminders', 'add_reminder'] %}active{% endif %}">
-                    <div class="icon"><img src="{{ url_for('static', filename='bell-icon.svg') }}" alt="Reminders">
-                    </div>
-                    <span>Reminders</span>
-                </a>
+                <div class="nav-section">
+                    <span class="nav-section-title">Wellness</span>
+                    <a href="{{ url_for('nutrition') }}" class="nav-item {% if request.endpoint == 'nutrition' %}active{% endif %}">
+                        <div class="icon"><i class="fas fa-apple-alt"></i></div>
+                        <span class="nav-text">Nutrition</span>
+                    </a>
+                    <a href="{{ url_for('yoga') }}" class="nav-item {% if request.endpoint == 'yoga' %}active{% endif %}">
+                        <div class="icon"><i class="fas fa-spa"></i></div>
+                        <span class="nav-text">Yoga</span>
+                    </a>
+                </div>
 
-                <a href="{{ url_for('prescriptions') }}"
-                    class="nav-item {% if request.endpoint == 'prescriptions' %}active{% endif %}">
-                    <div class="icon"><img src="{{ url_for('static', filename='prescription-icon.svg') }}"
-                            alt="Prescriptions"></div>
-                    <span>Prescriptions</span>
-                </a>
-
-                <a href="{{ url_for('nutrition') }}"
-                    class="nav-item {% if request.endpoint == 'nutrition' %}active{% endif %}">
-                    <div class="icon"><img src="{{ url_for('static', filename='nutrition-icon.svg') }}" alt="Nutrition">
-                    </div>
-                    <span>Nutrition</span>
-                </a>
-
-                <a href="{{ url_for('yoga') }}" class="nav-item {% if request.endpoint == 'yoga' %}active{% endif %}">
-                    <div class="icon"><img src="{{ url_for('static', filename='icons/yoga-icon.svg') }}" alt="Yoga">
-                    </div>
-                    <span>Yoga</span>
-                </a>
+                <div class="nav-section">
+                    <span class="nav-section-title">Account</span>
+                    <a href="{{ url_for('profile') }}" class="nav-item {% if request.endpoint == 'profile' %}active{% endif %}">
+                        <div class="icon"><i class="fas fa-user-circle"></i></div>
+                        <span class="nav-text">Profile</span>
+                    </a>
+                </div>
             </nav>
 
             <div class="sidebar-footer">
-                <div class="interface-update-badge">
+                <div class="interface-badge">
                     <i class="fas fa-sparkles"></i>
-                    <span>Interface Updated v2.0</span>
+                    <span>New Experience v3.0</span>
                 </div>
-                <a href="{{ url_for('profile') }}"
-                    class="nav-item {% if request.endpoint == 'profile' %}active{% endif %}">
-                    <div class="icon"><img src="{{ url_for('static', filename='user-icon.svg') }}" alt="Profile"></div>
-                    <span>Profile</span>
-                </a>
                 <a href="{{ url_for('logout') }}" class="nav-item logout">
-                    <div class="icon"><img src="{{ url_for('static', filename='logout-icon.svg') }}" alt="Logout"></div>
-                    <span>Logout</span>
+                    <div class="icon"><i class="fas fa-sign-out-alt"></i></div>
+                    <span class="nav-text">Logout</span>
                 </a>
             </div>
         </aside>
-        {% endif %}
 
-        <main class="main-content {% if not session.user_id %}full-width{% endif %}">
+        <header class="top-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-breadcrumb">
+                    <i class="fas fa-home"></i>
+                    <span>/</span>
+                    <span class="current">{% block page_name %}Dashboard{% endblock %}</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search anything...">
+                </div>
+                <div class="header-actions">
+                    <button class="header-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </button>
+                    <button class="header-btn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+                <a href="{{ url_for('profile') }}" class="user-menu">
+                    <div class="user-menu-avatar">
+                        {{ session.username[0]|upper }}
+                    </div>
+                    <div class="user-menu-info">
+                        <span class="user-menu-name">{{ session.username }}</span>
+                        <span class="user-menu-role">User</span>
+                    </div>
+                    <i class="fas fa-chevron-down" style="color: var(--text-muted); font-size: 0.75rem;"></i>
+                </a>
+            </div>
+        </header>
+
+        <main class="main-content">
             {% with messages = get_flashed_messages() %}
             {% if messages %}
             <div class="flash-messages">
                 {% for message in messages %}
                 <div class="flash-message">
-                    <i class="fas fa-info-circle"></i>
+                    <i class="fas fa-check-circle"></i>
                     {{ message }}
-                    <button class="close-flash">&times;</button>
+                    <button class="close-flash" onclick="this.parentElement.remove()">&times;</button>
                 </div>
                 {% endfor %}
             </div>
@@ -103,17 +144,60 @@
 
             {% block content %}{% endblock %}
         </main>
-
-        <!-- Modal for prescription viewing -->
-        <div id="prescriptionModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <img id="modalImage" src="" alt="Prescription">
+    </div>
+    {% else %}
+    <main class="main-content full-width">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash-messages" style="padding: 1rem;">
+            {% for message in messages %}
+            <div class="flash-message">
+                <i class="fas fa-info-circle"></i>
+                {{ message }}
+                <button class="close-flash" onclick="this.parentElement.remove()">&times;</button>
             </div>
+            {% endfor %}
         </div>
+        {% endif %}
+        {% endwith %}
 
-        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-        {% block scripts %}{% endblock %}
+        {% block content %}{% endblock %}
+    </main>
+    {% endif %}
+
+    <div id="prescriptionModal" class="modal">
+        <div class="modal-content">
+            <button class="close" onclick="closeModal()">&times;</button>
+            <img id="modalImage" src="" alt="Prescription">
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        function closeModal() {
+            document.getElementById('prescriptionModal').style.display = 'none';
+        }
+
+        document.querySelectorAll('.close-flash').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.parentElement.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => this.parentElement.remove(), 300);
+            });
+        });
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('prescriptionModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block scripts %}{% endblock %}
 </body>
 
 </html>

@@ -1,41 +1,40 @@
 {% extends "base.html" %}
 
 {% block title %}Prescriptions - NutriCare-360{% endblock %}
+{% block page_name %}Prescriptions{% endblock %}
 
 {% block content %}
 <div class="prescriptions-page">
     <div class="page-header">
-        <h1><i class="fas fa-file-medical"></i> Prescription Storage</h1>
-        <p>Securely store and manage your medical prescriptions</p>
+        <h1 class="page-title"><i class="fas fa-file-prescription"></i> Prescription Storage</h1>
+        <p class="page-subtitle">Securely store and manage your medical prescriptions</p>
     </div>
 
     <div class="upload-section">
         <div class="section-header">
-            <h2>Upload New Prescription</h2>
+            <h2 class="section-title">Upload New Prescription</h2>
         </div>
 
         <form method="POST" action="{{ url_for('upload_prescription') }}" enctype="multipart/form-data"
             class="upload-form">
-            <div class="upload-area">
+            <div class="upload-area" id="upload-area">
                 <i class="fas fa-cloud-upload-alt"></i>
-                <p>Select your prescription image to upload</p>
+                <p>Drag and drop your prescription image or click to browse</p>
 
-                <div class="file-input-wrapper">
-                    <label for="prescription-file" class="file-input-label">
-                        <i class="fas fa-folder-open"></i>
-                        Choose File
-                        <input type="file" id="prescription-file" name="prescription" accept="image/*" required>
-                    </label>
-                </div>
+                <label for="prescription-file" class="file-input-label">
+                    <i class="fas fa-folder-open"></i>
+                    Choose File
+                    <input type="file" id="prescription-file" name="prescription" accept="image/*" required>
+                </label>
 
-                <div id="file-info" class="file-info" style="display: none;">
+                <div id="file-info" class="file-info" style="display: none; margin-top: 1rem; background: var(--success); padding: 0.75rem 1rem; border-radius: var(--radius-md); color: white;">
                     <i class="fas fa-check-circle"></i>
                     <span id="file-name"></span>
                 </div>
             </div>
 
-            <div class="upload-actions">
-                <button type="submit" class="btn btn-primary">
+            <div class="form-actions" style="justify-content: center; margin-top: 1.5rem;">
+                <button type="submit" class="btn btn-primary btn-lg">
                     <i class="fas fa-upload"></i>
                     Upload Prescription
                 </button>
@@ -43,11 +42,11 @@
         </form>
     </div>
 
-    <div class="prescriptions-gallery">
+    <div class="prescriptions-gallery" style="margin-top: 2rem;">
         <div class="section-header">
-            <h2>Your Prescriptions</h2>
+            <h2 class="section-title">Your Prescriptions</h2>
             {% if prescriptions %}
-            <span class="prescription-count">{{ prescriptions|length }} prescription(s)</span>
+            <span class="btn btn-ghost btn-sm">{{ prescriptions|length }} prescription(s)</span>
             {% endif %}
         </div>
 
@@ -59,13 +58,6 @@
                     <img src="{{ url_for('static', filename='uploads/' + prescription.filename) }}"
                         alt="{{ prescription.original_filename }}"
                         onclick="openModal('{{ url_for('static', filename='uploads/' + prescription.filename) }}', {{ prescription.original_filename|tojson }})">
-                    <div class="image-overlay">
-                        <button class="btn-icon view-btn"
-                            onclick="openModal('{{ url_for('static', filename='uploads/' + prescription.filename) }}', {{ prescription.original_filename|tojson }})"
-                            title="View Full Size">
-                            <i class="fas fa-expand"></i>
-                        </button>
-                    </div>
                 </div>
                 <div class="prescription-info">
                     <h4>{{ prescription.original_filename }}</h4>
@@ -86,12 +78,12 @@
                         </button>
                         <a href="{{ url_for('static', filename='uploads/' + prescription.filename) }}"
                             download="{{ prescription.original_filename }}" class="btn btn-sm btn-secondary">
-                            <i class="fas fa-download"></i> Download
+                            <i class="fas fa-download"></i>
                         </a>
-                        <button class="btn btn-sm btn-danger delete-btn"
+                        <button class="btn btn-sm btn-danger"
                             onclick="confirmDelete({{ prescription.id }}, {{ prescription.original_filename|tojson }})"
                             title="Delete Prescription">
-                            <i class="fas fa-trash"></i> Delete
+                            <i class="fas fa-trash"></i>
                         </button>
                     </div>
                 </div>
@@ -110,73 +102,55 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const uploadArea = document.getElementById('upload-area');
-        const fileInput = document.getElementById('prescription');
+        const fileInput = document.getElementById('prescription-file');
         const fileInfo = document.getElementById('file-info');
         const fileName = document.getElementById('file-name');
-        const removeFileBtn = document.getElementById('remove-file');
-        const uploadBtn = document.getElementById('upload-btn');
+        const uploadArea = document.getElementById('upload-area');
 
-        // File input change handler
         fileInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {
-                displayFileInfo(file);
+                fileName.textContent = file.name;
+                fileInfo.style.display = 'flex';
             }
         });
 
-        // Drag and drop handlers
         uploadArea.addEventListener('dragover', function (e) {
             e.preventDefault();
-            uploadArea.classList.add('drag-over');
+            uploadArea.style.borderColor = 'var(--primary)';
+            uploadArea.style.background = 'rgba(99, 102, 241, 0.05)';
         });
 
         uploadArea.addEventListener('dragleave', function (e) {
             e.preventDefault();
-            uploadArea.classList.remove('drag-over');
+            uploadArea.style.borderColor = '';
+            uploadArea.style.background = '';
         });
 
         uploadArea.addEventListener('drop', function (e) {
             e.preventDefault();
-            uploadArea.classList.remove('drag-over');
+            uploadArea.style.borderColor = '';
+            uploadArea.style.background = '';
 
             const files = e.dataTransfer.files;
             if (files.length > 0) {
                 const file = files[0];
                 if (file.type.startsWith('image/')) {
                     fileInput.files = files;
-                    displayFileInfo(file);
+                    fileName.textContent = file.name;
+                    fileInfo.style.display = 'flex';
                 } else {
                     alert('Please upload an image file.');
                 }
             }
         });
-
-        // Click to upload
-        uploadArea.addEventListener('click', function () {
-            fileInput.click();
-        });
-
-        // Remove file
-        removeFileBtn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            fileInput.value = '';
-            fileInfo.style.display = 'none';
-            uploadBtn.disabled = true;
-        });
-
-        function displayFileInfo(file) {
-            fileName.textContent = file.name;
-            fileInfo.style.display = 'flex';
-            uploadBtn.disabled = false;
-        }
     });
 
     function openModal(imageSrc, imageAlt) {
         const modal = document.getElementById('prescriptionModal');
         const modalImg = document.getElementById('modalImage');
 
-        modal.style.display = 'block';
+        modal.style.display = 'flex';
         modalImg.src = imageSrc;
         modalImg.alt = imageAlt;
     }
@@ -186,21 +160,5 @@
             window.location.href = `/delete_prescription/${prescriptionId}`;
         }
     }
-
-    // Close modal when clicking the X or outside the image
-    document.addEventListener('DOMContentLoaded', function () {
-        const modal = document.getElementById('prescriptionModal');
-        const closeBtn = modal.querySelector('.close');
-
-        closeBtn.addEventListener('click', function () {
-            modal.style.display = 'none';
-        });
-
-        modal.addEventListener('click', function (e) {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-    });
 </script>
 {% endblock %}

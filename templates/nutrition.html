@@ -1,115 +1,96 @@
 {% extends "base.html" %}
 
 {% block title %}Nutrition Suggestions - NutriCare-360{% endblock %}
+{% block page_name %}Nutrition{% endblock %}
 
 {% block content %}
 <div class="nutrition-page">
     <div class="page-header">
-        <h1>
-            <img src="{{ url_for('static', filename='nutrition-icon.svg') }}" alt="Nutrition" class="page-icon">
-            Nutrition Suggestions
-        </h1>
-        <p>Search for nutrition information and track your food intake</p>
+        <h1 class="page-title"><i class="fas fa-apple-alt"></i> Nutrition Suggestions</h1>
+        <p class="page-subtitle">Search for nutrition information and track your food intake</p>
     </div>
 
-    <!-- Mode Toggle Section -->
-    <div class="mode-toggle-section">
-        <div class="toggle-container">
-            <label class="toggle-label">
-                <span class="toggle-text">Data Source:</span>
-                <div class="toggle-switch">
-                    <input type="checkbox" id="api-mode-toggle" class="toggle-input">
-                    <span class="toggle-slider"></span>
-                </div>
-                <span class="toggle-text" id="mode-text">Local Data</span>
-            </label>
+    <div class="card" style="margin-bottom: 2rem; padding: 1rem 1.5rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <span style="font-weight: 600; color: var(--text-secondary);">Data Source:</span>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <span style="font-size: 0.875rem; color: var(--text-muted);">Local Data</span>
+                <label class="switch">
+                    <input type="checkbox" id="api-mode-toggle">
+                    <span class="slider"></span>
+                </label>
+                <span style="font-size: 0.875rem; color: var(--text-muted);">API Mode</span>
+            </div>
         </div>
     </div>
 
-    <!-- Search Section -->
     <div class="search-section">
         <div class="section-header">
-            <h2>Search Food Nutrition</h2>
+            <h2 class="section-title">Search Food Nutrition</h2>
         </div>
 
-        <form id="nutrition-search-form" class="search-form">
-            <div class="search-input-group">
-                <input type="text" id="food-search" placeholder="e.g., 2 chapatis and dal, 1 cup rice" required>
+        <form id="nutrition-search-form" class="card" style="margin-bottom: 2rem;">
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <input type="text" id="food-search" class="form-input" style="flex: 1; min-width: 200px;" placeholder="e.g., 2 chapatis and dal, 1 cup rice" required>
                 <button type="submit" class="btn btn-primary">
-                    <img src="{{ url_for('static', filename='search-icon.svg') }}" alt="Search" class="btn-icon">
-                    Search
+                    <i class="fas fa-search"></i> Search
                 </button>
             </div>
         </form>
 
-        <!-- Loading indicator -->
-        <div id="loading-indicator" class="loading" style="display: none;">
-            <div class="spinner"></div>
-            <span>Searching nutrition data...</span>
+        <div id="loading-indicator" class="card" style="display: none; text-align: center; padding: 2rem;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+            <p style="margin-top: 1rem; color: var(--text-secondary);">Searching nutrition data...</p>
         </div>
 
-        <!-- Search Results -->
-        <div id="search-results" class="results-section" style="display: none;">
-            <h3>Nutrition Results</h3>
-            <div id="results-container" class="results-grid">
-                <!-- Results will be populated by JavaScript -->
+        <div id="search-results" style="display: none;">
+            <div class="section-header">
+                <h3 class="section-title">Nutrition Results</h3>
             </div>
+            <div id="results-container" class="dashboard-grid"></div>
         </div>
 
-        <!-- Error Message -->
-        <div id="error-message" class="error-message" style="display: none;">
-            <!-- Error messages will be shown here -->
-        </div>
+        <div id="error-message" class="card" style="display: none; background: rgba(239, 68, 68, 0.1); border-color: var(--danger); color: var(--danger); text-align: center;"></div>
     </div>
 
-    <!-- Nutrition History Section -->
-    <div class="history-section">
+    <div class="history-section" style="margin-top: 2rem;">
         <div class="section-header">
-            <h2>My Nutrition History</h2>
-            <button id="refresh-history" class="btn btn-secondary">
-                <img src="{{ url_for('static', filename='refresh-icon.svg') }}" alt="Refresh" class="btn-icon">
-                Refresh
+            <h2 class="section-title">My Nutrition History</h2>
+            <button id="refresh-history" class="btn btn-secondary btn-sm">
+                <i class="fas fa-sync-alt"></i> Refresh
             </button>
         </div>
 
-        <!-- History Loading -->
-        <div id="history-loading" class="loading" style="display: none;">
-            <div class="spinner"></div>
-            <span>Loading history...</span>
+        <div id="history-loading" class="card" style="display: none; text-align: center; padding: 2rem;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+            <p style="margin-top: 1rem; color: var(--text-secondary);">Loading history...</p>
         </div>
 
-        <!-- History Content -->
-        <div id="history-content" class="history-content">
+        <div id="history-content">
             <div id="history-empty" class="empty-state" style="display: none;">
-                <img src="{{ url_for('static', filename='nutrition-icon.svg') }}" alt="No History" class="empty-icon">
+                <i class="fas fa-utensils"></i>
                 <h3>No Nutrition History</h3>
                 <p>Start searching for foods to build your nutrition history!</p>
             </div>
 
-            <div id="history-list" class="history-list">
-                <!-- History items will be populated by JavaScript -->
-            </div>
+            <div id="history-list" class="dashboard-grid"></div>
         </div>
     </div>
 </div>
 
-<!-- Success/Error Toast -->
-<div id="toast" class="toast" style="display: none;">
+<div id="toast" style="display: none; position: fixed; bottom: 2rem; right: 2rem; padding: 1rem 1.5rem; background: var(--primary); color: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); z-index: 1000;">
     <span id="toast-message"></span>
 </div>
 
 <script>
-    // Nutrition page JavaScript functionality
     document.addEventListener('DOMContentLoaded', function () {
         const apiModeToggle = document.getElementById('api-mode-toggle');
-        const modeText = document.getElementById('mode-text');
         const searchForm = document.getElementById('nutrition-search-form');
         const foodSearch = document.getElementById('food-search');
         const loadingIndicator = document.getElementById('loading-indicator');
         const searchResults = document.getElementById('search-results');
         const resultsContainer = document.getElementById('results-container');
         const errorMessage = document.getElementById('error-message');
-        const historyContent = document.getElementById('history-content');
         const historyList = document.getElementById('history-list');
         const historyEmpty = document.getElementById('history-empty');
         const historyLoading = document.getElementById('history-loading');
@@ -117,46 +98,28 @@
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toast-message');
 
-        // Toggle between API and Local data mode
-        apiModeToggle.addEventListener('change', function () {
-            if (this.checked) {
-                modeText.textContent = 'API Mode';
-            } else {
-                modeText.textContent = 'Local Data';
-            }
-        });
-
-        // Search form submission
         searchForm.addEventListener('submit', function (e) {
             e.preventDefault();
             searchNutrition();
         });
 
-        // Refresh history button
         refreshHistoryBtn.addEventListener('click', function () {
             loadNutritionHistory();
         });
 
-        // Search nutrition function
         async function searchNutrition() {
             const query = foodSearch.value.trim();
             if (!query) return;
 
-            // Show loading, hide results and errors
-            loadingIndicator.style.display = 'flex';
+            loadingIndicator.style.display = 'block';
             searchResults.style.display = 'none';
             errorMessage.style.display = 'none';
 
             try {
                 const response = await fetch('/nutrition/search', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        food: query,
-                        use_api: apiModeToggle.checked
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ food: query, use_api: apiModeToggle.checked })
                 });
 
                 const data = await response.json();
@@ -173,78 +136,60 @@
             }
         }
 
-        // Display search results
         function displayResults(results) {
             resultsContainer.innerHTML = '';
 
             results.forEach(result => {
-                const resultCard = createResultCard(result);
-                resultsContainer.appendChild(resultCard);
+                const card = document.createElement('div');
+                card.className = 'dashboard-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-icon primary"><i class="fas fa-utensils"></i></div>
+                        <h3 class="card-title">${result.name}</h3>
+                    </div>
+                    <div class="card-content">
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
+                            <div style="text-align: center; padding: 0.5rem; background: var(--bg-body); border-radius: var(--radius-md);">
+                                <div style="font-size: 1.25rem; font-weight: 700; color: var(--primary);">${result.calories}</div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Calories</div>
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem; background: var(--bg-body); border-radius: var(--radius-md);">
+                                <div style="font-size: 1.25rem; font-weight: 700; color: var(--success);">${result.protein}g</div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Protein</div>
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem; background: var(--bg-body); border-radius: var(--radius-md);">
+                                <div style="font-size: 1.25rem; font-weight: 700; color: var(--warning);">${result.carbs}g</div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Carbs</div>
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem; background: var(--bg-body); border-radius: var(--radius-md);">
+                                <div style="font-size: 1.25rem; font-weight: 700; color: var(--accent);">${result.fat}g</div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Fat</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-full" onclick="saveNutrition('${result.name}', ${result.calories}, ${result.protein}, ${result.carbs}, ${result.fat})">
+                        <i class="fas fa-plus"></i> Save to History
+                    </button>
+                `;
+                resultsContainer.appendChild(card);
             });
 
             searchResults.style.display = 'block';
         }
 
-        // Create result card
-        function createResultCard(nutrition) {
-            const card = document.createElement('div');
-            card.className = 'nutrition-card';
-
-            card.innerHTML = `
-            <div class="card-header">
-                <h4>${nutrition.name}</h4>
-            </div>
-            <div class="card-body">
-                <div class="nutrition-info">
-                    <div class="nutrition-item">
-                        <span class="label">Calories:</span>
-                        <span class="value">${nutrition.calories}</span>
-                    </div>
-                    <div class="nutrition-item">
-                        <span class="label">Protein:</span>
-                        <span class="value">${nutrition.protein}g</span>
-                    </div>
-                    <div class="nutrition-item">
-                        <span class="label">Carbs:</span>
-                        <span class="value">${nutrition.carbs}g</span>
-                    </div>
-                    <div class="nutrition-item">
-                        <span class="label">Fat:</span>
-                        <span class="value">${nutrition.fat}g</span>
-                    </div>
-                </div>
-                <button class="btn btn-primary save-btn" onclick="saveNutrition('${nutrition.name}', ${nutrition.calories}, ${nutrition.protein}, ${nutrition.carbs}, ${nutrition.fat})">
-                    <img src="{{ url_for('static', filename='plus-icon.svg') }}" alt="Save" class="btn-icon"> 
-                    Save to History
-                </button>
-            </div>
-        `;
-
-            return card;
-        }
-
-        // Save nutrition to history
         window.saveNutrition = async function (name, calories, protein, carbs, fat) {
             try {
                 const response = await fetch('/nutrition/save', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        food_name: name,
-                        calories: calories,
-                        protein: protein,
-                        carbs: carbs,
-                        fat: fat
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ food_name: name, calories, protein, carbs, fat })
                 });
 
                 const data = await response.json();
 
                 if (response.ok) {
                     showToast('Nutrition data saved successfully!', 'success');
-                    loadNutritionHistory(); // Refresh history
+                    loadNutritionHistory();
                 } else {
                     showToast(data.error || 'Failed to save nutrition data', 'error');
                 }
@@ -253,9 +198,8 @@
             }
         };
 
-        // Load nutrition history
         async function loadNutritionHistory() {
-            historyLoading.style.display = 'flex';
+            historyLoading.style.display = 'block';
             historyList.style.display = 'none';
             historyEmpty.style.display = 'none';
 
@@ -275,7 +219,6 @@
             }
         }
 
-        // Display nutrition history
         function displayHistory(history) {
             if (history.length === 0) {
                 historyEmpty.style.display = 'block';
@@ -286,59 +229,41 @@
             historyList.innerHTML = '';
 
             history.forEach(item => {
-                const historyItem = createHistoryItem(item);
-                historyList.appendChild(historyItem);
+                const date = new Date(item.created_at).toLocaleDateString();
+                const card = document.createElement('div');
+                card.className = 'dashboard-card';
+                card.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                        <h4 style="font-weight: 700; color: var(--text-primary);">${item.food_name}</h4>
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">${date}</span>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span style="padding: 0.25rem 0.75rem; background: rgba(99, 102, 241, 0.1); color: var(--primary); border-radius: var(--radius-full); font-size: 0.8125rem; font-weight: 600;">${item.calories} cal</span>
+                        <span style="padding: 0.25rem 0.75rem; background: rgba(16, 185, 129, 0.1); color: var(--success); border-radius: var(--radius-full); font-size: 0.8125rem; font-weight: 600;">${item.protein}g protein</span>
+                        <span style="padding: 0.25rem 0.75rem; background: rgba(245, 158, 11, 0.1); color: var(--warning); border-radius: var(--radius-full); font-size: 0.8125rem; font-weight: 600;">${item.carbs}g carbs</span>
+                        <span style="padding: 0.25rem 0.75rem; background: rgba(6, 182, 212, 0.1); color: var(--accent); border-radius: var(--radius-full); font-size: 0.8125rem; font-weight: 600;">${item.fat}g fat</span>
+                    </div>
+                    <button class="btn btn-danger btn-sm" onclick="deleteHistoryItem(${item.id})">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                `;
+                historyList.appendChild(card);
             });
 
-            historyList.style.display = 'block';
+            historyList.style.display = 'grid';
             historyEmpty.style.display = 'none';
         }
 
-        // Create history item
-        function createHistoryItem(item) {
-            const historyItem = document.createElement('div');
-            historyItem.className = 'history-item';
-
-            const date = new Date(item.created_at).toLocaleDateString();
-
-            historyItem.innerHTML = `
-            <div class="history-content">
-                <div class="history-header">
-                    <h4>${item.food_name}</h4>
-                    <span class="history-date">${date}</span>
-                </div>
-                <div class="history-nutrition">
-                    <span class="nutrition-badge">Calories: ${item.calories}</span>
-                    <span class="nutrition-badge">Protein: ${item.protein}g</span>
-                    <span class="nutrition-badge">Carbs: ${item.carbs}g</span>
-                    <span class="nutrition-badge">Fat: ${item.fat}g</span>
-                </div>
-            </div>
-            <button class="btn btn-danger delete-btn" onclick="deleteHistoryItem(${item.id})">
-                <img src="{{ url_for('static', filename='delete-icon.svg') }}" alt="Delete" class="btn-icon"> 
-                Delete
-            </button>
-        `;
-
-            return historyItem;
-        }
-
-        // Delete history item
         window.deleteHistoryItem = async function (id) {
-            if (!confirm('Are you sure you want to delete this nutrition record?')) {
-                return;
-            }
+            if (!confirm('Are you sure you want to delete this nutrition record?')) return;
 
             try {
-                const response = await fetch(`/nutrition/history/${id}`, {
-                    method: 'DELETE'
-                });
-
+                const response = await fetch(`/nutrition/history/${id}`, { method: 'DELETE' });
                 const data = await response.json();
 
                 if (response.ok) {
                     showToast('Nutrition record deleted successfully!', 'success');
-                    loadNutritionHistory(); // Refresh history
+                    loadNutritionHistory();
                 } else {
                     showToast(data.error || 'Failed to delete nutrition record', 'error');
                 }
@@ -347,25 +272,19 @@
             }
         };
 
-        // Show error message
         function showError(message) {
             errorMessage.textContent = message;
             errorMessage.style.display = 'block';
             searchResults.style.display = 'none';
         }
 
-        // Show toast notification
         function showToast(message, type = 'info') {
             toastMessage.textContent = message;
-            toast.className = `toast ${type}`;
+            toast.style.background = type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--primary)';
             toast.style.display = 'block';
-
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 3000);
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
         }
 
-        // Load history on page load
         loadNutritionHistory();
     });
 </script>

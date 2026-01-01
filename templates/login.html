@@ -6,27 +6,29 @@
 <div class="auth-page">
     <div class="auth-container">
         <div class="auth-header">
-            <h1><i class="fas fa-heartbeat"></i> NutriCare-360</h1>
-            <h2>Welcome Back</h2>
-            <p>Sign in to access your health dashboard</p>
+            <div class="auth-logo">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <h1 class="auth-title">Welcome Back</h1>
+            <p class="auth-subtitle">Sign in to access your health dashboard</p>
         </div>
 
         <form method="POST" class="auth-form">
             <div class="form-group">
-                <label for="username">
+                <label class="form-label" for="username">
                     <i class="fas fa-user"></i> Username
                 </label>
-                <input type="text" id="username" name="username" required placeholder="Enter your username">
+                <input type="text" id="username" name="username" class="form-input" required placeholder="Enter your username">
             </div>
 
             <div class="form-group">
-                <label for="password">
+                <label class="form-label" for="password">
                     <i class="fas fa-lock"></i> Password
                 </label>
-                <input type="password" id="password" name="password" required placeholder="Enter your password">
+                <input type="password" id="password" name="password" class="form-input" required placeholder="Enter your password">
             </div>
 
-            <button type="submit" class="btn btn-primary btn-full">
+            <button type="submit" class="btn btn-primary btn-full btn-lg">
                 <i class="fas fa-sign-in-alt"></i> Sign In
             </button>
         </form>
@@ -35,8 +37,8 @@
             <p>Don't have an account?
                 <a href="{{ url_for('register') }}">Create one here</a>
             </p>
-            <p>
-                <a href="{{ url_for('landing') }}">← Back to Home</a>
+            <p style="margin-top: 1rem;">
+                <a href="{{ url_for('landing') }}"><i class="fas fa-arrow-left"></i> Back to Home</a>
             </p>
         </div>
     </div>

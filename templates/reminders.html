@@ -1,18 +1,19 @@
 {% extends "base.html" %}
 
 {% block title %}Medicine Reminders - NutriCare-360{% endblock %}
+{% block page_name %}Reminders{% endblock %}
 
 {% block content %}
 <div class="reminders-page">
     <div class="page-header">
-        <h1><i class="fas fa-bell"></i> Medicine Reminders</h1>
-        <p>Manage your medication schedule</p>
+        <h1 class="page-title"><i class="fas fa-bell"></i> Medicine Reminders</h1>
+        <p class="page-subtitle">Manage your medication schedule</p>
     </div>
 
     <div class="add-reminder-section">
         <div class="section-header">
-            <h2>Add New Reminder</h2>
-            <button id="toggle-form" class="btn btn-secondary">
+            <h2 class="section-title">Add New Reminder</h2>
+            <button id="toggle-form" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Add Reminder
             </button>
         </div>
@@ -21,33 +22,33 @@
             style="display: none;">
             <div class="form-row">
                 <div class="form-group">
-                    <label for="medicine">
+                    <label class="form-label" for="medicine">
                         <i class="fas fa-pills"></i> Medicine Name
                     </label>
-                    <input type="text" id="medicine" name="medicine" required placeholder="e.g., Aspirin, Vitamin D">
+                    <input type="text" id="medicine" name="medicine" class="form-input" required placeholder="e.g., Aspirin, Vitamin D">
                 </div>
 
                 <div class="form-group">
-                    <label for="dosage">
+                    <label class="form-label" for="dosage">
                         <i class="fas fa-prescription-bottle"></i> Dosage
                     </label>
-                    <input type="text" id="dosage" name="dosage" required placeholder="e.g., 100mg, 2 tablets">
+                    <input type="text" id="dosage" name="dosage" class="form-input" required placeholder="e.g., 100mg, 2 tablets">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="time">
+                    <label class="form-label" for="time">
                         <i class="fas fa-clock"></i> Time
                     </label>
-                    <input type="time" id="time" name="time" required>
+                    <input type="time" id="time" name="time" class="form-input" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="frequency">
+                    <label class="form-label" for="frequency">
                         <i class="fas fa-calendar-alt"></i> Frequency
                     </label>
-                    <select id="frequency" name="frequency" required>
+                    <select id="frequency" name="frequency" class="form-input" required>
                         <option value="">Select frequency</option>
                         <option value="Once daily">Once daily</option>
                         <option value="Twice daily">Twice daily</option>
@@ -72,9 +73,9 @@
 
     <div class="reminders-list">
         <div class="section-header">
-            <h2>Your Reminders</h2>
+            <h2 class="section-title">Your Reminders</h2>
             {% if reminders %}
-            <span class="reminder-count">{{ reminders|length }} reminder(s)</span>
+            <span class="btn btn-ghost btn-sm">{{ reminders|length }} reminder(s)</span>
             {% endif %}
         </div>
 
@@ -85,11 +86,11 @@
                 <div class="reminder-header">
                     <h3>{{ reminder.medicine }}</h3>
                     <div class="reminder-actions">
-                        <button class="btn-icon edit-reminder" title="Edit">
+                        <button class="btn btn-ghost btn-icon edit-reminder" title="Edit">
                             <i class="fas fa-edit"></i>
                         </button>
                         <a href="{{ url_for('delete_reminder', reminder_id=reminder.id) }}"
-                            class="btn-icon delete-reminder" title="Delete"
+                            class="btn btn-ghost btn-icon delete-reminder" title="Delete"
                             onclick="return confirm('Are you sure you want to delete this reminder?')">
                             <i class="fas fa-trash"></i>
                         </a>
@@ -113,8 +114,8 @@
                         <span>Added {{ reminder.created_at.split(' ')[0] }}</span>
                     </div>
                 </div>
-                <div class="reminder-status">
-                    <button class="btn btn-sm btn-success test-notification" data-medicine="{{ reminder.medicine }}"
+                <div class="reminder-status" style="margin-top: 1rem;">
+                    <button class="btn btn-success btn-sm btn-full test-notification" data-medicine="{{ reminder.medicine }}"
                         data-dosage="{{ reminder.dosage }}">
                         <i class="fas fa-bell"></i> Test Notification
                     </button>
@@ -143,7 +144,6 @@
         const cancelFormBtn = document.getElementById('cancel-form');
         const testNotificationBtns = document.querySelectorAll('.test-notification');
 
-        // Toggle form visibility
         function toggleForm() {
             if (reminderForm.style.display === 'none') {
                 reminderForm.style.display = 'block';
@@ -169,13 +169,11 @@
             });
         }
 
-        // Test notification functionality
         testNotificationBtns.forEach(btn => {
             btn.addEventListener('click', function () {
                 const medicine = this.dataset.medicine;
                 const dosage = this.dataset.dosage;
 
-                // Request notification permission if not granted
                 if (Notification.permission === 'default') {
                     Notification.requestPermission().then(permission => {
                         if (permission === 'granted') {
@@ -198,7 +196,6 @@
             });
         }
 
-        // Auto-request notification permission
         if (Notification.permission === 'default') {
             Notification.requestPermission();
         }
