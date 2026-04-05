@@ -14,15 +14,16 @@ from datetime import timedelta
 load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env'))
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH  = os.path.join(BASE_DIR, 'nutricare360.db')
+VOLUME_MOUNT = os.environ.get('RAILWAY_VOLUME_MOUNT_PATH', BASE_DIR)
+DB_PATH  = os.path.join(VOLUME_MOUNT, 'nutricare360.db')
 
 app = Flask(__name__, static_folder=os.path.join(BASE_DIR, 'static'))
 app.config['JWT_SECRET_KEY']           = os.environ.get('JWT_SECRET_KEY', 'fallback-dev-secret-change-me')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
-app.config['UPLOAD_FOLDER']            = os.path.join(BASE_DIR, 'static', 'uploads')
+app.config['UPLOAD_FOLDER']            = os.path.join(VOLUME_MOUNT, 'uploads')
 app.config['MAX_CONTENT_LENGTH']       = 16 * 1024 * 1024
 
-CORS(app, resources={r"/api/*": {"origins": ["http://localhost:5173", "http://localhost:5174"]}})
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 jwt = JWTManager(app)
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 

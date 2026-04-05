@@ -287,9 +287,9 @@ export default function Landing() {
             </Link>
             <p className="footer-tagline">The professional approach to your personal well-being. Manage medications, track nutrition, and discover curated yoga routines.</p>
             <div className="footer-socials">
-              <a href="#" className="social-icon"><i className="fa-brands fa-twitter"></i></a>
-              <a href="#" className="social-icon"><i className="fa-brands fa-github"></i></a>
-              <a href="#" className="social-icon"><i className="fa-brands fa-linkedin-in"></i></a>
+              <a href="https://www.instagram.com/sairajjadhav08/" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Instagram"><i className="fa-brands fa-instagram"></i></a>
+              <a href="https://github.com/SairajJadhav08" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="GitHub"><i className="fa-brands fa-github"></i></a>
+              <a href="https://www.linkedin.com/in/sairaj-jadhav-/" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="LinkedIn"><i className="fa-brands fa-linkedin-in"></i></a>
             </div>
           </div>
           <div className="footer-links-grid">

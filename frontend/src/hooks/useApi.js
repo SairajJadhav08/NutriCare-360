@@ -15,7 +15,9 @@ export function useApi() {
     setLoading(true)
     setError(null)
     try {
-      const res = await axios({ method, url, data, ...config })
+      const baseUrl = import.meta.env.VITE_API_URL || ''
+      const fullUrl = url.startsWith('http') ? url : `${baseUrl}${url}`
+      const res = await axios({ method, url: fullUrl, data, ...config })
       return res.data
     } catch (err) {
       const msg = err.response?.data?.error || err.message || 'Something went wrong'
