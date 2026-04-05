@@ -1,0 +1,14 @@
+# Environment variables — never commit these
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Database
+*.db
+
+# Uploads
+static/uploads/*
+!static/uploads/.gitkeep
