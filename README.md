@@ -1,18 +1,107 @@
-# NutriCare-360 🌿
+# NutriCare-360
 
-![Live Demo](https://img.shields.io/badge/Live_Demo-nutri--care--360--396f.vercel.app-success?style=for-the-badge&logo=vercel)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) 
+> A full-stack personal health management platform — medications, nutrition, yoga, and prescriptions in one place.
 
-### 🔗 **Live URL:** [https://nutri-care-360-396f.vercel.app/](https://nutri-care-360-396f.vercel.app/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev)
+[![Flask](https://img.shields.io/badge/Flask-3.1-000000?logo=flask)](https://flask.palletsprojects.com)
+[![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite)](https://sqlite.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38BDF8?logo=tailwindcss)](https://tailwindcss.com)
 
-Welcome to **NutriCare-360**, your complete health operating system. Manage medications, track your daily nutrition intake, securely store prescriptions, and explore highly curated yoga wellness routines in one dashboard. Built on a fast, modern React frontend and a Vercel-optimized Python API.
+---
 
-## Application Walkthrough
+## What it does
 
-### Main Dashboard
-![Dashboard](frontend/src/assets/landing%20page.png)
-> **The Hub of Your Health:** The main dashboard gives you a panoramic view of your well-being. From here, you can quickly navigate to your medication reminders, see recent nutrition logs, and view your uploaded medical prescriptions securely. The interface is designed entirely with custom vanilla CSS for a snappy, glassmorphic visual experience.
+| Feature | Details |
+|---|---|
+| **Medicine Reminders** | CRUD reminders with daily mark-as-taken and adherence tracking |
+| **Prescription Vault** | Upload and manage image/PDF prescriptions securely |
+| **Nutrition Tracker** | Search via Open Food Facts, log meals, calorie goal progress bar |
+| **AI Meal Analyzer** | Describe a meal in plain English → get macro breakdown (Groq/LLaMA3) |
+| **Yoga & Fitness** | Curated pose library with category filters (ExerciseDB fallback to local JSON) |
+| **Health Card** | One-click canvas-rendered PNG summary card to share |
 
-### Yoga & Wellness
-![Yoga Interface](frontend/src/assets/yoga.png)
-> **Curated Routines:** Powered dynamically by the RapidAPI ExerciseDB, this wellness section allows you to filter and explore categorized yoga poses. Each card breaks down specific poses step-by-step with target muscle groups and visual aid gifs to ensure perfect form.
+---
+
+## Tech Stack
+
+```
+frontend/   React 19 · Vite · Tailwind CSS · React Router v7 · Axios
+backend/    Python · Flask · SQLite · Flask-JWT-Extended · Werkzeug
+api/        Vercel serverless entry-point (mirrors backend/)
+```
+
+---
+
+## Quick Start
+
+```bash
+# 1. Backend
+cd backend
+cp .env.example .env        # fill in JWT_SECRET_KEY (+ optional API keys)
+pip install -r requirements.txt
+python app.py               # http://localhost:5000
+
+# 2. Frontend (new terminal)
+cd frontend
+npm install
+npm run dev                 # http://localhost:5173
+```
+
+---
+
+## Project Structure
+
+```
+NutriCare-360/
+├── backend/            Flask API + SQLite database
+│   ├── app.py          All route handlers
+│   ├── static/data/    nutrition.json · yoga.json (fallbacks)
+│   └── .env.example    Environment variable template
+├── frontend/           React SPA
+│   └── src/
+│       ├── pages/      One file per route
+│       ├── components/ layout/ · ui/
+│       ├── context/    Auth · Theme · Flash
+│       ├── hooks/      useApi.js
+│       └── styles/     index.css (single stylesheet)
+├── api/                Vercel serverless mirror of backend/
+├── docs/               API reference · Schema · Architecture · Case Study
+└── vercel.json         Deployment rewrite rules
+```
+
+---
+
+## Environment Variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `JWT_SECRET_KEY` | ✅ | Long random string for token signing |
+| `RAPIDAPI_KEY` | Optional | ExerciseDB (yoga poses); falls back to local JSON |
+| `GROQ_API_KEY` | Optional | Groq AI meal analyzer; feature disabled without it |
+
+---
+
+## Docs
+
+| Document | Description |
+|---|---|
+| [API Reference](docs/API.md) | All endpoints, request/response shapes |
+| [Database Schema](docs/SCHEMA.md) | Tables, columns, relationships |
+| [System Architecture](docs/ARCHITECTURE.md) | Component diagram and data flow |
+| [Case Study](docs/CASE_STUDY.md) | Problem, solution, decisions, outcomes |
+
+---
+
+## Deployment
+
+The app is configured for **Vercel** (frontend + serverless Python backend):
+
+```bash
+vercel deploy
+```
+
+`vercel.json` routes `/api/*` → `api/index.py` and everything else → `index.html`.
+
+---
+
+*Built by [Sairaj Jadhav](https://github.com/SairajJadhav08)*

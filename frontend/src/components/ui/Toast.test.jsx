@@ -22,24 +22,26 @@ describe('Property 6: Toast auto-dismiss', () => {
         (message, type) => {
           const onDismiss = vi.fn()
           
-          render(
-            <Toast message={message} type={type} onDismiss={onDismiss} />
-          )
+          try {
+            render(
+              <Toast message={message} type={type} onDismiss={onDismiss} />
+            )
 
-          // Toast should be visible initially
-          const toastElement = screen.getByRole('alert')
-          expect(toastElement).toBeInTheDocument()
-          expect(toastElement).toHaveTextContent(message)
+            // Toast should be visible initially
+            const toastElement = screen.getByRole('alert')
+            expect(toastElement).toBeInTheDocument()
+            expect(toastElement.textContent.includes(message)).toBe(true)
 
-          // Advance time by 3000ms
-          vi.advanceTimersByTime(3000)
+            // Advance time by 3000ms
+            vi.advanceTimersByTime(3000)
 
-          // onDismiss should have been called
-          expect(onDismiss).toHaveBeenCalledTimes(1)
-
-          // Clean up for next iteration
-          cleanup()
-          vi.clearAllTimers()
+            // onDismiss should have been called
+            expect(onDismiss).toHaveBeenCalledTimes(1)
+          } finally {
+            // Clean up for next iteration
+            cleanup()
+            vi.clearAllTimers()
+          }
         }
       ),
       { numRuns: 100 }

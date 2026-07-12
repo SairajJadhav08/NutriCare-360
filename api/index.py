@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
-    get_jwt_identity, get_jwt
+    create_refresh_token, get_jwt_identity, get_jwt, verify_jwt_in_request
 )
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -19,13 +19,14 @@ if os.environ.get('VERCEL') == '1' or os.environ.get('VERCEL_ENV'):
 else:
     VOLUME_MOUNT = BASE_DIR
 
-DB_PATH  = os.path.join(VOLUME_MOUNT, 'nutricare360.db')
+DB_PATH = os.path.join(VOLUME_MOUNT, 'nutricare360.db')
 
 app = Flask(__name__, static_folder=os.path.join(BASE_DIR, 'static'))
-app.config['JWT_SECRET_KEY']           = os.environ.get('JWT_SECRET_KEY', 'fallback-dev-secret-change-me')
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
-app.config['UPLOAD_FOLDER']            = os.path.join(VOLUME_MOUNT, 'uploads')
-app.config['MAX_CONTENT_LENGTH']       = 16 * 1024 * 1024
+app.config['JWT_SECRET_KEY']                  = os.environ.get('JWT_SECRET_KEY', 'fallback-dev-secret-change-me')
+app.config['JWT_ACCESS_TOKEN_EXPIRES']        = timedelta(hours=24)
+app.config['JWT_REFRESH_TOKEN_EXPIRES']       = timedelta(days=30)
+app.config['UPLOAD_FOLDER']                   = os.path.join(VOLUME_MOUNT, 'uploads')
+app.config['MAX_CONTENT_LENGTH']              = 16 * 1024 * 1024
 
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 jwt = JWTManager(app)
@@ -33,10 +34,8 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'pdf'}
 
-# ── API keys from .env ───────────────────────────────────────────────
-# ExerciseDB on RapidAPI — free tier (500 req/month)
-# Sign up at https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb
 RAPIDAPI_KEY = os.environ.get('RAPIDAPI_KEY', '')
+GROQ_API_KEY = os.environ.get('GROQ_API_KEY', '')
 
 # ── DB ───────────────────────────────────────────────────────────────
 def get_db():
@@ -63,6 +62,14 @@ def init_db():
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(id)
     )''')
+    c.execute('''CREATE TABLE IF NOT EXISTS reminder_taken_log (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        reminder_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
+        taken_at DATE NOT NULL DEFAULT (date('now')),
+        UNIQUE(reminder_id, taken_at),
+        FOREIGN KEY (reminder_id) REFERENCES reminders(id)
+    )''')
     c.execute('''CREATE TABLE IF NOT EXISTS prescriptions (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
@@ -80,6 +87,11 @@ def init_db():
         carbs REAL NOT NULL,
         fat REAL NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id)
+    )''')
+    c.execute('''CREATE TABLE IF NOT EXISTS user_settings (
+        user_id INTEGER PRIMARY KEY,
+        calorie_goal INTEGER NOT NULL DEFAULT 2000,
         FOREIGN KEY (user_id) REFERENCES users(id)
     )''')
     conn.commit()
@@ -126,18 +138,86 @@ def login():
     conn.close()
     if not user or not check_password_hash(user['password'], password):
         return jsonify({'error': 'Invalid username or password'}), 401
-    # JWT-Extended 4.x: identity must be a plain string, not a dict
-    token = create_access_token(
-        identity=str(user['id']),
-        additional_claims={'username': user['username']}
-    )
-    return jsonify({'access_token': token, 'username': user['username']})
+    identity = str(user['id'])
+    claims   = {'username': user['username']}
+    access_token  = create_access_token(identity=identity, additional_claims=claims)
+    refresh_token = create_refresh_token(identity=identity, additional_claims=claims)
+    return jsonify({
+        'access_token':  access_token,
+        'refresh_token': refresh_token,
+        'username':      user['username']
+    })
+
+
+@app.route('/api/refresh', methods=['POST'])
+@jwt_required(refresh=True)
+def refresh():
+    identity = get_jwt_identity()
+    claims   = {'username': get_jwt().get('username', '')}
+    new_token = create_access_token(identity=identity, additional_claims=claims)
+    return jsonify({'access_token': new_token})
 
 
 @app.route('/api/me')
 @jwt_required()
 def me():
     return jsonify({'id': int(get_jwt_identity()), 'username': get_jwt().get('username', '')})
+
+
+@app.route('/api/me/password', methods=['PUT'])
+@jwt_required()
+def change_password():
+    uid  = int(get_jwt_identity())
+    data = request.get_json() or {}
+    current  = data.get('current_password', '')
+    new_pw   = data.get('new_password', '')
+    if len(new_pw) < 6:
+        return jsonify({'error': 'New password must be at least 6 characters'}), 400
+    conn = get_db()
+    user = conn.execute('SELECT password FROM users WHERE id=?', (uid,)).fetchone()
+    if not user or not check_password_hash(user['password'], current):
+        conn.close()
+        return jsonify({'error': 'Current password is incorrect'}), 401
+    conn.execute('UPDATE users SET password=? WHERE id=?', (generate_password_hash(new_pw), uid))
+    conn.commit()
+    conn.close()
+    return jsonify({'message': 'Password updated successfully'})
+
+# ══════════════════════════════════════════════════════════════════════
+#  USER SETTINGS (calorie goal)
+# ══════════════════════════════════════════════════════════════════════
+
+@app.route('/api/settings', methods=['GET'])
+@jwt_required()
+def get_settings():
+    uid  = int(get_jwt_identity())
+    conn = get_db()
+    row  = conn.execute('SELECT * FROM user_settings WHERE user_id=?', (uid,)).fetchone()
+    conn.close()
+    return jsonify({'calorie_goal': row['calorie_goal'] if row else 2000})
+
+
+@app.route('/api/settings', methods=['PUT'])
+@jwt_required()
+def update_settings():
+    uid  = int(get_jwt_identity())
+    data = request.get_json() or {}
+    goal = data.get('calorie_goal', 2000)
+    try:
+        goal = int(goal)
+        if goal < 500 or goal > 10000:
+            raise ValueError
+    except (ValueError, TypeError):
+        return jsonify({'error': 'calorie_goal must be between 500 and 10000'}), 400
+    conn = get_db()
+    conn.execute(
+        'INSERT INTO user_settings (user_id, calorie_goal) VALUES (?,?) '
+        'ON CONFLICT(user_id) DO UPDATE SET calorie_goal=excluded.calorie_goal',
+        (uid, goal)
+    )
+    conn.commit()
+    conn.close()
+    return jsonify({'message': 'Settings saved', 'calorie_goal': goal})
 
 # ══════════════════════════════════════════════════════════════════════
 #  DASHBOARD
@@ -151,11 +231,24 @@ def dashboard_stats():
     r = conn.execute('SELECT COUNT(*) FROM reminders WHERE user_id=?', (uid,)).fetchone()[0]
     p = conn.execute('SELECT COUNT(*) FROM prescriptions WHERE user_id=?', (uid,)).fetchone()[0]
     n = conn.execute('SELECT COUNT(*) FROM nutrition_history WHERE user_id=?', (uid,)).fetchone()[0]
+    # Yoga: count distinct days where user had taken a reminder (used as "active days" proxy)
+    # and last active date
+    streak_row = conn.execute(
+        "SELECT COUNT(DISTINCT taken_at) as streak_days, MAX(taken_at) as last_active "
+        "FROM reminder_taken_log WHERE user_id=? AND taken_at >= date('now','-7 days')",
+        (uid,)
+    ).fetchone()
     conn.close()
-    return jsonify({'reminders': r, 'prescriptions': p, 'nutrition': n})
+    return jsonify({
+        'reminders':    r,
+        'prescriptions': p,
+        'nutrition':    n,
+        'yoga_streak':  streak_row['streak_days'] if streak_row else 0,
+        'last_active':  streak_row['last_active']  if streak_row else None,
+    })
 
 # ══════════════════════════════════════════════════════════════════════
-#  REMINDERS
+#  REMINDERS (with edit + mark-as-taken)
 # ══════════════════════════════════════════════════════════════════════
 
 @app.route('/api/reminders', methods=['GET'])
@@ -164,8 +257,19 @@ def get_reminders():
     uid  = int(get_jwt_identity())
     conn = get_db()
     rows = conn.execute('SELECT * FROM reminders WHERE user_id=? ORDER BY created_at DESC', (uid,)).fetchall()
+    # fetch today's taken ids
+    today_taken = set(
+        row['reminder_id'] for row in conn.execute(
+            "SELECT reminder_id FROM reminder_taken_log WHERE user_id=? AND taken_at=date('now')", (uid,)
+        ).fetchall()
+    )
     conn.close()
-    return jsonify({'reminders': [dict(r) for r in rows]})
+    result = []
+    for r in rows:
+        d = dict(r)
+        d['taken_today'] = d['id'] in today_taken
+        result.append(d)
+    return jsonify({'reminders': result})
 
 
 @app.route('/api/reminders', methods=['POST'])
@@ -186,15 +290,64 @@ def add_reminder():
     return jsonify({'message': 'Reminder added'}), 201
 
 
+@app.route('/api/reminders/<int:rid>', methods=['PUT'])
+@jwt_required()
+def update_reminder(rid):
+    uid  = int(get_jwt_identity())
+    data = request.get_json() or {}
+    for f in ['medicine', 'dosage', 'time', 'frequency']:
+        if not data.get(f):
+            return jsonify({'error': f'Field {f} is required'}), 400
+    conn = get_db()
+    if not conn.execute('SELECT id FROM reminders WHERE id=? AND user_id=?', (rid, uid)).fetchone():
+        conn.close()
+        return jsonify({'error': 'Not found'}), 404
+    conn.execute(
+        'UPDATE reminders SET medicine=?, dosage=?, time=?, frequency=? WHERE id=? AND user_id=?',
+        (data['medicine'], data['dosage'], data['time'], data['frequency'], rid, uid)
+    )
+    conn.commit()
+    conn.close()
+    return jsonify({'message': 'Reminder updated'})
+
+
 @app.route('/api/reminders/<int:rid>', methods=['DELETE'])
 @jwt_required()
 def delete_reminder(rid):
     uid = int(get_jwt_identity())
     conn = get_db()
+    conn.execute('DELETE FROM reminder_taken_log WHERE reminder_id=? AND user_id=?', (rid, uid))
     conn.execute('DELETE FROM reminders WHERE id=? AND user_id=?', (rid, uid))
     conn.commit()
     conn.close()
     return jsonify({'message': 'Reminder deleted'})
+
+
+@app.route('/api/reminders/<int:rid>/taken', methods=['POST'])
+@jwt_required()
+def mark_taken(rid):
+    uid  = int(get_jwt_identity())
+    conn = get_db()
+    if not conn.execute('SELECT id FROM reminders WHERE id=? AND user_id=?', (rid, uid)).fetchone():
+        conn.close()
+        return jsonify({'error': 'Not found'}), 404
+    try:
+        conn.execute(
+            "INSERT INTO reminder_taken_log (reminder_id, user_id, taken_at) VALUES (?, ?, date('now'))",
+            (rid, uid)
+        )
+        conn.commit()
+        taken = True
+    except sqlite3.IntegrityError:
+        # Already taken today — toggle off
+        conn.execute(
+            "DELETE FROM reminder_taken_log WHERE reminder_id=? AND user_id=? AND taken_at=date('now')",
+            (rid, uid)
+        )
+        conn.commit()
+        taken = False
+    conn.close()
+    return jsonify({'taken': taken})
 
 # ══════════════════════════════════════════════════════════════════════
 #  PRESCRIPTIONS
@@ -252,8 +405,7 @@ def delete_prescription(pid):
     return jsonify({'message': 'Prescription deleted'})
 
 # ══════════════════════════════════════════════════════════════════════
-#  NUTRITION — Open Food Facts (100% free, no key required)
-#  Docs: https://world.openfoodfacts.org/data
+#  NUTRITION
 # ══════════════════════════════════════════════════════════════════════
 
 @app.route('/api/nutrition/search', methods=['POST'])
@@ -263,7 +415,6 @@ def nutrition_search():
     query = data.get('food', '').strip()
     if not query:
         return jsonify({'error': 'Please enter a food item'}), 400
-
     try:
         resp = requests.get(
             'https://world.openfoodfacts.org/cgi/search.pl',
@@ -279,14 +430,12 @@ def nutrition_search():
         )
         resp.raise_for_status()
         products = resp.json().get('products', [])
-
         results = []
         for p in products:
             name = (p.get('product_name') or '').strip()
             if not name:
                 continue
             n = p.get('nutriments', {})
-            # prefer _100g values, fall back to base values
             calories = round(float(n.get('energy-kcal_100g') or n.get('energy-kcal') or 0), 1)
             protein  = round(float(n.get('proteins_100g')    or n.get('proteins')    or 0), 1)
             carbs    = round(float(n.get('carbohydrates_100g') or n.get('carbohydrates') or 0), 1)
@@ -295,14 +444,10 @@ def nutrition_search():
                             'protein': protein, 'carbs': carbs, 'fat': fat})
             if len(results) >= 8:
                 break
-
         if results:
             return jsonify({'results': results})
-
     except Exception:
-        pass  # fall through to local data
-
-    # ── Local fallback ───────────────────────────────────────────────
+        pass
     return _local_nutrition_search(query)
 
 
@@ -326,9 +471,22 @@ def _local_nutrition_search(query):
 @app.route('/api/nutrition/history', methods=['GET'])
 @jwt_required()
 def nutrition_history():
-    uid  = int(get_jwt_identity())
-    conn = get_db()
-    rows = conn.execute('SELECT * FROM nutrition_history WHERE user_id=? ORDER BY created_at DESC', (uid,)).fetchall()
+    uid    = int(get_jwt_identity())
+    date_f = request.args.get('date')   # YYYY-MM-DD  — exact day
+    period = request.args.get('period') # 'today' | 'week' | 'all'
+    conn   = get_db()
+    base   = 'SELECT * FROM nutrition_history WHERE user_id=?'
+    params = [uid]
+    if date_f:
+        base  += ' AND date(created_at)=?'
+        params.append(date_f)
+    elif period == 'today':
+        base  += " AND date(created_at)=date('now')"
+    elif period == 'week':
+        base  += " AND date(created_at)>=date('now','-7 days')"
+    # else: 'all' — no filter
+    base  += ' ORDER BY created_at DESC'
+    rows   = conn.execute(base, params).fetchall()
     conn.close()
     return jsonify({'history': [dict(r) for r in rows]})
 
@@ -365,12 +523,64 @@ def delete_nutrition_history(hid):
     return jsonify({'message': 'Deleted'})
 
 # ══════════════════════════════════════════════════════════════════════
-#  YOGA — ExerciseDB via RapidAPI (free tier: 500 req/month)
-#  Sign up: https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb
-#  Falls back to local yoga.json if RAPIDAPI_KEY not set
+#  AI NUTRITION ANALYSIS — Groq (llama3-8b-8192, free tier)
+#  Set GROQ_API_KEY in .env — get one free at https://console.groq.com
 # ══════════════════════════════════════════════════════════════════════
 
-# Curated yoga/wellness image pool (Unsplash, free to use)
+@app.route('/api/nutrition/analyze', methods=['POST'])
+@jwt_required()
+def nutrition_analyze():
+    data  = request.get_json() or {}
+    meal  = (data.get('meal') or '').strip()
+    if not meal:
+        return jsonify({'error': 'Please describe your meal'}), 400
+    if not GROQ_API_KEY:
+        return jsonify({'error': 'AI analysis not configured. Add GROQ_API_KEY to backend .env'}), 503
+
+    prompt = (
+        f"Estimate the nutritional values for this meal: \"{meal}\".\n"
+        "Reply ONLY with valid JSON in exactly this format (no markdown, no explanation):\n"
+        '{"name":"<meal name>","calories":<number>,"protein":<number>,"carbs":<number>,"fat":<number>}\n'
+        "All numbers should be integers representing typical serving amounts. "
+        "Do not include units inside the JSON values."
+    )
+    try:
+        resp = requests.post(
+            'https://api.groq.com/openai/v1/chat/completions',
+            headers={
+                'Authorization': f'Bearer {GROQ_API_KEY}',
+                'Content-Type':  'application/json',
+            },
+            json={
+                'model':    'llama-3.3-70b-versatile',
+                'messages': [{'role': 'user', 'content': prompt}],
+                'temperature': 0.2,
+                'max_tokens':  200,
+            },
+            timeout=15
+        )
+        resp.raise_for_status()
+        content = resp.json()['choices'][0]['message']['content'].strip()
+        # Strip any accidental markdown code fence
+        if content.startswith('```'):
+            content = content.split('```')[1]
+            if content.startswith('json'):
+                content = content[4:]
+        result = json.loads(content)
+        # Validate keys
+        for k in ['name', 'calories', 'protein', 'carbs', 'fat']:
+            if k not in result:
+                raise ValueError(f'Missing key: {k}')
+        return jsonify({'result': result})
+    except json.JSONDecodeError:
+        return jsonify({'error': 'AI returned an unexpected response. Try rephrasing.'}), 502
+    except Exception as e:
+        return jsonify({'error': f'AI analysis failed: {str(e)}'}), 502
+
+# ══════════════════════════════════════════════════════════════════════
+#  YOGA
+# ══════════════════════════════════════════════════════════════════════
+
 YOGA_IMAGES = [
     'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop',
     'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=300&fit=crop',
@@ -409,7 +619,6 @@ def get_yoga_poses():
             )
             resp.raise_for_status()
             exercises = resp.json()
-
             poses = []
             for i, ex in enumerate(exercises):
                 instructions = ex.get('instructions', [])
@@ -425,14 +634,12 @@ def get_yoga_poses():
             if poses:
                 return jsonify({'poses': poses})
         except Exception:
-            pass  # fall through to local
+            pass
 
-    # ── Local fallback ───────────────────────────────────────────────
     local_path = os.path.join(BASE_DIR, 'static', 'data', 'yoga.json')
     try:
         with open(local_path) as f:
             data = json.load(f)
-        # Normalise steps: string → list
         for pose in data.get('poses', []):
             if isinstance(pose.get('steps'), str):
                 pose['steps'] = [s.strip() for s in pose['steps'].split('\n') if s.strip()]

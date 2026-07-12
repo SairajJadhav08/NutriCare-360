@@ -1,0 +1,214 @@
+{
+  "foods": [
+    {
+      "name": "2 chapatis",
+      "calories": 240,
+      "protein": 8.0,
+      "carbs": 48.0,
+      "fat": 2.0
+    },
+    {
+      "name": "1 cup dal",
+      "calories": 230,
+      "protein": 18.0,
+      "carbs": 40.0,
+      "fat": 1.0
+    },
+    {
+      "name": "1 cup rice",
+      "calories": 205,
+      "protein": 4.2,
+      "carbs": 45.0,
+      "fat": 0.4
+    },
+    {
+      "name": "1 cup rajma",
+      "calories": 245,
+      "protein": 15.0,
+      "carbs": 45.0,
+      "fat": 1.0
+    },
+    {
+      "name": "1 cup chole",
+      "calories": 269,
+      "protein": 14.5,
+      "carbs": 45.0,
+      "fat": 4.2
+    },
+    {
+      "name": "1 paratha",
+      "calories": 300,
+      "protein": 6.0,
+      "carbs": 35.0,
+      "fat": 15.0
+    },
+    {
+      "name": "1 dosa",
+      "calories": 168,
+      "protein": 4.0,
+      "carbs": 28.0,
+      "fat": 4.0
+    },
+    {
+      "name": "1 idli",
+      "calories": 58,
+      "protein": 2.0,
+      "carbs": 12.0,
+      "fat": 0.2
+    },
+    {
+      "name": "1 cup sambar",
+      "calories": 85,
+      "protein": 4.0,
+      "carbs": 15.0,
+      "fat": 1.5
+    },
+    {
+      "name": "1 cup rasam",
+      "calories": 45,
+      "protein": 2.0,
+      "carbs": 8.0,
+      "fat": 1.0
+    },
+    {
+      "name": "1 cup biryani",
+      "calories": 290,
+      "protein": 8.0,
+      "carbs": 45.0,
+      "fat": 9.0
+    },
+    {
+      "name": "1 cup upma",
+      "calories": 183,
+      "protein": 4.0,
+      "carbs": 32.0,
+      "fat": 4.5
+    },
+    {
+      "name": "1 cup poha",
+      "calories": 158,
+      "protein": 3.0,
+      "carbs": 30.0,
+      "fat": 3.0
+    },
+    {
+      "name": "1 cup khichdi",
+      "calories": 203,
+      "protein": 6.0,
+      "carbs": 38.0,
+      "fat": 3.0
+    },
+    {
+      "name": "1 cup sabzi",
+      "calories": 120,
+      "protein": 3.0,
+      "carbs": 15.0,
+      "fat": 5.0
+    },
+    {
+      "name": "1 cup paneer curry",
+      "calories": 265,
+      "protein": 14.0,
+      "carbs": 12.0,
+      "fat": 18.0
+    },
+    {
+      "name": "1 cup chicken curry",
+      "calories": 231,
+      "protein": 25.0,
+      "carbs": 8.0,
+      "fat": 11.0
+    },
+    {
+      "name": "1 cup fish curry",
+      "calories": 198,
+      "protein": 22.0,
+      "carbs": 6.0,
+      "fat": 9.0
+    },
+    {
+      "name": "1 cup yogurt",
+      "calories": 154,
+      "protein": 8.5,
+      "carbs": 17.0,
+      "fat": 8.0
+    },
+    {
+      "name": "1 glass lassi",
+      "calories": 180,
+      "protein": 6.0,
+      "carbs": 25.0,
+      "fat": 6.0
+    },
+    {
+      "name": "1 cup tea",
+      "calories": 30,
+      "protein": 1.0,
+      "carbs": 6.0,
+      "fat": 0.5
+    },
+    {
+      "name": "1 cup coffee",
+      "calories": 25,
+      "protein": 1.0,
+      "carbs": 4.0,
+      "fat": 0.5
+    },
+    {
+      "name": "1 banana",
+      "calories": 105,
+      "protein": 1.3,
+      "carbs": 27.0,
+      "fat": 0.3
+    },
+    {
+      "name": "1 apple",
+      "calories": 95,
+      "protein": 0.5,
+      "carbs": 25.0,
+      "fat": 0.3
+    },
+    {
+      "name": "1 orange",
+      "calories": 62,
+      "protein": 1.2,
+      "carbs": 15.4,
+      "fat": 0.2
+    },
+    {
+      "name": "1 cup milk",
+      "calories": 149,
+      "protein": 8.0,
+      "carbs": 12.0,
+      "fat": 8.0
+    },
+    {
+      "name": "1 slice bread",
+      "calories": 79,
+      "protein": 2.7,
+      "carbs": 13.0,
+      "fat": 1.1
+    },
+    {
+      "name": "1 egg",
+      "calories": 78,
+      "protein": 6.3,
+      "carbs": 0.6,
+      "fat": 5.3
+    },
+    {
+      "name": "1 cup sprouts",
+      "calories": 31,
+      "protein": 4.0,
+      "carbs": 6.0,
+      "fat": 0.4
+    },
+    {
+      "name": "1 cup salad",
+      "calories": 25,
+      "protein": 1.5,
+      "carbs": 5.0,
+      "fat": 0.2
+    }
+  ]
+}

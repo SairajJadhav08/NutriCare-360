@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useApi } from '../hooks/useApi'
 import React from 'react'
 import { useOutletContext } from 'react-router-dom'
@@ -10,16 +10,18 @@ export default function Prescriptions() {
   const [uploading, setUploading] = useState(false)
   const { globalSearch = '' } = useOutletContext() || {}
 
-  const fetchPrescriptions = async () => {
+  const fetchPrescriptions = useCallback(async () => {
     try {
       const data = await request('get', '/api/prescriptions')
       setPrescriptions(data.prescriptions)
-    } catch (e) {}
-  }
+    } catch (err) {
+      console.error(err)
+    }
+  }, [request])
 
   useEffect(() => {
     fetchPrescriptions()
-  }, [])
+  }, [fetchPrescriptions])
 
   const handleUpload = async (e) => {
     const file = e.target.files[0]
@@ -33,7 +35,7 @@ export default function Prescriptions() {
 
     try {
       // Direct axios call because useApi wrapper stringifies data by default
-      const res = await axios.post('/api/prescriptions', formData, {
+      await axios.post('/api/prescriptions', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       fetchPrescriptions()
@@ -51,7 +53,9 @@ export default function Prescriptions() {
       try {
         await request('delete', `/api/prescriptions/${id}`)
         fetchPrescriptions()
-      } catch (e) {}
+      } catch (err) {
+        console.error(err)
+      }
     }
   }
 

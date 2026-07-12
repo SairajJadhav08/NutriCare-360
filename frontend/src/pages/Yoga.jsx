@@ -14,10 +14,12 @@ export default function Yoga() {
       try {
         const data = await request('get', '/api/yoga/poses')
         setPoses(data.poses || [])
-      } catch (e) {}
+      } catch (err) {
+        console.error(err)
+      }
     }
     fetchPoses()
-  }, [])
+  }, [request])
 
   const categories = ['All', ...new Set(poses.map(p => p.category))]
   const filteredPoses = (activeCategory === 'All' 

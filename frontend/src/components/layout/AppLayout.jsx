@@ -5,6 +5,7 @@ import TopHeader from './TopHeader'
 import { FlashProvider, useFlash } from '../../context/FlashContext'
 import Toast from '../ui/Toast'
 import PrescriptionModal from '../ui/PrescriptionModal'
+import ErrorBoundary from '../ui/ErrorBoundary'
 
 function AppLayoutContent() {
   const [collapsed, setCollapsed] = useState(false)
@@ -51,7 +52,9 @@ function AppLayoutContent() {
             </button>
           </div>
         )}
-        <Outlet context={{ globalSearch }} />
+        <ErrorBoundary>
+          <Outlet context={{ globalSearch }} />
+        </ErrorBoundary>
       </main>
       {flash && <Toast message={flash.message} type={flash.type} onDismiss={clearFlash} />}
       {prescriptionModal && (

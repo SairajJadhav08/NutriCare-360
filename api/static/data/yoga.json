@@ -1,0 +1,186 @@
+{
+  "poses": [
+    {
+      "name": "Tadasana (Mountain Pose)",
+      "category": "Beginner",
+      "description": "The foundation of all standing poses. Tadasana improves posture, balance, and mental clarity while grounding your energy.",
+      "image_url": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop",
+      "steps": "1. Stand tall with feet hip-width apart\n2. Ground through all four corners of your feet\n3. Engage your leg muscles and lengthen your spine\n4. Relax your shoulders away from your ears\n5. Breathe deeply and hold for 30 seconds to 1 minute"
+    },
+    {
+      "name": "Surya Namaskara (Sun Salutation)",
+      "category": "Weight Loss",
+      "description": "A complete sequence of 12 poses that energizes the body, improves flexibility, and burns calories effectively.",
+      "image_url": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop",
+      "steps": "1. Pranamasana (Prayer pose)\n2. Hastauttanasana (Raised arms pose)\n3. Uttanasana (Standing forward bend)\n4. Ashwa Sanchalanasana (Equestrian pose)\n5. Dandasana (Stick pose)\n6. Ashtanga Namaskara (Salute with eight parts)\n7. Bhujangasana (Cobra pose)\n8. Adho Mukha Svanasana (Downward facing dog)\n9. Ashwa Sanchalanasana (Equestrian pose)\n10. Uttanasana (Standing forward bend)\n11. Hastauttanasana (Raised arms pose)\n12. Tadasana (Mountain pose)"
+    },
+    {
+      "name": "Padmasana (Lotus Pose)",
+      "category": "Stress Relief",
+      "description": "The classic meditation pose that calms the mind, improves concentration, and promotes spiritual awareness.",
+      "image_url": "https://images.unsplash.com/photo-1506629905607-c28b47d3e7b0?w=400&h=300&fit=crop",
+      "steps": "1. Sit cross-legged on the floor\n2. Place right foot on left thigh\n3. Place left foot on right thigh\n4. Keep spine straight and shoulders relaxed\n5. Rest hands on knees in mudra position\n6. Close eyes and focus on breath\n7. Hold for 5-20 minutes"
+    },
+    {
+      "name": "Balasana (Child's Pose)",
+      "category": "Stress Relief",
+      "description": "A gentle resting pose that helps calm the nervous system, relieve stress, and stretch the hips and thighs.",
+      "image_url": "https://images.unsplash.com/photo-1506629905607-c28b47d3e7b0?w=400&h=300&fit=crop",
+      "steps": "1. Kneel on the floor with big toes touching\n2. Sit back on your heels\n3. Separate your knees about hip-width apart\n4. Fold forward, extending your arms in front of you\n5. Rest your forehead on the mat\n6. Breathe deeply and hold for 1-3 minutes"
+    },
+    {
+      "name": "Vrikshasana (Tree Pose)",
+      "category": "Balance",
+      "description": "A standing balance pose that strengthens legs, improves focus, and cultivates inner stability and confidence.",
+      "image_url": "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=400&h=300&fit=crop",
+      "steps": "1. Stand in Tadasana (Mountain Pose)\n2. Shift weight to left foot\n3. Place right foot on inner left thigh or calf (avoid knee)\n4. Press foot into leg and leg into foot\n5. Bring palms together at heart center\n6. Focus on a fixed point ahead\n7. Hold for 30 seconds to 1 minute, then switch sides"
+    },
+    {
+      "name": "Bhujangasana (Cobra Pose)",
+      "category": "Back Pain",
+      "description": "A gentle backbend that strengthens the spine, opens the chest, and relieves lower back tension.",
+      "image_url": "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=400&h=300&fit=crop",
+      "steps": "1. Lie face down with forehead on mat\n2. Place palms under shoulders\n3. Press pubic bone into floor\n4. Slowly lift chest, using back muscles\n5. Keep shoulders away from ears\n6. Hold for 15-30 seconds\n7. Lower down slowly"
+    },
+    {
+      "name": "Adho Mukha Svanasana (Downward Dog)",
+      "category": "Strength",
+      "description": "An energizing inversion that strengthens arms and legs, stretches the spine, and calms the mind.",
+      "image_url": "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=400&h=300&fit=crop",
+      "steps": "1. Start on hands and knees\n2. Tuck your toes under\n3. Lift your hips up and back\n4. Straighten your legs as much as possible\n5. Press your hands firmly into the mat\n6. Create an inverted V-shape with your body\n7. Hold for 30 seconds to 1 minute"
+    },
+    {
+      "name": "Virabhadrasana I (Warrior I)",
+      "category": "Strength",
+      "description": "A powerful standing pose that builds leg strength, opens the hips, and cultivates courage and determination.",
+      "image_url": "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=400&h=300&fit=crop",
+      "steps": "1. Step your left foot back about 3-4 feet\n2. Turn your left foot out 45 degrees\n3. Bend your right knee over your ankle\n4. Square your hips toward the front\n5. Raise your arms overhead\n6. Hold for 30 seconds to 1 minute\n7. Repeat on the other side"
+    },
+    {
+      "name": "Ustrasana (Camel Pose)",
+      "category": "Heart Opening",
+      "description": "A deep backbend that opens the heart, strengthens the back, and improves spinal flexibility.",
+      "image_url": "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=400&h=300&fit=crop",
+      "steps": "1. Kneel with shins parallel to each other\n2. Place hands on lower back\n3. Engage core and lift chest\n4. Slowly reach for heels with hands\n5. Keep hips moving forward\n6. Drop head back gently\n7. Hold for 15-30 seconds\n8. Come up slowly"
+    },
+    {
+      "name": "Halasana (Plow Pose)",
+      "category": "Inversion",
+      "description": "An inversion that calms the nervous system, improves digestion, and stretches the spine and shoulders.",
+      "image_url": "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=400&h=300&fit=crop",
+      "steps": "1. Lie on back with arms by sides\n2. Lift legs to 90 degrees\n3. Support lower back with hands\n4. Slowly lower legs over head\n5. Touch toes to floor behind head\n6. Keep legs straight and together\n7. Hold for 30 seconds to 2 minutes\n8. Roll down slowly vertebra by vertebra"
+    },
+    {
+      "name": "Cat-Cow Stretch",
+      "category": "Stress Relief",
+      "description": "A gentle flow that warms the spine and releases tension in the back and neck.",
+      "image_url": "https://images.unsplash.com/photo-1506629905607-c28b47d3e7b0?w=400&h=300&fit=crop",
+      "steps": "1. Start on hands and knees in tabletop position\n2. Inhale, arch your back and look up (Cow)\n3. Exhale, round your spine and tuck your chin (Cat)\n4. Continue flowing between these positions\n5. Repeat 5-10 times with your breath"
+    },
+    {
+      "name": "Plank Pose",
+      "category": "Weight Loss",
+      "description": "A core-strengthening pose that builds stability and endurance throughout the entire body.",
+      "image_url": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop",
+      "steps": "1. Start in downward facing dog\n2. Shift forward so shoulders are over wrists\n3. Keep your body in a straight line\n4. Engage your core and leg muscles\n5. Hold for 15-60 seconds\n6. Lower to knees or return to downward dog"
+    },
+    {
+      "name": "Tree Pose",
+      "category": "Beginner",
+      "description": "A balancing pose that improves focus and strengthens the legs while promoting mental clarity.",
+      "image_url": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop",
+      "steps": "1. Stand in mountain pose\n2. Shift weight to your left foot\n3. Place right foot on inner left thigh or calf (avoid the knee)\n4. Press foot into leg and leg into foot\n5. Bring hands to prayer position at heart\n6. Hold for 30 seconds, then switch sides"
+    },
+    {
+      "name": "Paschimottanasana (Seated Forward Fold)",
+      "category": "Flexibility",
+      "description": "A calming forward fold that stretches the spine and hamstrings while promoting introspection and inner peace.",
+      "image_url": "https://images.unsplash.com/photo-1506629905607-c28b47d3e7b0?w=400&h=300&fit=crop",
+      "steps": "1. Sit with legs extended straight in front of you\n2. Sit up tall and lengthen your spine\n3. Hinge forward from your hips\n4. Reach for your feet or shins\n5. Keep your back straight as you fold\n6. Breathe deeply and hold for 30 seconds to 1 minute"
+    },
+    {
+      "name": "Virabhadrasana II (Warrior II)",
+      "category": "Strength",
+      "description": "A strong standing pose that builds endurance, concentration, and inner strength while opening the hips.",
+      "image_url": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop",
+      "steps": "1. Stand with feet wide apart\n2. Turn your right foot out 90 degrees\n3. Turn your left foot in slightly\n4. Bend your right knee over your ankle\n5. Extend your arms parallel to the floor\n6. Gaze over your right fingertips\n7. Hold for 30 seconds to 1 minute, then switch sides"
+    },
+    {
+      "name": "Matsyasana (Fish Pose)",
+      "category": "Heart Opening",
+      "description": "A heart-opening backbend that counteracts forward hunching, opens the throat chakra, and energizes the body.",
+      "image_url": "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=400&h=300&fit=crop",
+      "steps": "1. Lie on back with legs extended\n2. Place hands under hips, palms down\n3. Press forearms into floor\n4. Lift chest and arch back\n5. Rest crown of head on floor\n6. Keep most weight on forearms\n7. Hold for 15-30 seconds\n8. Lower down slowly"
+    },
+    {
+      "name": "Marichyasana (Marichi's Pose)",
+      "category": "Flexibility",
+      "description": "A seated twist that improves spinal mobility, aids digestion, and releases tension in the back and shoulders.",
+      "image_url": "https://images.unsplash.com/photo-1506629905607-c28b47d3e7b0?w=400&h=300&fit=crop",
+      "steps": "1. Sit with legs extended\n2. Bend right knee, place foot near left thigh\n3. Wrap left arm around right shin\n4. Place right hand behind you\n5. Twist spine to the right\n6. Keep both sitting bones grounded\n7. Hold for 30 seconds, then switch sides"
+    },
+    {
+      "name": "Legs Up the Wall",
+      "category": "Stress Relief",
+      "description": "A restorative pose that calms the nervous system and relieves tired legs and feet.",
+      "image_url": "https://images.unsplash.com/photo-1506629905607-c28b47d3e7b0?w=400&h=300&fit=crop",
+      "steps": "1. Lie on your back near a wall\n2. Scoot your sitting bones close to the wall\n3. Extend legs up the wall\n4. Rest arms by your sides\n5. Close your eyes and breathe deeply\n6. Hold for 5-15 minutes"
+    },
+    {
+      "name": "Twisted Triangle",
+      "category": "Weight Loss",
+      "description": "A twisting pose that aids digestion and detoxification while strengthening the legs.",
+      "image_url": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop",
+      "steps": "1. Stand with feet wide apart\n2. Turn right foot out 90 degrees\n3. Place left hand on right shin or floor\n4. Twist your torso and reach right arm up\n5. Keep both legs straight\n6. Hold for 30 seconds, then switch sides"
+    },
+    {
+      "name": "Happy Baby",
+      "category": "Stress Relief",
+      "description": "A playful pose that releases tension in the hips and lower back while calming the mind.",
+      "image_url": "https://images.unsplash.com/photo-1506629905607-c28b47d3e7b0?w=400&h=300&fit=crop",
+      "steps": "1. Lie on your back\n2. Draw knees toward your chest\n3. Grab the outside edges of your feet\n4. Open knees wider than your torso\n5. Gently rock side to side\n6. Hold for 30 seconds to 1 minute"
+    },
+    {
+      "name": "Sun Salutation A",
+      "category": "Weight Loss",
+      "description": "A flowing sequence that builds heat in the body and improves cardiovascular health.",
+      "image_url": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop",
+      "steps": "1. Mountain Pose - hands at heart center\n2. Inhale, sweep arms up\n3. Exhale, fold forward\n4. Inhale, half lift\n5. Exhale, step back to plank\n6. Lower to low push-up\n7. Inhale, cobra pose\n8. Exhale, downward dog\n9. Inhale, step forward\n10. Exhale, fold\n11. Inhale, rise to standing"
+    },
+    {
+      "name": "Corpse Pose",
+      "category": "Stress Relief",
+      "description": "The ultimate relaxation pose that allows complete rest and integration of your practice.",
+      "image_url": "https://images.unsplash.com/photo-1506629905607-c28b47d3e7b0?w=400&h=300&fit=crop",
+      "steps": "1. Lie flat on your back\n2. Let your feet fall open naturally\n3. Rest arms by your sides, palms up\n4. Close your eyes\n5. Relax every muscle in your body\n6. Focus on your breath\n7. Stay for 5-10 minutes"
+    },
+    {
+      "name": "Utthita Trikonasana (Triangle Pose)",
+      "category": "Flexibility",
+      "description": "A fundamental standing pose that stretches the sides of the body, strengthens legs, and improves balance.",
+      "image_url": "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=400&h=300&fit=crop",
+      "steps": "1. Stand with feet wide apart\n2. Turn your right foot out 90 degrees\n3. Reach your right hand toward the floor\n4. Place your hand on your shin, ankle, or a block\n5. Extend your left arm toward the ceiling\n6. Keep both sides of your waist long\n7. Hold for 30 seconds to 1 minute, then switch sides"
+    },
+    {
+      "name": "Setu Bandhasana (Bridge Pose)",
+      "category": "Back Pain",
+      "description": "A gentle backbend that strengthens the back, glutes, and hamstrings while opening the chest and heart.",
+      "image_url": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop",
+      "steps": "1. Lie on your back with knees bent\n2. Place feet hip-width apart, close to your glutes\n3. Press feet down and lift your hips\n4. Interlace fingers under your back\n5. Keep knees parallel\n6. Hold for 30 seconds to 1 minute"
+    },
+    {
+      "name": "Sirsasana (Headstand)",
+      "category": "Advanced",
+      "description": "The king of all poses that improves circulation, strengthens core, and brings mental clarity and focus.",
+      "image_url": "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=400&h=300&fit=crop",
+      "steps": "1. Kneel and place forearms on floor\n2. Interlace fingers, create cup for head\n3. Place crown of head in hands\n4. Tuck toes, lift hips up\n5. Walk feet closer to elbows\n6. Slowly lift legs up\n7. Engage core, keep legs straight\n8. Hold for 30 seconds to 5 minutes\n9. Lower down slowly"
+    },
+    {
+      "name": "Savasana (Corpse Pose)",
+      "category": "Relaxation",
+      "description": "The final relaxation pose that allows complete rest and integration of the yoga practice benefits.",
+      "image_url": "https://images.unsplash.com/photo-1506629905607-c28b47d3e7b0?w=400&h=300&fit=crop",
+      "steps": "1. Lie flat on your back\n2. Let feet fall open naturally\n3. Place arms by sides, palms up\n4. Close your eyes\n5. Relax every muscle in your body\n6. Focus on natural breath\n7. Stay present and aware\n8. Rest for 5-15 minutes"
+    }
+  ]
+}

@@ -1,8 +1,7 @@
-import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
-export default function Sidebar({ collapsed, onToggle }) {
+export default function Sidebar({ collapsed }) {
   const { user, logout } = useAuth()
 
   return (
