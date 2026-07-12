@@ -5,7 +5,11 @@
       "destination": "/api/index.py"
     },
     {
-      "source": "/(apidocs.*)",
+      "source": "/apidocs",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/apidocs/(.*)",
       "destination": "/api/index.py"
     },
     {
