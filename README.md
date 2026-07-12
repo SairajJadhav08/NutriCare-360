@@ -7,6 +7,11 @@
 [![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite)](https://sqlite.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38BDF8?logo=tailwindcss)](https://tailwindcss.com)
 
+> **🔗 Quick Links**
+> * 🚀 **[Live Demo](https://sairajjadhav08.github.io/NutriCare-360/)**
+> * 📖 **[Case Study](docs/CASE_STUDY.md)**
+> * 📚 **[API Documentation](docs/API.md)** *(Interactive Swagger UI available at `/apidocs` when running backend locally)*
+
 ---
 
 ## What it does
