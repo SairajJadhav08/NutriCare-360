@@ -964,7 +964,8 @@ def get_yoga_poses():
     except FileNotFoundError:
         return jsonify({'error': 'Yoga data not found. Set RAPIDAPI_KEY in .env or add static/data/yoga.json'}), 404
 
+# Initialize DB for Vercel Serverless environment
+init_db()
 
 if __name__ == '__main__':
-    init_db()
     app.run(debug=True, port=5000)
