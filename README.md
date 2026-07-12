@@ -8,9 +8,9 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38BDF8?logo=tailwindcss)](https://tailwindcss.com)
 
 > **🔗 Quick Links**
-> * 🚀 **[Live Demo](https://sairajjadhav08.github.io/NutriCare-360/)**
+> * 🚀 **[Live Demo](https://nutri-care-360-uspy.vercel.app/)**
 > * 📖 **[Case Study](docs/CASE_STUDY.md)**
-> * 📚 **[API Documentation](docs/API.md)** *(Interactive Swagger UI available at `/apidocs` when running backend locally)*
+> * 📚 **[API Documentation](docs/API.md)** *(Interactive Swagger UI available at `https://nutri-care-360-uspy.vercel.app/apidocs`)*
 
 ---
 

@@ -1,8 +1,8 @@
 # Case Study: NutriCare-360
 
 > **🔗 Quick Links**
-> * 🚀 **[Live Demo](https://nutricare-360.vercel.app)** *(Replace with your actual Vercel URL)*
-> * 📖 **[Interactive API Docs (Swagger)](https://nutricare-360.vercel.app/apidocs)** *(Replace with live docs URL)*
+> * 🚀 **[Live Demo](https://nutri-care-360-uspy.vercel.app/)**
+> * 📖 **[Interactive API Docs (Swagger)](https://nutri-care-360-uspy.vercel.app/apidocs)**
 > * 💻 **[Source Code & README](../README.md)**
 
 ## The Problem
