@@ -11,7 +11,6 @@
 > * 🚀 **[Live Demo](https://nutri-care-360.vercel.app/)**
 > * 📖 **[Case Study](docs/CASE_STUDY.md)**
 > * 📚 **[API Documentation](docs/API.md)**
-
 ---
 
 ## What it does

@@ -116,3 +116,38 @@ DB_PATH = os.path.join(VOLUME_MOUNT, 'nutricare360.db')
 
 * **State Management:** Secure authentication is implemented via **JWT Tokens (JSON Web Tokens)** stored in secure contexts, featuring a custom `useApi` hook to inject Authorization headers and handle expired sessions gracefully.
 * **Interactive API Playground:** Integrated **Flasgger (Swagger OpenAPI 3.0)** directly inside the Flask server. Developers can explore the backend endpoints, parameter schemas, and test responses interactively at `/apidocs`.
+
+---
+
+<!-- Mermaid JS support for live docs rendering -->
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: false });
+  
+  const convertBlocks = async () => {
+    // Find all blocks representing mermaid diagrams
+    const blocks = document.querySelectorAll(
+      'pre code.language-mermaid, pre.language-mermaid, div.language-mermaid pre, code.language-mermaid'
+    );
+    
+    for (const block of blocks) {
+      const code = block.textContent.trim();
+      const container = block.closest('.language-mermaid') || block.closest('pre') || block;
+      
+      const newDiv = document.createElement('div');
+      newDiv.className = 'mermaid';
+      newDiv.textContent = code;
+      
+      container.parentNode.replaceChild(newDiv, container);
+    }
+    
+    await mermaid.run();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', convertBlocks);
+  } else {
+    convertBlocks();
+  }
+</script>
+
