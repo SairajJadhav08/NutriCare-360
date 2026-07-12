@@ -5,6 +5,18 @@
       "destination": "/api/index.py"
     },
     {
+      "source": "/apidocs",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/apispec.json",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/flasgger_static/(.*)",
+      "destination": "/api/index.py"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

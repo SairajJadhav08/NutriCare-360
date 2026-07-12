@@ -4,6 +4,7 @@ from flask_jwt_extended import (
     create_refresh_token, get_jwt_identity, get_jwt, verify_jwt_in_request
 )
 from flask_cors import CORS
+from flasgger import Swagger
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
@@ -31,6 +32,51 @@ app.config['MAX_CONTENT_LENGTH']              = 16 * 1024 * 1024
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 jwt = JWTManager(app)
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+# ── Swagger / Flasgger ───────────────────────────────────────────────
+swagger_config = {
+    "headers": [],
+    "specs": [{"endpoint": "apispec", "route": "/apispec.json", "rule_filter": lambda rule: True, "model_filter": lambda tag: True}],
+    "static_url_path": "/flasgger_static",
+    "swagger_ui": True,
+    "specs_route": "/apidocs",
+}
+
+swagger_template = {
+    "swagger": "2.0",
+    "info": {
+        "title": "NutriCare-360 API",
+        "description": (
+            "REST API for NutriCare-360 — a personal health management platform.\n\n"
+            "**Auth:** All protected endpoints require `Authorization: Bearer <access_token>`.\n\n"
+            "Obtain tokens via `POST /api/login`."
+        ),
+        "version": "1.0.0",
+        "contact": {"name": "Sairaj Jadhav", "url": "https://github.com/SairajJadhav08"},
+    },
+    "basePath": "/",
+    "schemes": ["http", "https"],
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter: **Bearer &lt;token&gt;**",
+        }
+    },
+    "security": [{"Bearer": []}],
+    "tags": [
+        {"name": "Auth",        "description": "Register, login, token refresh, password change"},
+        {"name": "Settings",    "description": "User preferences — calorie goal"},
+        {"name": "Dashboard",   "description": "Aggregated health stats"},
+        {"name": "Reminders",   "description": "Medicine reminders and daily adherence tracking"},
+        {"name": "Prescriptions","description": "Secure prescription file storage"},
+        {"name": "Nutrition",   "description": "Food search, AI meal analysis, and intake log"},
+        {"name": "Yoga",        "description": "Exercise and yoga pose library"},
+    ],
+}
+
+Swagger(app, config=swagger_config, template=swagger_template)
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'pdf'}
 
@@ -110,6 +156,26 @@ def uploaded_file(filename):
 
 @app.route('/api/register', methods=['POST'])
 def register():
+    """
+    Create a new user account.
+    ---
+    tags: [Auth]
+    security: []
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required: [username, password]
+          properties:
+            username: {type: string, example: sairaj}
+            password: {type: string, example: secret123}
+    responses:
+      201: {description: Account created}
+      400: {description: Validation error}
+      409: {description: Username already taken}
+    """
     data     = request.get_json() or {}
     username = data.get('username', '').strip()
     password = data.get('password', '')
@@ -130,6 +196,32 @@ def register():
 
 @app.route('/api/login', methods=['POST'])
 def login():
+    """
+    Authenticate and receive JWT tokens.
+    ---
+    tags: [Auth]
+    security: []
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required: [username, password]
+          properties:
+            username: {type: string, example: sairaj}
+            password: {type: string, example: secret123}
+    responses:
+      200:
+        description: Login successful
+        schema:
+          type: object
+          properties:
+            access_token:  {type: string}
+            refresh_token: {type: string}
+            username:      {type: string}
+      401: {description: Invalid credentials}
+    """
     data     = request.get_json() or {}
     username = data.get('username', '').strip()
     password = data.get('password', '')
@@ -152,6 +244,20 @@ def login():
 @app.route('/api/refresh', methods=['POST'])
 @jwt_required(refresh=True)
 def refresh():
+    """
+    Get a new access token using a refresh token.
+    ---
+    tags: [Auth]
+    security:
+      - Bearer: []
+    responses:
+      200:
+        description: New access token
+        schema:
+          properties:
+            access_token: {type: string}
+      401: {description: Invalid or expired refresh token}
+    """
     identity = get_jwt_identity()
     claims   = {'username': get_jwt().get('username', '')}
     new_token = create_access_token(identity=identity, additional_claims=claims)
@@ -161,12 +267,43 @@ def refresh():
 @app.route('/api/me')
 @jwt_required()
 def me():
+    """
+    Get the currently authenticated user.
+    ---
+    tags: [Auth]
+    responses:
+      200:
+        description: Current user info
+        schema:
+          properties:
+            id:       {type: integer}
+            username: {type: string}
+    """
     return jsonify({'id': int(get_jwt_identity()), 'username': get_jwt().get('username', '')})
 
 
 @app.route('/api/me/password', methods=['PUT'])
 @jwt_required()
 def change_password():
+    """
+    Change the authenticated user's password.
+    ---
+    tags: [Auth]
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required: [current_password, new_password]
+          properties:
+            current_password: {type: string, example: old_password}
+            new_password:     {type: string, example: new_secure_pass}
+    responses:
+      200: {description: Password updated}
+      400: {description: New password too short}
+      401: {description: Current password incorrect}
+    """
     uid  = int(get_jwt_identity())
     data = request.get_json() or {}
     current  = data.get('current_password', '')
@@ -190,6 +327,17 @@ def change_password():
 @app.route('/api/settings', methods=['GET'])
 @jwt_required()
 def get_settings():
+    """
+    Get the user's settings (calorie goal).
+    ---
+    tags: [Settings]
+    responses:
+      200:
+        description: User settings
+        schema:
+          properties:
+            calorie_goal: {type: integer, example: 2000}
+    """
     uid  = int(get_jwt_identity())
     conn = get_db()
     row  = conn.execute('SELECT * FROM user_settings WHERE user_id=?', (uid,)).fetchone()
@@ -200,6 +348,26 @@ def get_settings():
 @app.route('/api/settings', methods=['PUT'])
 @jwt_required()
 def update_settings():
+    """
+    Update the user's calorie goal.
+    ---
+    tags: [Settings]
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            calorie_goal: {type: integer, example: 2200, minimum: 500, maximum: 10000}
+    responses:
+      200:
+        description: Settings saved
+        schema:
+          properties:
+            calorie_goal: {type: integer}
+      400: {description: Value out of range}
+    """
     uid  = int(get_jwt_identity())
     data = request.get_json() or {}
     goal = data.get('calorie_goal', 2000)
@@ -226,6 +394,21 @@ def update_settings():
 @app.route('/api/dashboard-stats')
 @jwt_required()
 def dashboard_stats():
+    """
+    Get aggregated health stats for the dashboard.
+    ---
+    tags: [Dashboard]
+    responses:
+      200:
+        description: Stats summary
+        schema:
+          properties:
+            reminders:     {type: integer}
+            prescriptions: {type: integer}
+            nutrition:     {type: integer}
+            yoga_streak:   {type: integer, description: Active days in last 7 days}
+            last_active:   {type: string, example: "2026-07-10"}
+    """
     uid  = int(get_jwt_identity())
     conn = get_db()
     r = conn.execute('SELECT COUNT(*) FROM reminders WHERE user_id=?', (uid,)).fetchone()[0]
@@ -254,6 +437,27 @@ def dashboard_stats():
 @app.route('/api/reminders', methods=['GET'])
 @jwt_required()
 def get_reminders():
+    """
+    List all reminders for the current user.
+    ---
+    tags: [Reminders]
+    responses:
+      200:
+        description: Reminder list
+        schema:
+          properties:
+            reminders:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:          {type: integer}
+                  medicine:    {type: string}
+                  dosage:      {type: string}
+                  time:        {type: string, example: "08:00"}
+                  frequency:   {type: string, example: "Once Daily"}
+                  taken_today: {type: boolean}
+    """
     uid  = int(get_jwt_identity())
     conn = get_db()
     rows = conn.execute('SELECT * FROM reminders WHERE user_id=? ORDER BY created_at DESC', (uid,)).fetchall()
@@ -275,6 +479,26 @@ def get_reminders():
 @app.route('/api/reminders', methods=['POST'])
 @jwt_required()
 def add_reminder():
+    """
+    Add a new medicine reminder.
+    ---
+    tags: [Reminders]
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required: [medicine, dosage, time, frequency]
+          properties:
+            medicine:  {type: string, example: Lisinopril}
+            dosage:    {type: string, example: 10mg}
+            time:      {type: string, example: "08:00"}
+            frequency: {type: string, example: "Once Daily", enum: ["Once Daily","Twice Daily","Weekly","As Needed"]}
+    responses:
+      201: {description: Reminder added}
+      400: {description: Missing required field}
+    """
     uid  = int(get_jwt_identity())
     data = request.get_json() or {}
     for f in ['medicine', 'dosage', 'time', 'frequency']:
@@ -293,6 +517,30 @@ def add_reminder():
 @app.route('/api/reminders/<int:rid>', methods=['PUT'])
 @jwt_required()
 def update_reminder(rid):
+    """
+    Update an existing reminder.
+    ---
+    tags: [Reminders]
+    parameters:
+      - in: path
+        name: rid
+        type: integer
+        required: true
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required: [medicine, dosage, time, frequency]
+          properties:
+            medicine:  {type: string}
+            dosage:    {type: string}
+            time:      {type: string}
+            frequency: {type: string}
+    responses:
+      200: {description: Reminder updated}
+      404: {description: Not found}
+    """
     uid  = int(get_jwt_identity())
     data = request.get_json() or {}
     for f in ['medicine', 'dosage', 'time', 'frequency']:
@@ -314,6 +562,18 @@ def update_reminder(rid):
 @app.route('/api/reminders/<int:rid>', methods=['DELETE'])
 @jwt_required()
 def delete_reminder(rid):
+    """
+    Delete a reminder and its taken log.
+    ---
+    tags: [Reminders]
+    parameters:
+      - in: path
+        name: rid
+        type: integer
+        required: true
+    responses:
+      200: {description: Reminder deleted}
+    """
     uid = int(get_jwt_identity())
     conn = get_db()
     conn.execute('DELETE FROM reminder_taken_log WHERE reminder_id=? AND user_id=?', (rid, uid))
@@ -326,6 +586,23 @@ def delete_reminder(rid):
 @app.route('/api/reminders/<int:rid>/taken', methods=['POST'])
 @jwt_required()
 def mark_taken(rid):
+    """
+    Toggle today's taken status for a reminder.
+    ---
+    tags: [Reminders]
+    parameters:
+      - in: path
+        name: rid
+        type: integer
+        required: true
+    responses:
+      200:
+        description: Toggled taken status
+        schema:
+          properties:
+            taken: {type: boolean, description: true = marked taken, false = unmarked}
+      404: {description: Reminder not found}
+    """
     uid  = int(get_jwt_identity())
     conn = get_db()
     if not conn.execute('SELECT id FROM reminders WHERE id=? AND user_id=?', (rid, uid)).fetchone():
@@ -356,6 +633,25 @@ def mark_taken(rid):
 @app.route('/api/prescriptions', methods=['GET'])
 @jwt_required()
 def get_prescriptions():
+    """
+    List all uploaded prescriptions.
+    ---
+    tags: [Prescriptions]
+    responses:
+      200:
+        description: Prescription list
+        schema:
+          properties:
+            prescriptions:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:                {type: integer}
+                  filename:          {type: string, description: UUID filename on disk}
+                  original_filename: {type: string}
+                  upload_date:       {type: string}
+    """
     uid  = int(get_jwt_identity())
     conn = get_db()
     rows = conn.execute('SELECT * FROM prescriptions WHERE user_id=? ORDER BY upload_date DESC', (uid,)).fetchall()
@@ -530,6 +826,27 @@ def delete_nutrition_history(hid):
 @app.route('/api/nutrition/analyze', methods=['POST'])
 @jwt_required()
 def nutrition_analyze():
+    """
+    Analyze a meal using AI (Groq).
+    ---
+    tags: [Nutrition]
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required: [meal]
+          properties:
+            meal: {type: string, example: "2 eggs and toast"}
+    responses:
+      200: {description: Macro breakdown}
+      400: {description: Missing meal description}
+      502: {description: AI parsing error}
+      503: {description: AI not configured}
+    """
     data  = request.get_json() or {}
     meal  = (data.get('meal') or '').strip()
     if not meal:
