@@ -3,8 +3,8 @@
 <img src="screenshots/logo.png" width="220" alt="NutriCare-360 Logo" style="display: block; margin: 0 auto 20px auto;" />
 
 > **🔗 Quick Links**
-> * 🚀 **[Live Demo](https://nutri-care-360-uspy.vercel.app/)**
-> * 📖 **[Interactive API Docs (Swagger)](https://nutri-care-360-uspy.vercel.app/apidocs)**
+> * 🚀 **[Live Demo](https://nutri-care-360.vercel.app/)**
+> * 📖 **[Interactive API Docs (Swagger)](https://nutri-care-360.vercel.app/apidocs)**
 > * 💻 **[Source Code & README](../README.md)**
 
 ---
