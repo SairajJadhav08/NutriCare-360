@@ -1,6 +1,5 @@
 # Case Study: NutriCare-360
-
-![NutriCare-360 Logo](screenshots/logo.png)
+<img src="screenshots/logo.png" width="300" alt="NutriCare-360 Logo" />
 
 > **🔗 Quick Links**
 > * 🚀 **[Live Demo](https://nutri-care-360-uspy.vercel.app/)**
