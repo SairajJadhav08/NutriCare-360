@@ -1,5 +1,7 @@
 # Case Study: NutriCare-360
 
+![NutriCare-360 Logo](screenshots/logo.png)
+
 > **🔗 Quick Links**
 > * 🚀 **[Live Demo](https://nutri-care-360-uspy.vercel.app/)**
 > * 📖 **[Interactive API Docs (Swagger)](https://nutri-care-360-uspy.vercel.app/apidocs)**
@@ -9,7 +11,9 @@
 Managing personal health is often disjointed. Users typically need separate apps for tracking nutrition, managing daily medication reminders, storing medical prescriptions, and learning fitness/yoga routines. This fragmentation leads to poor adherence to health routines and a lack of a holistic view of one's well-being. Furthermore, tracking nutrition manually by searching databases can be tedious, leading to user drop-off.
 
 ## The Solution
-**NutriCare-360** was built to unify these disparate health tracking needs into a single, cohesive, and modern platform. By leveraging a single source of truth, users can seamlessly transition between reviewing their macro-nutrients and logging their daily medications. 
+**NutriCare-360** was built to unify these disparate health tracking needs into a single, cohesive, and modern platform. By leveraging a single source of truth, users can seamlessly transition between reviewing their macro-nutrients and logging their daily medications.
+
+![Dashboard Preview](screenshots/dashboard.png)
 
 To solve the friction of manual food logging, we integrated Groq's blazing-fast LLMs to power an **AI Meal Analyzer**. This allows users to describe their meal in natural language (e.g., *"2 eggs and a glass of milk"*) and instantly receive estimated macronutrient breakdowns.
 
@@ -29,7 +33,21 @@ The frontend is powered by **React 19** and **Vite**.
 ### 3. Graceful Fallbacks
 A major design goal was resilience. The app integrates with several external APIs (Open Food Facts, ExerciseDB, Groq). If an API key is missing or an external service goes down, the application elegantly falls back to local curated JSON datasets (e.g., `static/data/yoga.json`), ensuring the user experience is never fundamentally broken.
 
-## Outcomes
+![Yoga Module](screenshots/yoga.png)
+
+## Outcomes & Features
 - **Unified Experience:** Users now have a singular dashboard (with shareable Health Cards) that provides a 360-degree view of their health.
 - **Frictionless Logging:** The AI Meal Analyzer reduced the average time to log a multi-item meal from ~45 seconds (manual search) to under 3 seconds.
 - **Developer Experience:** The inclusion of live Swagger documentation and a unified code style has made the codebase highly approachable for future contributors.
+
+### AI Meal Analyzer in Action
+Users simply type natural language (e.g., "2 scrambled eggs") and the system parses it into macro-nutrients instantly, letting them add it to their daily log with one click.
+
+![AI Meal Analysis](screenshots/nutrition_ai.png)
+![Food Log Detail](screenshots/nutrition_log.png)
+
+### Medicine Reminders & User Profile
+The platform lets users set recurring medicine logs and configure their goals or download their personalized Health Card from the profile page.
+
+![Reminders Screen](screenshots/reminders.png)
+![Profile Settings](screenshots/profile.png)
