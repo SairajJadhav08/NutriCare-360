@@ -1,52 +1,118 @@
 # Case Study: NutriCare-360
-<img src="screenshots/logo.png" width="300" alt="NutriCare-360 Logo" />
+
+<img src="screenshots/logo.png" width="220" alt="NutriCare-360 Logo" style="display: block; margin: 0 auto 20px auto;" />
 
 > **🔗 Quick Links**
 > * 🚀 **[Live Demo](https://nutri-care-360-uspy.vercel.app/)**
 > * 📖 **[Interactive API Docs (Swagger)](https://nutri-care-360-uspy.vercel.app/apidocs)**
 > * 💻 **[Source Code & README](../README.md)**
 
-## The Problem
-Managing personal health is often disjointed. Users typically need separate apps for tracking nutrition, managing daily medication reminders, storing medical prescriptions, and learning fitness/yoga routines. This fragmentation leads to poor adherence to health routines and a lack of a holistic view of one's well-being. Furthermore, tracking nutrition manually by searching databases can be tedious, leading to user drop-off.
+---
 
-## The Solution
-**NutriCare-360** was built to unify these disparate health tracking needs into a single, cohesive, and modern platform. By leveraging a single source of truth, users can seamlessly transition between reviewing their macro-nutrients and logging their daily medications.
+## 1. Executive Summary
+
+**NutriCare-360** is a comprehensive, full-stack personal health and wellness ecosystem. It consolidates historically fragmented tasks—such as tracking daily nutrition, managing medicine schedules, storing prescription files, and learning fitness/yoga routines—into a single, high-fidelity dashboard. 
+
+By integrating state-of-the-art AI-driven meal analysis (powered by Groq and LLaMA) and utilizing a hybrid deployment strategy on Vercel, the platform delivers a fast, resilient, and responsive user experience. 
+
+---
+
+## 2. System Architecture
+
+The application is built using a modern decoupled architecture: a **Vite + React 19** frontend, and a **Python Flask** serverless backend. Data persistence is managed via an optimized **SQLite** database, dynamically configured for serverless runtime restrictions.
+
+```mermaid
+graph TD
+    User([User / Web Browser]) <--> |HTTPS / JSON| Frontend[Vite + React 19 Frontend]
+    
+    subgraph Vercel Cloud Platform
+        Frontend <--> |API Routes / Rewrites| VercelRouting{Vercel Router}
+        VercelRouting --> |/api/* & /apidocs| Backend[Flask Serverless Backend /api/index.py]
+        VercelRouting --> |Static Assets| StaticHost[Vercel Edge CDN]
+        Backend <--> |Read/Write| DB[(SQLite DB /tmp/nutricare360.db)]
+    end
+
+    subgraph External APIs
+        Backend <--> |AI Prompts| Groq[Groq LLaMA 3.3 API]
+        Backend <--> |Food Lookup| OFF[Open Food Facts API]
+        Backend <--> |Exercises| ExDB[ExerciseDB API]
+    end
+    
+    style Frontend fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#fff
+    style Backend fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff
+    style DB fill:#0f172a,stroke:#e2e8f0,stroke-width:2px,color:#fff
+    style Groq fill:#312e81,stroke:#6366f1,stroke-width:1px,color:#fff
+```
+
+### Key Architectural Layers:
+* **Frontend:** React 19 utilizing custom contexts for global state (Auth, Theme, Toast notifications) and Tailwind CSS + Custom CSS for glassmorphism.
+* **Serverless Backend:** Flask routes handled as Vercel serverless functions, translating requests and interfacing with third-party APIs.
+* **Database Management:** SQLite used directly. To satisfy Vercel's ephemeral and read-only container structure, the database is dynamically initialized in `/tmp/` on container cold starts, with key configuration schemas bootstrapped programmatically.
+
+---
+
+## 3. Core Features & Interface Showcase
+
+### 📊 Consolidated Health Dashboard
+A central hub that gives users an immediate status report of their active medicine reminders, prescriptions uploaded, today's caloric intake progress, and yoga activity streak. 
 
 ![Dashboard Preview](screenshots/dashboard.png)
 
-To solve the friction of manual food logging, we integrated Groq's blazing-fast LLMs to power an **AI Meal Analyzer**. This allows users to describe their meal in natural language (e.g., *"2 eggs and a glass of milk"*) and instantly receive estimated macronutrient breakdowns.
+---
 
-## Key Technical Decisions
-
-### 1. Hybrid Backend Architecture
-We chose **Python with Flask and SQLite** for the backend. 
-- **Local Development:** `backend/app.py` serves as a standard Flask application, complete with interactive Swagger OpenAPI documentation (via Flasgger) to ensure easy developer onboarding and API exploration.
-- **Production Deployment:** We utilized Vercel's Serverless Functions via `api/index.py`. By mirroring the core application logic into a serverless handler, we achieved infinite scalability and zero-maintenance hosting without sacrificing the relational integrity of our SQLite database.
-
-### 2. Frontend React 19 Ecosystem
-The frontend is powered by **React 19** and **Vite**. 
-- **Styling:** Custom CSS combined with Tailwind CSS provides a highly customized, premium feel with glass-morphism and smooth micro-animations.
-- **State Management:** We opted for native React Context (`AuthContext`, `ThemeContext`, `FlashContext`) to keep the bundle size small and avoid the boilerplate of heavy state management libraries like Redux. 
-- **Data Fetching:** A custom `useApi` hook wraps Axios to automatically handle JWT injection, session expiration, and error formatting, streamlining data fetching across all components.
-
-### 3. Graceful Fallbacks
-A major design goal was resilience. The app integrates with several external APIs (Open Food Facts, ExerciseDB, Groq). If an API key is missing or an external service goes down, the application elegantly falls back to local curated JSON datasets (e.g., `static/data/yoga.json`), ensuring the user experience is never fundamentally broken.
-
-![Yoga Module](screenshots/yoga.png)
-
-## Outcomes & Features
-- **Unified Experience:** Users now have a singular dashboard (with shareable Health Cards) that provides a 360-degree view of their health.
-- **Frictionless Logging:** The AI Meal Analyzer reduced the average time to log a multi-item meal from ~45 seconds (manual search) to under 3 seconds.
-- **Developer Experience:** The inclusion of live Swagger documentation and a unified code style has made the codebase highly approachable for future contributors.
-
-### AI Meal Analyzer in Action
-Users simply type natural language (e.g., "2 scrambled eggs") and the system parses it into macro-nutrients instantly, letting them add it to their daily log with one click.
+### 🪄 AI-Powered Meal Analyzer (Groq Integration)
+Instead of searching databases for ingredients one-by-one, users can type their entire meal in plain English. The backend utilizes **Groq's LLaMA-3.3-70b-versatile model** to extract structured macronutrient estimates (Calories, Carbs, Protein, Fat) and returns a JSON payload that can be saved directly to the log with a single click.
 
 ![AI Meal Analysis](screenshots/nutrition_ai.png)
 ![Food Log Detail](screenshots/nutrition_log.png)
 
-### Medicine Reminders & User Profile
-The platform lets users set recurring medicine logs and configure their goals or download their personalized Health Card from the profile page.
+---
+
+### ⏰ Smart Medicine Reminders
+Allows users to build custom medication schedules with dosage, frequency, and time. Features a daily "mark-as-taken" log and dynamically tracks adherence stats.
 
 ![Reminders Screen](screenshots/reminders.png)
+
+---
+
+### 🧘 Yoga & Curated Fitness Library
+An exercise posing guide featuring category filters, step-by-step instructions, and visuals. Integrates Evolution/ExerciseDB APIs, with a robust local fallback system.
+
+![Yoga Module](screenshots/yoga.png)
+
+---
+
+### ⚙️ Customizable Profiles & Health Cards
+Users can change their daily caloric targets, update credentials, and generate a dynamic **Health Card** (canvas-rendered PNG) summarizing their health details for quick sharing with doctors.
+
 ![Profile Settings](screenshots/profile.png)
+
+---
+
+## 4. Technical Challenges & Engineering Solutions
+
+### Challenge A: SQLite Write Constraints in Serverless Containers
+**The Problem:** Vercel functions run in read-only sandboxes. Placing the SQLite database inside the deployed project directory caused `sqlite3.ReadOnlyError: attempt to write a readonly database` when users tried to register or save logs.
+**The Solution:** Implemented dynamic environment checks. If running in a Vercel production container, the app mounts the database path (`DB_PATH`) to the `/tmp/` directory (the only writable directory in AWS Lambda/Vercel serverless containers).
+```python
+if os.environ.get('VERCEL') == '1' or os.environ.get('VERCEL_ENV'):
+    VOLUME_MOUNT = '/tmp'
+else:
+    VOLUME_MOUNT = BASE_DIR
+DB_PATH = os.path.join(VOLUME_MOUNT, 'nutricare360.db')
+```
+
+### Challenge B: Initializing Database Schema without Terminal Access
+**The Problem:** Because serverless containers boot up on-demand (cold starts), the database in `/tmp/` is initially empty, causing query crashes because tables like `users` or `reminders` do not exist.
+**The Solution:** Moved the database initialization logic (`init_db()`) to the module level in the Flask entrypoint. This guarantees that every cold start immediately bootstraps the database schema in `/tmp/` before processing any incoming HTTP requests, eliminating database access failures.
+
+### Challenge C: Robust Third-Party API Fallbacks
+**The Problem:** Network instability or rate-limiting of free API tiers (like ExerciseDB on RapidAPI) can break core features like the Yoga and Fitness library.
+**The Solution:** Implemented defensive code patterns. The API layer wraps external requests in try-except blocks and automatically falls back to curated static JSON assets stored in `api/static/data/` if external APIs are unconfigured or fail.
+
+---
+
+## 5. Security & Development Experience (DX)
+
+* **State Management:** Secure authentication is implemented via **JWT Tokens (JSON Web Tokens)** stored in secure contexts, featuring a custom `useApi` hook to inject Authorization headers and handle expired sessions gracefully.
+* **Interactive API Playground:** Integrated **Flasgger (Swagger OpenAPI 3.0)** directly inside the Flask server. Developers can explore the backend endpoints, parameter schemas, and test responses interactively at `/apidocs`.
