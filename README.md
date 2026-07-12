@@ -10,7 +10,7 @@
 > **🔗 Quick Links**
 > * 🚀 **[Live Demo](https://nutri-care-360-uspy.vercel.app/)**
 > * 📖 **[Case Study](docs/CASE_STUDY.md)**
-> * 📚 **[API Documentation](docs/API.md)** *(Interactive Swagger UI available at `https://nutri-care-360-uspy.vercel.app/apidocs`)*
+> * 📚 **[API Documentation](docs/API.md)**
 
 ---
 
