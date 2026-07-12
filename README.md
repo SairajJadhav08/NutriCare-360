@@ -8,7 +8,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38BDF8?logo=tailwindcss)](https://tailwindcss.com)
 
 > **🔗 Quick Links**
-> * 🚀 **[Live Demo](https://nutri-care-360-uspy.vercel.app/)**
+> * 🚀 **[Live Demo](https://nutri-care-360.vercel.app/)**
 > * 📖 **[Case Study](docs/CASE_STUDY.md)**
 > * 📚 **[API Documentation](docs/API.md)**
 
