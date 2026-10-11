@@ -91,15 +91,23 @@ Valid range: 500 – 10 000.
 ## Dashboard
 
 ### `GET /api/dashboard-stats` 🔒
+Everything the Today page shows. The same snapshot is the context the AI features read.
 ```json
 {
-  "reminders": 3,
+  "reminders": 4,
   "prescriptions": 2,
-  "nutrition": 14,
-  "yoga_streak": 5,
-  "last_active": "2026-07-10"
+  "nutrition": 23,
+  "yoga_streak": 3,
+  "last_active": "2026-10-11",
+  "calorie_goal": 2100,
+  "today": { "calories": 950, "protein": 57, "carbs": 104, "fat": 33, "entries": 3,
+             "items": ["Oatmeal with banana and honey", "Masala chai", "Grilled chicken salad"] },
+  "week": [ { "date": "2026-10-05", "calories": 1585, "protein": 61, "carbs": 210, "fat": 52 } ],
+  "meds_today": [ { "id": 1, "medicine": "Metformin", "dosage": "500 mg", "time": "08:00",
+                    "frequency": "Twice Daily", "taken_today": true } ]
 }
 ```
+`week` always has 7 entries (oldest first, zero-filled). `yoga_streak` counts days with at least one dose taken in the last 7.
 
 ---
 
@@ -175,17 +183,24 @@ Tries Open Food Facts first, falls back to `static/data/nutrition.json`.
 ---
 
 ### `POST /api/nutrition/analyze` 🔒 *(requires GROQ_API_KEY)*
-AI macro estimation from a natural language description.
+Splits a plain-English meal into items and estimates each one.
 ```json
-{ "meal": "2 scrambled eggs, whole wheat toast, glass of orange juice" }
+{ "meal": "2 scrambled eggs, a slice of whole wheat toast with butter, and a black coffee" }
 ```
-**Response**
+**Response `200`**
 ```json
 {
-  "result": { "name": "Egg Breakfast", "calories": 420, "protein": 22, "carbs": 45, "fat": 14 }
+  "items": [
+    { "name": "2 scrambled eggs", "calories": 100, "protein": 12, "carbs": 1, "fat": 10, "fiber": 0 },
+    { "name": "1 slice whole wheat toast with 1 tsp butter", "calories": 106, "protein": 3, "carbs": 12, "fat": 5, "fiber": 2 },
+    { "name": "1 cup black coffee", "calories": 2, "protein": 0, "carbs": 0, "fat": 0, "fiber": 0 }
+  ],
+  "result": { "name": "Breakfast", "calories": 208, "protein": 15, "carbs": 13, "fat": 15, "fiber": 2 },
+  "assumptions": "Assumed large eggs, one 28 g slice of bread, 5 g butter and 240 ml coffee.",
+  "tip": "Add a piece of fruit or some vegetables for extra fiber."
 }
 ```
-Returns `503` if `GROQ_API_KEY` is not set.
+`result` holds the totals (kept for older clients). `422` if the text is not food · `429` when the AI service is rate-limited · `502` on an AI error · `503` if `GROQ_API_KEY` is not set.
 
 ---
 
@@ -214,21 +229,107 @@ Query params:
 ## Yoga
 
 ### `GET /api/yoga/poses` 🔒
-Returns pose list. Uses ExerciseDB if `RAPIDAPI_KEY` is set, otherwise `static/data/yoga.json`.
+Pose library. Uses ExerciseDB if `RAPIDAPI_KEY` is set and reachable, otherwise `static/data/yoga.json`.
+Card-level facts (`level`, `met`, `focus`) are attached from `yoga_details.json` when the pose has an entry (otherwise `null`).
 
 ```json
 {
   "poses": [
     {
-      "name": "Downward Dog",
-      "category": "Core & Flexibility",
-      "description": "Targets hamstrings using bodyweight.",
+      "slug": "bhujangasana-cobra-pose",
+      "name": "Bhujangasana (Cobra Pose)",
+      "category": "Back Pain",
+      "description": "A gentle backbend that strengthens the spine...",
       "image_url": "https://...",
-      "steps": ["Start on hands and knees", "Push hips up and back", "Hold for 30 seconds"]
+      "steps": ["Lie face down with forehead on mat", "Place palms under shoulders"],
+      "level": "Beginner", "met": 2.5, "focus": ["Spinal Extensors", "Chest (Pectoralis)", "Shoulders (Deltoids)"]
     }
   ]
 }
 ```
+
+---
+
+### `GET /api/yoga/poses/:slug/details` 🔒
+Full reference guide for one pose. Lookup order: the reviewed file `static/data/yoga_details.json`, then the
+`pose_details` cache table, then generated once with Groq, validated, cached and returned.
+```json
+{
+  "source": "library",
+  "details": {
+    "name": "Bhujangasana (Cobra Pose)", "sanskrit": "Bhujangasana", "english": "Cobra Pose",
+    "summary": "Cobra Pose is a gentle backbend performed while lying prone...",
+    "level": "Beginner", "met": 2.5, "hold": "30 seconds", "hold_seconds": 30,
+    "focus_muscles": ["Spinal Extensors", "Chest (Pectoralis)", "Shoulders (Deltoids)"],
+    "benefits": ["Improves spinal flexibility", "Opens the thoracic cavity"],
+    "steps": [ { "text": "Place your hands on the mat directly under your shoulders", "breath": "Inhale" } ],
+    "breathing": "Maintain smooth, even breaths, inhaling to lift and exhaling to lower.",
+    "common_mistakes": [ { "mistake": "Lifting mainly with the arms", "fix": "Lead the rise with the back muscles" } ],
+    "easier": ["Keep elbows bent more and lift only a few inches"], "harder": ["..."],
+    "props": ["Yoga block under the chest to reduce the lift height"],
+    "avoid_if": ["Recent spinal injury or surgery", "Severe osteoporosis"],
+    "pairs_with": ["Balasana (Child's Pose)"]
+  }
+}
+```
+`source` is `library` (reviewed file), `cache` or `generated`. Calories in the app use the ACSM formula
+`kcal/min = met × 3.5 × kg / 200`. `404` unknown pose · `503` not in the file and no `GROQ_API_KEY`.
+
+---
+
+## AI
+
+All AI routes share one Groq helper (JSON mode with a validated fallback). Errors use the standard shape with
+`429` (rate-limited), `502` (AI error) or `503` (not configured).
+
+### `GET /api/ai/status` 🔒
+```json
+{ "enabled": true, "model": "openai/gpt-oss-120b" }
+```
+The frontend uses this to hide or disable AI surfaces when no key is configured.
+
+### `GET /api/ai/insights` 🔒 · `POST /api/ai/insights` 🔒
+`GET` returns today's cached brief (or `null`); `POST` writes a new one from the user's logs and caches it.
+```json
+{
+  "generated_at": "2026-10-11 07:07:00",
+  "brief": {
+    "summary": "You have logged a light breakfast and have 1,150 kcal remaining today.",
+    "insights": [
+      { "title": "Protein below target", "detail": "57 g so far...", "tone": "watch", "area": "nutrition" }
+    ],
+    "next_meal": { "name": "Grilled salmon with quinoa", "why": "Adds protein...",
+                   "calories": 560, "protein": 38, "carbs": 45, "fat": 22 }
+  }
+}
+```
+`tone` is `positive` | `watch` | `tip`; `area` is `nutrition` | `medication` | `habits`. `generated_at` is UTC.
+
+### `POST /api/ai/chat` 🔒
+Assistant reply grounded in the user's logs (the last 12 messages are sent).
+```json
+{ "messages": [ { "role": "user", "content": "How am I doing on protein today?" } ] }
+```
+```json
+{ "reply": "- **Protein today:** 57 g of a 105 g target..." }
+```
+The system prompt forbids diagnosis and medication or dose changes, and directs urgent symptoms to emergency services.
+
+### `POST /api/ai/yoga-routine` 🔒
+```json
+{ "goal": "Ease lower back stiffness after sitting all day", "minutes": 15, "level": "Beginner" }
+```
+```json
+{
+  "routine": {
+    "title": "Gentle Lower Back Relief", "summary": "...", "caution": "",
+    "goal": "Ease lower back stiffness...", "level": "Beginner", "total_minutes": 15,
+    "steps": [ { "name": "Cat-Cow Stretch", "category": "Stress Relief", "image_url": "...",
+                 "minutes": 3, "cue": "Inhale arch, exhale round, move with breath" } ]
+  }
+}
+```
+Every step is validated against the pose library; unknown pose names are dropped.
 
 ---
 
@@ -239,4 +340,4 @@ All errors follow this shape:
 { "error": "Human-readable message" }
 ```
 
-HTTP status codes used: `200 201 400 401 403 404 409 502 503`
+HTTP status codes used: `200 201 400 401 403 404 409 422 429 502 503`

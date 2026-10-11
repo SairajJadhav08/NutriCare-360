@@ -1,325 +1,290 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
-import React from 'react'
+import ResponsiveImg from '../components/ui/ResponsiveImg'
+import Logo from '../components/ui/Logo'
+import '../styles/landing.css'
 
 export default function Landing() {
   const { user } = useAuth()
   const { theme, toggle } = useTheme()
+  const start = user ? '/dashboard' : '/register'
+
+  return (
+    <div className="lp">
+      <LandingNav user={user} theme={theme} onToggleTheme={toggle} />
+
+      <header className="lp-hero lp-wrap">
+        <div className="lp-hero-text">
+          <p className="eyebrow">Personal health tracker</p>
+          <h1>Meals, medications and movement, in one calm place.</h1>
+          <p className="lp-lead">
+            Tell it what you ate in plain words and get the macros. Tick off each dose as you take it.
+            Get a short daily read on how you're doing, written from your own logs.
+          </p>
+          <div className="row gap-sm wrap">
+            <Link to={start} className="btn btn-primary btn-lg">{user ? 'Open your dashboard' : 'Create a free account'}</Link>
+            <a href="#features" className="btn btn-secondary btn-lg">See how it works</a>
+          </div>
+          <p className="lp-fine">Free · No ads · Your data stays in your account</p>
+        </div>
+
+        <div className="lp-hero-media">
+          <ResponsiveImg base="/images/hero" widths={[640, 1024]} width={1024} height={1024} priority
+            sizes="(max-width: 960px) min(520px, calc(100vw - 2rem)), 540px"
+            alt="A woman checking her daily health summary on her phone" />
+          <div className="lp-float lp-float-hero" aria-hidden="true">
+            <p className="lp-float-label">Today</p>
+            <div className="lp-mini-ring">
+              <svg viewBox="0 0 44 44" width="44" height="44">
+                <circle cx="22" cy="22" r="18" fill="none" stroke="var(--track)" strokeWidth="5" />
+                <circle cx="22" cy="22" r="18" fill="none" stroke="var(--primary)" strokeWidth="5" strokeLinecap="round"
+                  strokeDasharray="70 113" transform="rotate(-90 22 22)" />
+              </svg>
+              <div>
+                <p className="lp-float-big">1,240 <span>/ 2,000 kcal</span></p>
+                <p className="lp-float-sub">2 of 3 medications taken</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section id="features" className="lp-features lp-wrap">
+        <FeatureRow
+          id="nutrition"
+          image="/images/feature-meal"
+          eyebrow="Nutrition"
+          title="Describe a meal. Get the numbers."
+          text="Type “two scrambled eggs, toast with butter, black coffee” and each item comes back with calories, protein, carbs and fat. Untick anything you didn't eat, then log the rest in one tap. Prefer exact labels? Search the Open Food Facts database instead."
+          overlay={
+            <div className="lp-card">
+              <p className="lp-card-q">“2 scrambled eggs, toast with butter, coffee”</p>
+              <table className="lp-card-table">
+                <tbody>
+                  <tr><td>2 scrambled eggs</td><td>182 kcal</td></tr>
+                  <tr><td>Toast with butter</td><td>106 kcal</td></tr>
+                  <tr><td>Black coffee</td><td>2 kcal</td></tr>
+                </tbody>
+              </table>
+              <p className="lp-card-total">Log 3 items · 290 kcal</p>
+            </div>
+          }
+        />
+        <FeatureRow
+          reverse
+          id="medications"
+          image="/images/feature-meds"
+          eyebrow="Medications"
+          title="A checklist for every dose."
+          text="Add each medication with its dose and time. Your Today page turns it into a checklist, sorted by time, so it's obvious what's left. Prescriptions live alongside, as photos or PDFs you can pull up at the pharmacy."
+          overlay={
+            <ul className="lp-card lp-checklist">
+              <li className="done"><span>8:00 AM</span>Metformin 500 mg<i className="fa-solid fa-check" /></li>
+              <li className="done"><span>9:00 AM</span>Vitamin D 1000 IU<i className="fa-solid fa-check" /></li>
+              <li><span>8:00 PM</span>Metformin 500 mg<i className="fa-regular fa-circle" /></li>
+            </ul>
+          }
+        />
+        <FeatureRow
+          id="yoga"
+          image="/images/feature-yoga"
+          eyebrow="Yoga"
+          title="A routine for the time you have."
+          text="Pick a goal, such as lower back relief or winding down for sleep, and a length. You get a sequence from the pose library in a safe order, with a cue for each pose and a timer to follow along."
+          overlay={
+            <ol className="lp-card lp-routine">
+              <li><span>3 min</span>Cat-Cow Stretch</li>
+              <li><span>3 min</span>Cobra Pose</li>
+              <li><span>4 min</span>Bridge Pose</li>
+              <li><span>5 min</span>Savasana</li>
+            </ol>
+          }
+        />
+      </section>
+
+      <section id="included" className="lp-more lp-wrap">
+        <h2>Also in the app</h2>
+        <div className="lp-more-grid">
+          <div>
+            <i className="fa-regular fa-newspaper" />
+            <h3>Daily brief</h3>
+            <p>Three observations about today's meals and doses, plus an idea for your next meal that fits what's left.</p>
+          </div>
+          <div>
+            <i className="fa-regular fa-comment-dots" />
+            <h3>Assistant</h3>
+            <p>Ask questions about your own week. It reads your logs, keeps answers short, and never tells you to change a dose.</p>
+          </div>
+          <div>
+            <i className="fa-solid fa-chart-column" />
+            <h3>Weekly view</h3>
+            <p>Calories per day against your goal, with averages that only count the days you actually logged.</p>
+          </div>
+          <div>
+            <i className="fa-regular fa-id-card" />
+            <h3>Health card</h3>
+            <p>Export a one-image summary of your week to share with a coach, dietitian or family member.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="lp-cta lp-wrap">
+        <div>
+          <h2>Start with today's breakfast.</h2>
+          <p>Log one meal and one medication, and the dashboard takes it from there.</p>
+        </div>
+        <Link to={start} className="btn btn-primary btn-lg">{user ? 'Open your dashboard' : 'Create a free account'}</Link>
+      </section>
+
+      <LandingFooter user={user} />
+    </div>
+  )
+}
+
+function FeatureRow({ id, image, eyebrow, title, text, overlay, reverse }) {
+  const [imgOk, setImgOk] = useState(true)
+  return (
+    <article id={id} className={`lp-row${reverse ? ' reverse' : ''}`}>
+      <div className="lp-row-text">
+        <p className="eyebrow">{eyebrow}</p>
+        <h2>{title}</h2>
+        <p>{text}</p>
+      </div>
+      <div className={`lp-row-media${imgOk ? '' : ' no-img'}`}>
+        {imgOk && (
+          <ResponsiveImg base={image} widths={[640, 1200]} width={1200} height={900}
+            sizes="(max-width: 960px) calc(100vw - 2rem), 600px" onError={() => setImgOk(false)} />
+        )}
+        <div className="lp-row-overlay">{overlay}</div>
+      </div>
+    </article>
+  )
+}
+
+const NAV_LINKS = [
+  { href: '#nutrition', label: 'Nutrition' },
+  { href: '#medications', label: 'Medications' },
+  { href: '#yoga', label: 'Yoga' },
+  { href: '#included', label: "What's included" },
+]
+
+/** Full-width bar at the top of the page; condenses into a floating pill once you scroll. */
+function LandingNav({ user, theme, onToggleTheme }) {
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    // Add landing-page class to body for specific background
-    document.body.classList.add('landing-page')
-    return () => document.body.classList.remove('landing-page')
+    let frame = 0
+    const update = () => {
+      frame = 0
+      setScrolled(window.scrollY > 24)
+    }
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update) }
+    update() // page may be restored mid-scroll
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(frame) }
   }, [])
 
   return (
-    <div className="landing-page">
-      {/* Navbar */}
-      <nav className="landing-nav">
-        <div className="landing-container nav-container">
-          <Link to="/" className="logo">
-            <i className="fa-solid fa-heart-pulse"></i>
-            <span>NutriCare-360</span>
-          </Link>
-
-          <div className="nav-links">
-            <button onClick={toggle} className="icon-btn theme-toggle" aria-label="Toggle theme">
-              <i className={theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'}></i>
-            </button>
-            {user ? (
-              <Link to="/dashboard" className="btn btn-primary">Dashboard</Link>
-            ) : (
-              <>
-                <Link to="/login" className="btn btn-outline">Log in</Link>
-                <Link to="/register" className="btn btn-primary">Sign up</Link>
-              </>
-            )}
-          </div>
+    <nav className={`lp-nav${scrolled ? ' is-scrolled' : ''}`} aria-label="Main">
+      <div className="lp-nav-bar">
+        <Link to="/" className="brand-inline" aria-label="NutriCare-360 home">
+          <Logo size={32} />
+        </Link>
+        <div className="lp-nav-links">
+          {NAV_LINKS.map(l => <a key={l.href} href={l.href}>{l.label}</a>)}
         </div>
-      </nav>
+        <div className="lp-nav-actions">
+          <button onClick={onToggleTheme} className="btn btn-ghost btn-icon btn-sm" aria-label="Toggle theme">
+            <i className={theme === 'dark' ? 'fa-regular fa-sun' : 'fa-regular fa-moon'} />
+          </button>
+          {user ? (
+            <Link to="/dashboard" className="btn btn-primary btn-sm lp-pill-btn">Open app</Link>
+          ) : (
+            <>
+              <Link to="/login" className="btn btn-ghost btn-sm hide-xs">Log in</Link>
+              <Link to="/register" className="btn btn-primary btn-sm lp-pill-btn">Get started</Link>
+            </>
+          )}
+        </div>
+      </div>
+    </nav>
+  )
+}
 
-      {/* Hero Section */}
-      <section className="hero-section">
-        {/* Background Orbs */}
-        <div className="hero-orb hero-orb-1"></div>
-        <div className="hero-orb hero-orb-2"></div>
-        <div className="hero-orb hero-orb-3"></div>
+const SOCIALS = [
+  { href: 'https://github.com/SairajJadhav08', icon: 'fa-github', label: 'GitHub' },
+  { href: 'https://www.linkedin.com/in/sairaj-jadhav-/', icon: 'fa-linkedin-in', label: 'LinkedIn' },
+  { href: 'https://www.instagram.com/sairajjadhav08/', icon: 'fa-instagram', label: 'Instagram' },
+]
 
-        <div className="hero-inner">
-          <div className="animate-fade-up" style={{ '--delay': '0ms' }}>
-            <div className="hero-badge">
-              <span className="badge-dot"></span>
-              NutriCare-360 is live
-            </div>
-          </div>
-
-          <h1 className="hero-title animate-fade-up" style={{ '--delay': '100ms' }}>
-            Your Complete <br />
-            <span className="gradient-text">Health Operating System</span>
-          </h1>
-
-          <p className="hero-subtitle animate-fade-up" style={{ '--delay': '200ms' }}>
-            Manage medications, track nutrition, and discover curated yoga routines all in one place. <span className="hide-mobile">The professional approach to your personal well-being.</span>
-          </p>
-
-          <div className="hero-buttons animate-fade-up" style={{ '--delay': '300ms' }}>
-            <Link to={user ? "/dashboard" : "/register"} className="btn btn-primary btn-lg">
-              Start Building Habits
+function LandingFooter({ user }) {
+  return (
+    <footer className="lp-footer">
+      <div className="lp-wrap">
+        <div className="lp-footer-top">
+          <div className="lp-footer-brand">
+            <Link to="/" className="brand-inline" aria-label="NutriCare-360 home">
+              <Logo size={36} />
             </Link>
-            <a href="#features" className="btn-outline-hero">
-              <i className="fa-regular fa-compass"></i> Explore platform
-            </a>
+            <p>
+              A personal tracker for meals, medications and movement, with an assistant
+              that works from your own logs.
+            </p>
+            <div className="lp-social">
+              {SOCIALS.map(s => (
+                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}>
+                  <i className={`fa-brands ${s.icon}`} />
+                </a>
+              ))}
+            </div>
           </div>
 
-          <div className="hero-banner-wrapper animate-fade-up" style={{ '--delay': '450ms' }}>
-            <div className="hero-banner-frame">
-              {/* Browser framing */}
-              <div className="hero-frame-bar">
-                <div className="hero-frame-dots">
-                  <div className="dot dot-red"></div>
-                  <div className="dot dot-yellow"></div>
-                  <div className="dot dot-green"></div>
-                </div>
-                <div className="hero-frame-url">
-                  <i className="fa-solid fa-lock"></i>
-                  <span>app.nutricare360.com</span>
-                </div>
-              </div>
-
-              {/* Main Banner Image inside frame */}
-              <div className="hero-banner-img-wrap">
-                {/* Note: In a real React app we'd use import or public folder for images */}
-                <img src="/hero_banner.png" alt="NutriCare-360 App Interface" className="hero-banner-img" />
-                <div className="hero-banner-overlay"></div>
-                
-                {/* Floating Chips */}
-                <div className="hero-chip hero-chip-tl animate-chip" style={{ '--chip-delay': '800ms' }}>
-                  <div className="chip-icon chip-icon-red"><i className="fa-solid fa-heart-pulse"></i></div>
-                  <div className="chip-info">
-                    <span className="chip-val">72 bpm</span>
-                    <span className="chip-label">Resting</span>
-                  </div>
-                </div>
-
-                <div className="hero-chip hero-chip-tr animate-chip" style={{ '--chip-delay': '950ms' }}>
-                  <div className="chip-icon chip-icon-green"><i className="fa-solid fa-pills"></i></div>
-                  <div className="chip-info">
-                    <span className="chip-val">Meds</span>
-                    <span className="chip-label">Taken</span>
-                  </div>
-                </div>
-
-                <div className="hero-chip hero-chip-bl animate-chip" style={{ '--chip-delay': '1100ms' }}>
-                  <div className="chip-icon chip-icon-orange"><i className="fa-solid fa-fire"></i></div>
-                  <div className="chip-info">
-                    <span className="chip-val">12 Days</span>
-                    <span className="chip-label">Streak</span>
-                  </div>
-                </div>
-
-                <div className="hero-chip hero-chip-br animate-chip" style={{ '--chip-delay': '1250ms' }}>
-                  <div className="chip-icon chip-icon-purple"><i className="fa-solid fa-apple-whole"></i></div>
-                  <div className="chip-info">
-                    <span className="chip-val">Nutrition</span>
-                    <span className="chip-label">Optimal</span>
-                  </div>
-                </div>
-              </div>
+          <div className="lp-footer-cols">
+            <div>
+              <h3>Product</h3>
+              <ul>
+                <li><a href="#nutrition">Meal logging</a></li>
+                <li><a href="#medications">Medication checklist</a></li>
+                <li><a href="#yoga">Yoga routines</a></li>
+                <li><a href="#included">Daily brief & assistant</a></li>
+              </ul>
             </div>
-
-            {/* Bento Grid inserted closely below */}
-            <div className="hero-bento">
-              
-              {/* Wide Card 1 */}
-              <div className="bento-card bento-card-wide">
-                <i className="fa-solid fa-chart-line bento-bg-icon"></i>
-                <div className="bento-icon-wrap bento-icon-green">
-                  <i className="fa-solid fa-users"></i>
-                </div>
-                <div className="bento-main">
-                  <div className="bento-number">10K+</div>
-                  <div className="bento-desc">Active users tracking their daily health goals.</div>
-                </div>
-                <div className="bento-mini-chart">
-                  <svg viewBox="0 0 200 40" preserveAspectRatio="none">
-                    <path d="M0,40 L0,30 C20,30 40,35 60,25 C80,15 100,20 120,10 C140,0 160,15 180,5 L200,8 L200,40 Z" fill="url(#grad1)" opacity="0.2"></path>
-                    <path d="M0,30 C20,30 40,35 60,25 C80,15 100,20 120,10 C140,0 160,15 180,5 L200,8" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"></path>
-                    <defs>
-                      <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#22c55e" stopOpacity="1" />
-                        <stop offset="100%" stopColor="#22c55e" stopOpacity="0" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                </div>
-              </div>
-
-              {/* Med Card */}
-              <div className="bento-card bento-card-med">
-                <i className="fa-solid fa-bullseye bento-bg-icon"></i>
-                <div className="bento-icon-wrap bento-icon-orange">
-                  <i className="fa-regular fa-calendar-check"></i>
-                </div>
-                <div className="bento-number small">95%</div>
-                <div className="bento-desc">Medication adherence rate.</div>
-                <span className="bento-tag">Industry Leading</span>
-              </div>
-
-              {/* Center Card */}
-              <div className="bento-card bento-card-center">
-                <i className="fa-solid fa-star bento-bg-icon"></i>
-                <div className="bento-center-icon">
-                  🚀
-                </div>
-                <div className="bento-number small">4.9</div>
-                <div className="bento-stars">
-                  <i className="fa-solid fa-star"></i>
-                  <i className="fa-solid fa-star"></i>
-                  <i className="fa-solid fa-star"></i>
-                  <i className="fa-solid fa-star"></i>
-                  <i className="fa-solid fa-star"></i>
-                </div>
-                <div className="bento-desc">App Rating</div>
-              </div>
-
-              {/* Phone Card */}
-              <div className="bento-card bento-card-phone">
-                <i className="fa-solid fa-person-praying bento-bg-icon"></i>
-                <div className="bento-phone-top">
-                  <div className="bento-icon-wrap bento-icon-purple">
-                    <i className="fa-solid fa-om"></i>
-                  </div>
-                  <div className="bento-phone-text">
-                    <span className="bento-number small">22+</span>
-                  </div>
-                </div>
-                <div className="bento-desc">Curated yoga routines for mindfulness.</div>
-                <div className="bento-progress-wrap">
-                  <div className="bento-progress-label"><span>Focus</span> <span>100%</span></div>
-                  <div className="bento-progress-bar"><div className="bento-progress-fill" style={{ width: '100%' }}></div></div>
-                </div>
-              </div>
-
-              {/* Wide Card 2 */}
-              <div className="bento-card bento-card-wide2">
-                <i className="fa-solid fa-file-prescription bento-bg-icon"></i>
-                <div className="bento-left">
-                  <div className="bento-icon-wrap bento-icon-red">
-                    <i className="fa-solid fa-file-medical"></i>
-                  </div>
-                  <div className="bento-number small" data-counter="500000">500K+</div>
-                  <div className="bento-desc">Prescriptions securely managed & tracked.</div>
-                </div>
-                <div className="bento-right-graphic">
-                  <div className="bento-pill-stack">
-                    <div className="bento-pill pill-1"><i className="fa-solid fa-check-circle"></i> Lisinopril 10mg</div>
-                    <div className="bento-pill pill-2"><i className="fa-solid fa-check-circle"></i> Metformin 500mg</div>
-                    <div className="bento-pill pill-3"><i className="fa-regular fa-clock"></i> Atorvastatin</div>
-                  </div>
-                </div>
-              </div>
-
+            <div>
+              <h3>Account</h3>
+              <ul>
+                {user ? (
+                  <>
+                    <li><Link to="/dashboard">Open dashboard</Link></li>
+                    <li><Link to="/profile">Profile & goals</Link></li>
+                  </>
+                ) : (
+                  <>
+                    <li><Link to="/register">Create an account</Link></li>
+                    <li><Link to="/login">Log in</Link></li>
+                  </>
+                )}
+              </ul>
+            </div>
+            <div>
+              <h3>Project</h3>
+              <ul>
+                <li><a href="/apidocs" target="_blank" rel="noopener noreferrer">API reference</a></li>
+                <li><a href="https://github.com/SairajJadhav08" target="_blank" rel="noopener noreferrer">Source on GitHub</a></li>
+              </ul>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Features Section */}
-      <section id="features" className="features-section">
-        <div className="features-header animate-fade-up">
-          <h2 className="features-title">Powerful Features</h2>
-          <p className="features-subtitle">Everything you need to manage your health effectively in one place.</p>
+        <div className="lp-footer-bottom">
+          <p>© {new Date().getFullYear()} NutriCare-360 · Built by Sairaj Jadhav</p>
+          <p>Not a medical device. Always follow your clinician's advice.</p>
+          <a href="#top" className="lp-top-link" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>
+            Back to top <i className="fa-solid fa-arrow-up" />
+          </a>
         </div>
-        <div className="features-grid">
-          <div className="feature-card animate-fade-up" style={{'--delay': '100ms'}}>
-            <div className="feature-icon"><i className="fa-solid fa-bell"></i></div>
-            <h3 className="feature-title">Medicine Reminders</h3>
-            <p className="feature-desc">Never miss a dose again with our intelligent reminder system. Set custom schedules and receive timely notifications.</p>
-          </div>
-          <div className="feature-card animate-fade-up" style={{'--delay': '200ms'}}>
-            <div className="feature-icon"><i className="fa-solid fa-file-prescription"></i></div>
-            <h3 className="feature-title">Prescription Storage</h3>
-            <p className="feature-desc">Securely store and organize all your prescriptions in one place. Upload images and access them anytime.</p>
-          </div>
-          <div className="feature-card animate-fade-up" style={{'--delay': '300ms'}}>
-            <div className="feature-icon"><i className="fa-solid fa-chart-line"></i></div>
-            <h3 className="feature-title">Health Tracking</h3>
-            <p className="feature-desc">Monitor your health progress with comprehensive tracking tools. Keep tabs on medication adherence and metrics.</p>
-          </div>
-          <div className="feature-card animate-fade-up" style={{'--delay': '400ms'}}>
-            <div className="feature-icon"><i className="fa-solid fa-apple-whole"></i></div>
-            <h3 className="feature-title">Nutrition Guide</h3>
-            <p className="feature-desc">Access comprehensive nutrition information and maintain a balanced diet for optimal health.</p>
-          </div>
-          <div className="feature-card animate-fade-up" style={{'--delay': '500ms'}}>
-            <div className="feature-icon"><i className="fa-solid fa-person-praying"></i></div>
-            <h3 className="feature-title">Yoga & Wellness</h3>
-            <p className="feature-desc">Explore yoga routines and wellness practices designed to improve your physical and mental well-being.</p>
-          </div>
-          <div className="feature-card animate-fade-up" style={{'--delay': '600ms'}}>
-            <div className="feature-icon"><i className="fa-solid fa-shield-halved"></i></div>
-            <h3 className="feature-title">Secure & Private</h3>
-            <p className="feature-desc">Your health data is protected with enterprise-grade security. Your privacy is our top priority.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="cta-section">
-        <div className="cta-content animate-fade-up">
-          <h2 className="cta-title">Ready to Transform Your Health?</h2>
-          <p className="cta-subtitle">Join thousands of users who trust NutriCare-360 to manage their health effectively.</p>
-          <Link to={user ? "/dashboard" : "/register"} className="btn btn-primary btn-lg">
-            Get Started Free
-          </Link>
-        </div>
-      </section>
-
-      {/* Professional Footer */}
-      <footer className="footer-professional">
-        <div className="footer-top">
-          <div className="footer-brand-section">
-            <Link to="/" className="logo footer-logo">
-              <i className="fa-solid fa-heart-pulse"></i>
-              <span>NutriCare-360</span>
-            </Link>
-            <p className="footer-tagline">The professional approach to your personal well-being. Manage medications, track nutrition, and discover curated yoga routines.</p>
-            <div className="footer-socials">
-              <a href="https://www.instagram.com/sairajjadhav08/" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Instagram"><i className="fa-brands fa-instagram"></i></a>
-              <a href="https://github.com/SairajJadhav08" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="GitHub"><i className="fa-brands fa-github"></i></a>
-              <a href="https://www.linkedin.com/in/sairaj-jadhav-/" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="LinkedIn"><i className="fa-brands fa-linkedin-in"></i></a>
-            </div>
-          </div>
-          <div className="footer-links-grid">
-            <div className="footer-column">
-              <h4>Platform</h4>
-              <Link to="#">Features</Link>
-              <Link to="#">Integrations</Link>
-              <Link to="#">FAQ</Link>
-            </div>
-            <div className="footer-column">
-              <h4>Company</h4>
-              <Link to="#">About Us</Link>
-              <Link to="#">Careers</Link>
-              <Link to="#">Blog</Link>
-              <Link to="#">Contact</Link>
-            </div>
-            <div className="footer-column">
-              <h4>Legal</h4>
-              <Link to="#">Privacy Policy</Link>
-              <Link to="#">Terms of Service</Link>
-              <Link to="#">Cookie Policy</Link>
-            </div>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <div className="footer-copyright">
-            © {new Date().getFullYear()} NutriCare-360. All rights reserved.
-          </div>
-        </div>
-      </footer>
-    </div>
+      </div>
+    </footer>
   )
 }

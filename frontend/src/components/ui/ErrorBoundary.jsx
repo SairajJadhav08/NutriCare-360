@@ -35,7 +35,7 @@ export default class ErrorBoundary extends React.Component {
               <button className="btn btn-primary" onClick={this.handleReset}>
                 <i className="fa-solid fa-rotate-right"></i> Try Again
               </button>
-              <button className="btn btn-outline" onClick={() => window.location.href = '/dashboard'}>
+              <button className="btn btn-secondary" onClick={() => window.location.href = '/dashboard'}>
                 <i className="fa-solid fa-house"></i> Go to Dashboard
               </button>
             </div>

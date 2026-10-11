@@ -1,16 +1,37 @@
-# React + Vite
+# NutriCare-360 — frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React 19 + Vite single-page app. See the [root README](../README.md) for the full project.
 
-Currently, two official plugins are available:
+## Scripts
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Command | What it does |
+|---|---|
+| `npm run dev` | Dev server on http://localhost:5173, proxying `/api` to `http://localhost:5000` (override with `API_PROXY=...`) |
+| `npm run build` | Production build into `dist/` (each page is its own chunk) |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | ESLint |
+| `npm test` | Vitest |
+| `python scripts/optimize_images.py` | Rebuild WebP images, favicons, app icons and the share image from `image-sources/` |
 
-## React Compiler
+## Layout
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```
+src/
+├── pages/          One component per route, lazy-loaded
+├── components/
+│   ├── ai/         Assistant drawer, daily brief, meal analyzer, routine builder
+│   ├── charts/     Calorie ring, macro bars, 7-day bars (plain SVG)
+│   ├── layout/     App shell, sidebar, top bar, auth layout
+│   ├── ui/         Logo, modal, toast, empty state, responsive images
+│   └── yoga/       Pose detail view
+├── context/        Auth, theme, flash messages, assistant
+├── hooks/          useApi, useAiStatus
+├── lib/format.js   Dates, numbers, macro targets, pose image paths
+└── styles/         index.css (design tokens + app), landing.css
+```
 
-## Expanding the ESLint configuration
+## Conventions
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Styling:** CSS custom properties in `src/styles/index.css` (`:root` for light, `.dark-theme` for dark). Sizes are in `rem`; the root is 110% on screens 1200px and wider.
+- **Images:** never put full-size files in `public/`. Add originals to `image-sources/` and run the optimizer; render them with `ResponsiveImg` so phones download the small variant.
+- **AI surfaces:** check `useAiStatus()` and show the "not configured" state when the backend has no `GROQ_API_KEY`.

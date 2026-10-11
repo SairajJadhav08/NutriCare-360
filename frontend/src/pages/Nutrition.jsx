@@ -1,332 +1,254 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useApi } from '../hooks/useApi'
-import React from 'react'
-import { useOutletContext } from 'react-router-dom'
+import { Link, useOutletContext } from 'react-router-dom'
+import axios from 'axios'
+import { useFlash } from '../context/FlashContext'
+import { useAiStatus } from '../hooks/useAiStatus'
+import { fmt, timeOf, dayLabel } from '../lib/format'
+import MealAnalyzer from '../components/ai/MealAnalyzer'
+import CalorieRing from '../components/charts/CalorieRing'
+import MacroBars from '../components/charts/MacroBars'
+import EmptyState from '../components/ui/EmptyState'
 
-const PERIODS = ['Today', 'Week', 'All']
+const PERIODS = [
+  { key: 'today', label: 'Today' },
+  { key: 'week',  label: '7 days' },
+  { key: 'all',   label: 'All' },
+]
 
 export default function Nutrition() {
-  const { request, loading, error, setError } = useApi()
-  const [query, setQuery]               = useState('')
-  const [searchResults, setSearchResults] = useState([])
-  const [history, setHistory]           = useState([])
-  const [isSearching, setIsSearching]   = useState(false)
-  const [period, setPeriod]             = useState('Today')
-  const [customDate, setCustomDate]     = useState('')
-  const [calorieGoal, setCalorieGoal]   = useState(2000)
-  // AI analyzer
-  const [aiMeal, setAiMeal]             = useState('')
-  const [aiResult, setAiResult]         = useState(null)
-  const [aiLoading, setAiLoading]       = useState(false)
-  const [aiError, setAiError]           = useState(null)
-  const [showAi, setShowAi]             = useState(false)
-
+  const { showFlash } = useFlash()
+  const { enabled: aiEnabled, ready: aiReady } = useAiStatus()
   const { globalSearch = '' } = useOutletContext() || {}
+  const [mode, setMode] = useState(null) // 'describe' | 'search'; defaults once AI status is known
+  const [history, setHistory] = useState([])
+  const [todayItems, setTodayItems] = useState([])
+  const [historyLoading, setHistoryLoading] = useState(true)
+  const [period, setPeriod] = useState('today')
+  const [customDate, setCustomDate] = useState('')
+  const [calorieGoal, setCalorieGoal] = useState(2000)
 
-  // ── fetch calorie goal ────────────────────────────────────────────
+  const activeMode = mode || (aiReady && !aiEnabled ? 'search' : 'describe')
+
   useEffect(() => {
-    request('get', '/api/settings')
-      .then(d => setCalorieGoal(d.calorie_goal || 2000))
-      .catch(() => {})
-  }, [request])
+    axios.get('/api/settings').then(r => setCalorieGoal(r.data.calorie_goal || 2000)).catch(() => {})
+  }, [])
 
-  // ── fetch history ─────────────────────────────────────────────────
   const fetchHistory = useCallback(async () => {
+    const q = customDate ? `?date=${customDate}` : period === 'all' ? '' : `?period=${period}`
     try {
-      let url = '/api/nutrition/history'
-      if (customDate) {
-        url += `?date=${customDate}`
-      } else if (period === 'Today') {
-        url += '?period=today'
-      } else if (period === 'Week') {
-        url += '?period=week'
-      }
-      const data = await request('get', url)
-      setHistory(data.history || [])
-    } catch (err) {
-      console.error(err)
-    }
-  }, [period, customDate, request])
+      const [list, today] = await Promise.all([
+        axios.get(`/api/nutrition/history${q}`),
+        axios.get('/api/nutrition/history?period=today'),
+      ])
+      setHistory(list.data.history || [])
+      setTodayItems(today.data.history || [])
+    } catch { /* toast below handles user-facing errors */ }
+    finally { setHistoryLoading(false) }
+  }, [period, customDate])
 
   useEffect(() => { fetchHistory() }, [fetchHistory])
 
-  // ── search ────────────────────────────────────────────────────────
-  const handleSearch = async (e) => {
-    e.preventDefault()
-    if (!query.trim()) return
-    setIsSearching(true)
-    setError(null)
+  async function logItems(items) {
     try {
-      const data = await request('post', '/api/nutrition/search', { food: query })
-      setSearchResults(data.results || [])
-    } catch { setSearchResults([]) }
-    finally { setIsSearching(false) }
-  }
-
-  // ── save food ─────────────────────────────────────────────────────
-  const handleSave = async (food) => {
-    try {
-      await request('post', '/api/nutrition/save', {
-        food_name: food.name, calories: food.calories,
-        protein: food.protein, carbs: food.carbs, fat: food.fat
-      })
+      for (const it of items) {
+        await axios.post('/api/nutrition/save', {
+          food_name: it.name, calories: it.calories, protein: it.protein, carbs: it.carbs, fat: it.fat,
+        })
+      }
+      showFlash(`Logged ${items.length === 1 ? items[0].name : `${items.length} items`}`, 'success')
       fetchHistory()
-    } catch (err) {
-      console.error(err)
+    } catch {
+      showFlash('Could not save to your log', 'error')
     }
   }
 
-  // ── delete log entry ──────────────────────────────────────────────
-  const handleDelete = async (id) => {
-    if (!confirm('Delete this entry?')) return
+  async function handleDelete(item) {
+    if (!confirm(`Remove "${item.food_name}" from your log?`)) return
     try {
-      await request('delete', `/api/nutrition/history/${id}`)
+      await axios.delete(`/api/nutrition/history/${item.id}`)
       fetchHistory()
-    } catch (err) {
-      console.error(err)
+    } catch {
+      showFlash('Could not delete that entry', 'error')
     }
   }
 
-  // ── AI analyze ────────────────────────────────────────────────────
-  const handleAiAnalyze = async (e) => {
-    e.preventDefault()
-    if (!aiMeal.trim()) return
-    setAiLoading(true)
-    setAiError(null)
-    setAiResult(null)
-    try {
-      const data = await request('post', '/api/nutrition/analyze', { meal: aiMeal })
-      setAiResult(data.result)
-    } catch (err) {
-      setAiError(err.message || 'AI analysis failed')
-    } finally { setAiLoading(false) }
-  }
+  const totals = todayItems.reduce((a, i) => ({
+    calories: a.calories + i.calories, protein: a.protein + i.protein, carbs: a.carbs + i.carbs, fat: a.fat + i.fat,
+  }), { calories: 0, protein: 0, carbs: 0, fat: 0 })
 
-  // ── totals ────────────────────────────────────────────────────────
-  const filteredHistory = history.filter(item =>
-    item.food_name.toLowerCase().includes(globalSearch.toLowerCase())
-  )
-  const totals = filteredHistory.reduce(
-    (acc, item) => ({
-      calories: acc.calories + item.calories,
-      protein:  acc.protein  + item.protein,
-      carbs:    acc.carbs    + item.carbs,
-      fat:      acc.fat      + item.fat,
-    }),
-    { calories: 0, protein: 0, carbs: 0, fat: 0 }
-  )
-  const caloriePct = Math.min(100, Math.round((totals.calories / calorieGoal) * 100))
-  const goalColor  = caloriePct >= 100 ? 'var(--danger)' : caloriePct >= 80 ? 'var(--warning)' : 'var(--success)'
+  const filtered = history.filter(i => i.food_name.toLowerCase().includes(globalSearch.toLowerCase()))
+  const groups = groupByDay(filtered)
 
   return (
-    <div className="page-wrapper animate-fade-in">
-      <div className="page-header">
+    <div className="stack-lg animate-in">
+      <header className="page-head">
         <div>
-          <h1 className="page-title">Nutrition Tracker</h1>
-          <p className="text-secondary">Search foods and log your daily intake.</p>
+          <h1 className="page-title">Nutrition</h1>
+          <p className="page-sub">Log what you eat in plain words, or look foods up in the database.</p>
         </div>
-        <button
-          className={`btn btn-sm ${showAi ? 'btn-primary' : 'btn-outline'}`}
-          onClick={() => setShowAi(v => !v)}
-          title="AI meal analyzer"
-        >
-          <i className="fa-solid fa-wand-magic-sparkles"></i> AI Analyzer
-        </button>
-      </div>
+      </header>
 
-      {/* AI Analyzer Panel */}
-      {showAi && (
-        <div className="ai-panel animate-fade-up">
-          <div className="ai-panel-header">
-            <i className="fa-solid fa-wand-magic-sparkles text-primary"></i>
-            <h3>AI Meal Analyzer</h3>
-            <span className="ai-badge">Powered by Groq</span>
-          </div>
-          <form onSubmit={handleAiAnalyze} className="ai-form">
-            <input
-              type="text"
-              value={aiMeal}
-              onChange={e => setAiMeal(e.target.value)}
-              placeholder='Describe your meal, e.g. "2 eggs, toast with butter, glass of OJ"'
-              className="ai-input"
-            />
-            <button type="submit" className="btn btn-primary" disabled={aiLoading}>
-              {aiLoading ? <><i className="fa-solid fa-circle-notch fa-spin"></i> Analyzing…</> : 'Analyze'}
-            </button>
-          </form>
-          {aiError && <p className="ai-error"><i className="fa-solid fa-triangle-exclamation"></i> {aiError}</p>}
-          {aiResult && (
-            <div className="ai-result animate-fade-up">
-              <h4 className="ai-result-name">{aiResult.name}</h4>
-              <div className="food-macros">
-                <span><i className="fa-solid fa-fire text-primary"></i> {aiResult.calories} kcal</span>
-                <span>P: {aiResult.protein}g</span>
-                <span>C: {aiResult.carbs}g</span>
-                <span>F: {aiResult.fat}g</span>
-              </div>
-              <button className="btn btn-outline btn-sm" style={{marginTop:'0.75rem'}} onClick={() => handleSave(aiResult)}>
-                <i className="fa-solid fa-plus"></i> Add to Log
+      <div className="grid-12">
+        <section className="card span-8">
+          <header className="card-head">
+            <h2 className="card-title">Add food</h2>
+            <div className="seg" role="tablist" aria-label="How to add food">
+              <button role="tab" aria-selected={activeMode === 'describe'} className={activeMode === 'describe' ? 'is-on' : ''} onClick={() => setMode('describe')}>
+                Describe it
+              </button>
+              <button role="tab" aria-selected={activeMode === 'search'} className={activeMode === 'search' ? 'is-on' : ''} onClick={() => setMode('search')}>
+                Search foods
               </button>
             </div>
-          )}
-        </div>
-      )}
+          </header>
+          {activeMode === 'describe' ? <MealAnalyzer onLog={logItems} /> : <FoodSearch onLog={logItems} />}
+        </section>
 
-      <div className="nutrition-container">
-        {/* Left Column */}
-        <div className="nutrition-left">
-          {/* Daily Summary + Goal Progress */}
-          <div className="nutrition-summary-card hover-lift">
-            <h3 className="summary-title"><i className="fa-solid fa-chart-pie"></i> Daily Summary</h3>
-            <div className="macro-grid">
-              <div className="macro-item">
-                <div className="macro-label">Calories</div>
-                <div className="macro-value text-primary">{Math.round(totals.calories)}</div>
-                <div className="macro-unit">kcal</div>
-              </div>
-              <div className="macro-item">
-                <div className="macro-label">Protein</div>
-                <div className="macro-value text-success">{Math.round(totals.protein)}</div>
-                <div className="macro-unit">g</div>
-              </div>
-              <div className="macro-item">
-                <div className="macro-label">Carbs</div>
-                <div className="macro-value text-warning">{Math.round(totals.carbs)}</div>
-                <div className="macro-unit">g</div>
-              </div>
-              <div className="macro-item">
-                <div className="macro-label">Fat</div>
-                <div className="macro-value text-danger">{Math.round(totals.fat)}</div>
-                <div className="macro-unit">g</div>
-              </div>
+        <section className="card span-4">
+          <header className="card-head">
+            <div>
+              <h2 className="card-title">Today</h2>
+              <p className="card-sub">Goal {fmt(calorieGoal)} kcal · <Link to="/profile">change</Link></p>
             </div>
-
-            {/* Calorie Goal Progress */}
-            <div className="calorie-goal-section">
-              <div className="calorie-goal-header">
-                <span className="calorie-goal-label">Goal: {calorieGoal} kcal</span>
-                <span className="calorie-goal-pct" style={{color: goalColor}}>{caloriePct}%</span>
-              </div>
-              <div className="calorie-goal-track">
-                <div
-                  className="calorie-goal-fill"
-                  style={{ width: `${caloriePct}%`, background: goalColor }}
-                ></div>
-              </div>
-              <p className="calorie-goal-remaining" style={{color: goalColor}}>
-                {totals.calories >= calorieGoal
-                  ? `${Math.round(totals.calories - calorieGoal)} kcal over goal`
-                  : `${Math.round(calorieGoal - totals.calories)} kcal remaining`
-                }
-              </p>
-            </div>
+          </header>
+          <div className="today-stack">
+            <CalorieRing consumed={totals.calories} goal={calorieGoal} size={132} />
+            <p className="today-eaten"><strong>{fmt(totals.calories)}</strong> kcal eaten</p>
+            <MacroBars totals={totals} goal={calorieGoal} compact />
           </div>
+        </section>
+      </div>
 
-          {/* Search Section */}
-          <div className="search-section">
-            <h3 className="section-title">Add Food</h3>
-            <form onSubmit={handleSearch} className="search-form">
-              <div className="input-wrapper search-wrapper">
-                <i className="fa-solid fa-utensils input-icon"></i>
-                <input
-                  type="text"
-                  value={query}
-                  onChange={e => setQuery(e.target.value)}
-                  placeholder="e.g. Apple, Chicken breast..."
-                  className="search-input"
-                />
-                <button type="submit" className="search-btn" disabled={isSearching}>
-                  {isSearching ? <i className="fa-solid fa-circle-notch fa-spin"></i> : 'Search'}
-                </button>
-              </div>
-            </form>
-
-            {error && <div className="text-danger mt-2 text-sm"><i className="fa-solid fa-circle-exclamation"></i> {error}</div>}
-
-            <div className="search-results">
-              {searchResults.map((food, idx) => (
-                <div key={idx} className="food-result-card animate-fade-up" style={{'--delay': `${idx * 50}ms`}}>
-                  <div className="food-info">
-                    <h4 className="food-name">{food.name}</h4>
-                    <div className="food-macros">
-                      <span><i className="fa-solid fa-fire text-primary"></i> {food.calories} kcal</span>
-                      <span>P: {food.protein}g</span>
-                      <span>C: {food.carbs}g</span>
-                      <span>F: {food.fat}g</span>
-                    </div>
-                  </div>
-                  <button className="btn btn-outline btn-sm" onClick={() => handleSave(food)}>
-                    <i className="fa-solid fa-plus"></i> Add
-                  </button>
-                </div>
+      <section className="card">
+        <header className="card-head wrap">
+          <div>
+            <h2 className="card-title">Food log</h2>
+            <p className="card-sub">{filtered.length} entr{filtered.length === 1 ? 'y' : 'ies'}{globalSearch && ` matching "${globalSearch}"`}</p>
+          </div>
+          <div className="row gap-sm">
+            <div className="seg" role="radiogroup" aria-label="Period">
+              {PERIODS.map(p => (
+                <button key={p.key} role="radio" aria-checked={!customDate && period === p.key}
+                  className={!customDate && period === p.key ? 'is-on' : ''}
+                  onClick={() => { setPeriod(p.key); setCustomDate('') }}>{p.label}</button>
               ))}
             </div>
+            <input type="date" className="input input-sm" value={customDate}
+              onChange={e => setCustomDate(e.target.value)} aria-label="Pick a date" />
           </div>
-        </div>
+        </header>
 
-        {/* Right Column — History Log */}
-        <div className="nutrition-right">
-          <div className="history-section">
-            <div className="history-header">
-              <h3 className="section-title"><i className="fa-solid fa-clock-rotate-left"></i> Food Log</h3>
-              {/* Period filter tabs */}
-              <div className="period-tabs">
-                {PERIODS.map(p => (
-                  <button
-                    key={p}
-                    className={`period-tab ${period === p && !customDate ? 'active' : ''}`}
-                    onClick={() => { setPeriod(p); setCustomDate('') }}
-                  >{p}</button>
-                ))}
-                <input
-                  type="date"
-                  className="date-picker"
-                  value={customDate}
-                  onChange={e => { setCustomDate(e.target.value); setPeriod('') }}
-                  title="Pick a specific date"
-                />
+        {historyLoading ? (
+          <div className="stack-sm">{[0, 1, 2].map(i => <div key={i} className="skeleton line tall" />)}</div>
+        ) : groups.length === 0 ? (
+          <EmptyState image="/images/empty-meals-240.webp" icon="fa-bowl-food" title={globalSearch ? 'No matching entries' : 'Nothing logged for this period'}>
+            {globalSearch ? 'Try a different filter.' : 'Describe a meal above and it will show up here.'}
+          </EmptyState>
+        ) : (
+          <div className="log">
+            {groups.map(([day, items]) => (
+              <div key={day} className="log-day">
+                <div className="log-day-head">
+                  <span>{dayLabel(day)}</span>
+                  <span className="muted">{fmt(items.reduce((s, i) => s + i.calories, 0))} kcal</span>
+                </div>
+                <table className="log-table">
+                  <thead className="sr-only">
+                    <tr><th>Time</th><th>Food</th><th>kcal</th><th>Protein</th><th>Carbs</th><th>Fat</th><th>Actions</th></tr>
+                  </thead>
+                  <tbody>
+                    {items.map(item => (
+                      <tr key={item.id}>
+                        <td className="log-time">{timeOf(item.created_at)}</td>
+                        <td className="log-name">{item.food_name}</td>
+                        <td className="num"><strong>{fmt(item.calories)}</strong> <span className="muted">kcal</span></td>
+                        <td className="num hide-sm"><span className="swatch swatch-protein" />{Math.round(item.protein)}g</td>
+                        <td className="num hide-sm"><span className="swatch swatch-carbs" />{Math.round(item.carbs)}g</td>
+                        <td className="num hide-sm"><span className="swatch swatch-fat" />{Math.round(item.fat)}g</td>
+                        <td className="actions">
+                          <button className="btn btn-ghost btn-icon btn-sm" onClick={() => handleDelete(item)} aria-label={`Delete ${item.food_name}`}>
+                            <i className="fa-regular fa-trash-can" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            </div>
-
-            <div className="history-list">
-              {loading && history.length === 0 ? (
-                <div className="skeleton-list">
-                  {[...Array(4)].map((_, i) => (
-                    <div key={i} className="skeleton-history-item">
-                      <div className="skeleton-lines">
-                        <div className="skeleton skeleton-line w-50"></div>
-                        <div className="skeleton skeleton-line w-70"></div>
-                      </div>
-                      <div className="skeleton skeleton-circle-sm"></div>
-                    </div>
-                  ))}
-                </div>
-              ) : filteredHistory.length === 0 ? (
-                <div className="empty-state sm">
-                  <div className="empty-icon"><i className="fa-solid fa-plate-wheat"></i></div>
-                  <p>No food logged{period === 'Today' ? ' today' : period === 'Week' ? ' this week' : ''}.</p>
-                </div>
-              ) : (
-                filteredHistory.map(item => (
-                  <div key={item.id} className="history-item hover-lift">
-                    <div className="history-info">
-                      <h4 className="history-food-name">{item.food_name}</h4>
-                      <div className="history-macros">
-                        <span className="badge badge-primary">{item.calories} kcal</span>
-                        <span className="badge badge-success">P: {item.protein}g</span>
-                        <span className="badge badge-warning">C: {item.carbs}g</span>
-                      </div>
-                    </div>
-                    <button className="icon-btn btn-danger-outline" onClick={() => handleDelete(item.id)} aria-label="Delete log">
-                      <i className="fa-solid fa-trash-can"></i>
-                    </button>
-                  </div>
-                ))
-              )}
-            </div>
+            ))}
           </div>
-        </div>
-      </div>
+        )}
+      </section>
+    </div>
+  )
+}
+
+function groupByDay(items) {
+  const map = new Map()
+  for (const it of items) {
+    const day = (it.created_at || '').slice(0, 10)
+    if (!map.has(day)) map.set(day, [])
+    map.get(day).push(it)
+  }
+  return [...map.entries()]
+}
+
+function FoodSearch({ onLog }) {
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [added, setAdded] = useState({})
+
+  async function search(e) {
+    e.preventDefault()
+    if (!query.trim()) return
+    setLoading(true)
+    setError(null)
+    setAdded({})
+    try {
+      const r = await axios.post('/api/nutrition/search', { food: query })
+      setResults(r.data.results || [])
+    } catch (err) {
+      setResults([])
+      setError(err.response?.data?.error || 'Search failed')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="stack-md">
+      <form onSubmit={search} className="row gap-sm">
+        <label className="input-icon grow">
+          <i className="fa-solid fa-magnifying-glass" aria-hidden="true" />
+          <input className="input" value={query} onChange={e => setQuery(e.target.value)}
+            placeholder="Search a food, e.g. banana, oat milk, paneer" aria-label="Search foods" />
+        </label>
+        <button className="btn btn-primary" disabled={loading || !query.trim()}>
+          {loading ? <i className="fa-solid fa-circle-notch fa-spin" /> : 'Search'}
+        </button>
+      </form>
+      <p className="muted small">Values are per 100 g, from Open Food Facts.</p>
+      {error && <p className="inline-error">{error}</p>}
+      {results && results.length > 0 && (
+        <ul className="result-list">
+          {results.map((f, i) => (
+            <li key={i} className="result-row">
+              <div className="grow">
+                <p className="result-name">{f.name}</p>
+                <p className="result-meta">
+                  <strong>{fmt(f.calories)} kcal</strong> · P {f.protein}g · C {f.carbs}g · F {f.fat}g
+                </p>
+              </div>
+              <button className="btn btn-secondary btn-sm" disabled={added[i]}
+                onClick={async () => { await onLog([f]); setAdded(a => ({ ...a, [i]: true })) }}>
+                {added[i] ? <><i className="fa-solid fa-check" /> Added</> : <><i className="fa-solid fa-plus" /> Add</>}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }

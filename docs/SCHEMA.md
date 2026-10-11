@@ -10,7 +10,10 @@ Engine: **SQLite 3** · File: `nutricare360.db`
 users ──┬── reminders ──── reminder_taken_log
         ├── prescriptions
         ├── nutrition_history
-        └── user_settings
+        ├── user_settings
+        └── ai_insights          (one cached AI brief per day)
+
+pose_details                     (shared cache, not per user)
 ```
 
 ---
@@ -22,7 +25,7 @@ users ──┬── reminders ──── reminder_taken_log
 |---|---|---|
 | `id` | INTEGER | PRIMARY KEY AUTOINCREMENT |
 | `username` | TEXT | UNIQUE NOT NULL |
-| `password` | TEXT | NOT NULL (bcrypt hash) |
+| `password` | TEXT | NOT NULL (Werkzeug `scrypt` hash) |
 | `created_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP |
 
 ---
@@ -88,9 +91,41 @@ One row per user — upserted on save.
 
 ---
 
+### `ai_insights`
+The AI daily brief, cached so the dashboard does not call the model on every load.
+
+| Column | Type | Constraints |
+|---|---|---|
+| `user_id` | INTEGER | FK → users.id |
+| `day` | DATE | NOT NULL |
+| `payload` | TEXT | NOT NULL (JSON: summary, insights[], next_meal) |
+| `created_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP (UTC) |
+| — | — | PRIMARY KEY (user_id, day) |
+
+`POST /api/ai/insights` upserts today's row; `GET` reads it.
+
+---
+
+### `pose_details`
+AI-written pose guides for poses that are **not** in the reviewed file `static/data/yoga_details.json`.
+Shared by all users; written once on first view.
+
+| Column | Type | Constraints |
+|---|---|---|
+| `slug` | TEXT | PRIMARY KEY (e.g. `bhujangasana-cobra-pose`) |
+| `payload` | TEXT | NOT NULL (validated details JSON) |
+| `model` | TEXT | Groq model that wrote it |
+| `created_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP |
+
+To promote cached entries into the reviewed file, run `python backend/generate_pose_details.py`, review, and commit.
+
+---
+
 ## Key Design Decisions
 
 - **No ORM** — raw SQLite via `sqlite3` for simplicity and zero dependencies.
 - **UUID filenames** — prescriptions stored as `<uuid>.<ext>` to avoid collisions and enumeration.
 - **UNIQUE constraint** on `(reminder_id, taken_at)` enforces one log per reminder per day at the DB level; toggling deletes the row.
 - **user_settings** uses `ON CONFLICT DO UPDATE` (upsert) so no separate insert/update logic.
+- **AI output is cached, not recomputed** — the daily brief per user per day, pose guides per pose — to keep the free Groq tier fast and inside its rate limits.
+- **Database files are never committed** — `*.db` is git-ignored. On Vercel the database lives in `/tmp` and is recreated on cold start.

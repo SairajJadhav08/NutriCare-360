@@ -1,0 +1,2185 @@
+{
+  "poses": {
+    "tadasana-mountain-pose": {
+      "name": "Tadasana (Mountain Pose)",
+      "sanskrit": "Tadasana",
+      "english": "Mountain Pose",
+      "summary": "Mountain Pose is a foundational standing posture that aligns the body and improves balance. It is used to develop awareness of alignment and prepare for more complex poses.",
+      "level": "Beginner",
+      "met": 2.7,
+      "hold": "30–60 seconds",
+      "hold_seconds": 45,
+      "focus_muscles": [
+        "quadriceps",
+        "glutes",
+        "core",
+        "calves",
+        "spine extensors",
+        "ankles"
+      ],
+      "benefits": [
+        "Improves posture and spinal alignment",
+        "Enhances balance and proprioception",
+        "Strengthens lower‑body stabilizers",
+        "Calms the mind and reduces stress"
+      ],
+      "steps": [
+        {
+          "text": "Stand with feet hip‑width apart, big toes touching, weight evenly distributed",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Ground through all four corners of each foot—heel, ball, big toe, little toe",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Engage the thigh muscles, lift the kneecaps, and gently tuck the tailbone",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Lengthen the spine, lift the crown of the head, and relax shoulders away from ears",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Breathe deeply, maintaining the alignment, and hold for the desired time",
+          "breath": "Breathe"
+        }
+      ],
+      "breathing": "Inhale to lengthen the spine, exhale to deepen the grounding, maintaining smooth, even breaths throughout.",
+      "common_mistakes": [
+        {
+          "mistake": "Locking the knees",
+          "fix": "Keep a micro‑bend in the knees to maintain joint safety"
+        },
+        {
+          "mistake": "Hunching shoulders",
+          "fix": "Roll shoulders back and down, opening the chest"
+        },
+        {
+          "mistake": "Raising the heels",
+          "fix": "Keep the heels firmly planted on the floor"
+        }
+      ],
+      "easier": [
+        "Place a block between the thighs to cue engagement",
+        "Stand with back against a wall for extra support"
+      ],
+      "harder": [
+        "Raise arms overhead, palms together, maintaining alignment",
+        "Close eyes to challenge balance"
+      ],
+      "props": [
+        "Yoga block between thighs – helps engage leg muscles",
+        "Wall behind – provides tactile feedback for grounding"
+      ],
+      "avoid_if": [
+        "Recent knee or ankle injury",
+        "Severe low blood pressure or dizziness",
+        "Pregnancy in third trimester"
+      ],
+      "pairs_with": [
+        "Vrikshasana (Tree Pose)",
+        "Surya Namaskara (Sun Salutation)",
+        "Balasana (Child's Pose)"
+      ]
+    },
+    "surya-namaskara-sun-salutation": {
+      "name": "Surya Namaskara (Sun Salutation)",
+      "sanskrit": "Surya Namaskara",
+      "english": "Sun Salutation",
+      "summary": "A flowing sequence of twelve linked poses that warms the body and raises heart rate. It is used to improve overall mobility and support calorie expenditure.",
+      "level": "Intermediate",
+      "met": 3.5,
+      "hold": "One breath per movement, 3–5 rounds",
+      "hold_seconds": 60,
+      "focus_muscles": [
+        "quadriceps",
+        "hamstrings",
+        "glutes",
+        "core",
+        "shoulders",
+        "spine"
+      ],
+      "benefits": [
+        "Increases cardiovascular demand",
+        "Enhances full‑body flexibility",
+        "Strengthens major muscle groups"
+      ],
+      "steps": [
+        {
+          "text": "Begin in Pranamasana, feet together, hands at heart center",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Sweep arms up, arch back slightly into Hastauttanasana",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Fold forward, placing hands on the floor in Uttanasana",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Step right foot back, lower knee, lift chest into Ashwa Sanchalanasana",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Slide left foot back, straighten legs into Dandasana (Plank)",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Lower hips, chest and chin to the floor, then inhale into Bhujangasana",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Press hips up and back, forming Adho Mukha Svanasana",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Step right foot forward into Ashwa Sanchalanasana, left foot follows to Uttanasana",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Sweep arms up, return to Hastauttanasana",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Finish standing tall in Tadasana, palms together",
+          "breath": "Exhale"
+        }
+      ],
+      "breathing": "Coordinate each movement with a smooth inhale or exhale, maintaining steady diaphragmatic breathing throughout.",
+      "common_mistakes": [
+        {
+          "mistake": "Collapsing the lower back in Bhujangasana",
+          "fix": "Lift chest using back muscles, keep pelvis grounded"
+        },
+        {
+          "mistake": "Knees locked in Dandasana",
+          "fix": "Slightly bend knees to protect the joint"
+        }
+      ],
+      "easier": [
+        "Place hands on blocks in Uttanasana",
+        "Modify Ashwa Sanchalanasana with a shorter step back"
+      ],
+      "harder": [
+        "Add a deeper backbend in Bhujangasana",
+        "Transition to Chaturanga Dandasana before Upward Dog"
+      ],
+      "props": [
+        "Yoga block under hands in forward folds for extra support"
+      ],
+      "avoid_if": [
+        "Recent shoulder injury",
+        "Severe lower back pain",
+        "Uncontrolled high blood pressure"
+      ],
+      "pairs_with": [
+        "Tadasana (Mountain Pose)",
+        "Bhujangasana (Cobra Pose)",
+        "Adho Mukha Svanasana (Downward Dog)",
+        "Sun Salutation A"
+      ]
+    },
+    "padmasana-lotus-pose": {
+      "name": "Padmasana (Lotus Pose)",
+      "sanskrit": "Padmasana",
+      "english": "Lotus Pose",
+      "summary": "Lotus Pose is a seated meditation posture with each foot placed on the opposite thigh. It is used to create a stable, upright seat for focused breathing and calm awareness.",
+      "level": "Advanced",
+      "met": 2.2,
+      "hold": "5–20 minutes",
+      "hold_seconds": 300,
+      "focus_muscles": [
+        "hip external rotators",
+        "quadriceps",
+        "core stabilizers",
+        "spine extensors"
+      ],
+      "benefits": [
+        "Improves hip flexibility",
+        "Promotes calm mental state",
+        "Supports longer meditation sessions"
+      ],
+      "steps": [
+        {
+          "text": "Sit on a folded blanket with legs extended in front of you",
+          "breath": ""
+        },
+        {
+          "text": "Bend the right knee and place the right foot on the left thigh, sole up",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Bend the left knee and place the left foot on the right thigh, sole up",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Lengthen the spine, roll the shoulders back, and relax the jaw",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Rest hands on the knees in a comfortable mudra or simply palms down",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Close the eyes, soften the gaze, and maintain steady, natural breathing",
+          "breath": "Breathe"
+        },
+        {
+          "text": "Hold the pose for the desired duration, maintaining even breath",
+          "breath": "Breathe"
+        }
+      ],
+      "breathing": "Keep the breath smooth and even, inhaling and exhaling through the nose throughout the hold.",
+      "common_mistakes": [
+        {
+          "mistake": "Knees wobble outward",
+          "fix": "Engage the inner thigh muscles to keep knees aligned with hips"
+        },
+        {
+          "mistake": "Rounding the lower back",
+          "fix": "Lengthen the crown of the head toward the floor to maintain a neutral spine"
+        }
+      ],
+      "easier": [
+        "Sit on a folded blanket or block to elevate hips",
+        "Use half‑lotus (one foot on opposite thigh)",
+        "Sit in a simple cross‑legged position (Sukhasana)"
+      ],
+      "harder": [
+        "Bind the hands behind the back in a reverse prayer",
+        "Extend arms overhead with palms facing each other",
+        "Increase hold time beyond 20 minutes"
+      ],
+      "props": [
+        "Blanket under sit bones for hip support",
+        "Yoga block under knees to reduce strain"
+      ],
+      "avoid_if": [
+        "Severe knee or hip injury",
+        "Recent hip replacement surgery",
+        "Acute lower back pain"
+      ],
+      "pairs_with": []
+    },
+    "balasana-child-s-pose": {
+      "name": "Balasana (Child's Pose)",
+      "sanskrit": "Balasana",
+      "english": "Child's Pose",
+      "summary": "Balasana is a resting pose performed on the knees that gently stretches the hips, thighs, and lower back. It is used to calm the nervous system and reduce stress.",
+      "level": "Beginner",
+      "met": 2.0,
+      "hold": "1–3 minutes",
+      "hold_seconds": 120,
+      "focus_muscles": [
+        "hip flexors",
+        "quadriceps",
+        "lower back",
+        "shoulders"
+      ],
+      "benefits": [
+        "Calms the nervous system",
+        "Relieves lower back tension",
+        "Gently stretches hips and thighs"
+      ],
+      "steps": [
+        {
+          "text": "Kneel on the mat with big toes touching and knees hip‑width apart",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Sit back onto your heels, allowing the buttocks to rest on the heels",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Fold forward, extending your arms forward or alongside the body",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Rest your forehead on the mat, relaxing the neck",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Lengthen the spine and breathe deeply, staying for the desired time",
+          "breath": "Breathe"
+        }
+      ],
+      "breathing": "Inhale to lengthen the spine, exhale to deepen the stretch, maintaining smooth, diaphragmatic breathing throughout.",
+      "common_mistakes": [
+        {
+          "mistake": "Knees too wide, causing strain on the hips",
+          "fix": "Keep knees hip‑width or slightly wider for comfort"
+        },
+        {
+          "mistake": "Head not resting, causing neck tension",
+          "fix": "Allow the forehead to gently touch the mat"
+        }
+      ],
+      "easier": [
+        "Place a folded blanket under the chest for extra support",
+        "Widen the knees more for a larger opening"
+      ],
+      "harder": [
+        "Extend arms overhead, creating a deeper stretch in the shoulders",
+        "Thread one arm under the other for a shoulder stretch"
+      ],
+      "props": [
+        "Blanket under chest to support the torso",
+        "Bolster under the torso for a restorative variation"
+      ],
+      "avoid_if": [
+        "Pregnant women in the third trimester",
+        "Recent knee or ankle injuries",
+        "Severe lower back disc issues"
+      ],
+      "pairs_with": [
+        "Cat-Cow Stretch"
+      ]
+    },
+    "vrikshasana-tree-pose": {
+      "name": "Vrikshasana (Tree Pose)",
+      "sanskrit": "Vṛkṣāsana",
+      "english": "Tree Pose",
+      "summary": "Tree Pose is a standing balance that strengthens the legs and core while sharpening concentration. Practitioners use it to develop steadiness and confidence in everyday movement.",
+      "level": "Beginner",
+      "met": 2.5,
+      "hold": "30–60 seconds per side",
+      "hold_seconds": 45,
+      "focus_muscles": [
+        "quadriceps",
+        "glutes",
+        "core",
+        "calves",
+        "adductors",
+        "ankles"
+      ],
+      "benefits": [
+        "Improves single‑leg strength",
+        "Enhances balance and proprioception",
+        "Reduces stress through focused breathing",
+        "Supports spinal alignment"
+      ],
+      "steps": [
+        {
+          "text": "Begin in Tadasana with feet hip‑width apart and arms at your sides",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Shift weight onto your left foot, grounding the whole foot into the mat",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Bend the right knee and place the right foot on the inner left thigh or calf, avoiding the knee joint",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Press the foot into the leg and the leg into the foot, drawing the thigh upward",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Bring palms together at the heart center or raise arms overhead, lengthening the spine",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Gaze softly at a fixed point (drishti) in front of you to maintain balance",
+          "breath": "Breathe"
+        },
+        {
+          "text": "Hold the pose, breathing evenly, then gently release and repeat on the opposite side",
+          "breath": "Exhale"
+        }
+      ],
+      "breathing": "Maintain slow, steady breaths, inhaling to lengthen and exhaling to stay grounded.",
+      "common_mistakes": [
+        {
+          "mistake": "Foot placed too high on the knee",
+          "fix": "Keep the foot below the knee on the thigh or calf"
+        },
+        {
+          "mistake": "Hips dropping to one side",
+          "fix": "Engage the standing leg and draw the hips toward the center"
+        },
+        {
+          "mistake": "Rushing the hold",
+          "fix": "Enter the pose slowly and maintain steady breathing throughout"
+        }
+      ],
+      "easier": [
+        "Place the sole of the lifted foot against the ankle or shin instead of the thigh",
+        "Use a wall for light support",
+        "Keep hands on hips instead of overhead"
+      ],
+      "harder": [
+        "Close the eyes to challenge proprioception",
+        "Extend arms overhead with palms facing each other",
+        "Transition from Tree Pose into a standing forward fold"
+      ],
+      "props": [
+        "Yoga block against the wall for light support",
+        "Chair to rest the lifted foot on if balance is limited"
+      ],
+      "avoid_if": [
+        "Severe knee or ankle injury",
+        "Acute lower back pain",
+        "Vertigo or severe balance disorders"
+      ],
+      "pairs_with": [
+        "Tadasana (Mountain Pose)",
+        "Virabhadrasana I (Warrior I)",
+        "Utthita Trikonasana (Triangle Pose)",
+        "Sun Salutation A"
+      ]
+    },
+    "bhujangasana-cobra-pose": {
+      "name": "Bhujangasana (Cobra Pose)",
+      "sanskrit": "Bhujangasana",
+      "english": "Cobra Pose",
+      "summary": "Cobra Pose is a gentle backbend performed while lying prone, lifting the chest off the floor. It strengthens the spinal extensors, opens the chest, and can ease lower‑back tension.",
+      "level": "Beginner",
+      "met": 2.5,
+      "hold": "30 seconds",
+      "hold_seconds": 30,
+      "focus_muscles": [
+        "Spinal extensors",
+        "Chest (pectoralis)",
+        "Shoulders (deltoids)",
+        "Glutes",
+        "Hip flexors"
+      ],
+      "benefits": [
+        "Improves spinal flexibility",
+        "Opens the thoracic cavity",
+        "Reduces mild lower‑back discomfort"
+      ],
+      "steps": [
+        {
+          "text": "Lie face down with your forehead resting on the mat and legs extended, tops of feet pressing into the floor",
+          "breath": ""
+        },
+        {
+          "text": "Place your hands on the mat directly under your shoulders, elbows close to your body",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Press your pubic bone into the floor and engage your core",
+          "breath": "Exhale"
+        },
+        {
+          "text": "As you inhale, gently lift your chest using the muscles of your back, keeping elbows slightly bent",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Draw your shoulder blades down and away from your ears, gaze forward or slightly upward",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Hold the lift for the prescribed time, breathing evenly",
+          "breath": "Breathe"
+        },
+        {
+          "text": "To release, exhale and slowly lower your chest back to the mat",
+          "breath": "Exhale"
+        }
+      ],
+      "breathing": "Maintain smooth, even breaths, inhaling to lift and exhaling to lower.",
+      "common_mistakes": [
+        {
+          "mistake": "Overallizing the lift with the arms",
+          "fix": "Lead the rise with the back muscles, keep elbows soft"
+        },
+        {
+          "mistake": "Shoulders creeping toward ears",
+          "fix": "Depress shoulder blades and keep neck long"
+        },
+        {
+          "mistake": "Overall arching causing lower back strain",
+          "fix": "Limit lift to a comfortable height, keep pelvis grounded"
+        }
+      ],
+      "easier": [
+        "Place a folded blanket under the hips for extra support",
+        "Keep elbows bent more and lift only a few inches"
+      ],
+      "harder": [
+        "Press firmly through the hands to straighten the arms more fully",
+        "Lift deeper by engaging the glutes and lengthening the tailbone"
+      ],
+      "props": [
+        "Yoga block under the chest to reduce the lift height",
+        "Strap around the forearms to maintain even pressure"
+      ],
+      "avoid_if": [
+        "Recent spinal injury or surgery",
+        "Severe osteoporosis",
+        "Pregnancy in the third trimester"
+      ],
+      "pairs_with": [
+        "Balasana (Child's Pose)",
+        "Adho Mukha Svanasana (Downward Dog)",
+        "Cat-Cow Stretch",
+        "Setu Bandhasana (Bridge Pose)"
+      ]
+    },
+    "adho-mukha-svanasana-downward-dog": {
+      "name": "Adho Mukha Svanasana (Downward Dog)",
+      "sanskrit": "Adho Mukha Svanasana",
+      "english": "Downward-Facing Dog",
+      "summary": "Downward Dog is a full‑body inversion that builds strength in the arms, legs, and core while lengthening the spine. Practitioners use it to improve posture, increase flexibility, and reset the nervous system.",
+      "level": "Beginner",
+      "met": 3.2,
+      "hold": "30–60 seconds",
+      "hold_seconds": 45,
+      "focus_muscles": [
+        "Shoulders",
+        "Hamstrings",
+        "Calves",
+        "Core",
+        "Back",
+        "Glutes"
+      ],
+      "benefits": [
+        "Improves shoulder stability",
+        "Stretches the posterior chain",
+        "Strengthens arms and shoulders",
+        "Builds core endurance"
+      ],
+      "steps": [
+        {
+          "text": "Start on hands and knees, wrists under shoulders, knees under hips",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Tuck your toes under and press the heels toward the floor",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Lift your hips up and back, creating an inverted V shape",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Straighten the legs as much as comfortable, keeping a slight bend in the knees if needed",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Press firmly through the palms, spreading the fingers wide",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Draw the shoulder blades down the back and engage the core",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Hold the pose, breathing evenly, then gently release back to tabletop",
+          "breath": "Inhale"
+        }
+      ],
+      "breathing": "Maintain steady, diaphragmatic breaths, inhaling as you lift and exhaling as you settle deeper into the stretch.",
+      "common_mistakes": [
+        {
+          "mistake": "Rounded back",
+          "fix": "Press the crown toward the thighs to lengthen the spine"
+        },
+        {
+          "mistake": "Locked knees causing heel lift",
+          "fix": "Keep a micro‑bend in the knees to allow hamstring release"
+        },
+        {
+          "mistake": "Hands too far forward, shoulders hunched",
+          "fix": "Shift weight forward slightly and draw shoulders away from ears"
+        }
+      ],
+      "easier": [
+        "Bend the knees slightly to reduce hamstring tension",
+        "Place a block under the hands for extra wrist support"
+      ],
+      "harder": [
+        "Lift one leg toward the ceiling for a three‑leg variation",
+        "Walk the hands farther forward to deepen the stretch"
+      ],
+      "props": [
+        "Yoga block under each hand to reduce wrist strain",
+        "Strap around the forearms for added stability"
+      ],
+      "avoid_if": [
+        "Wrist pain or carpal tunnel syndrome",
+        "Severe hypertension or glaucoma",
+        "Third‑trimester pregnancy",
+        "Recent shoulder surgery",
+        "Acute lower‑back disc injury"
+      ],
+      "pairs_with": [
+        "Plank Pose"
+      ]
+    },
+    "virabhadrasana-i-warrior-i": {
+      "name": "Virabhadrasana I (Warrior I)",
+      "sanskrit": "Virabhadrasana I",
+      "english": "Warrior I",
+      "summary": "Warrior I is a standing strength pose that builds leg power and opens the hips. Practitioners use it to improve balance, posture, and a sense of grounded confidence.",
+      "level": "Intermediate",
+      "met": 3.0,
+      "hold": "30–60 seconds per side",
+      "hold_seconds": 45,
+      "focus_muscles": [
+        "quadriceps",
+        "glutes",
+        "hamstrings",
+        "hip flexors",
+        "core",
+        "shoulders"
+      ],
+      "benefits": [
+        "Increases lower‑body strength",
+        "Improves hip flexibility",
+        "Enhances spinal alignment",
+        "Develops focused breathing"
+      ],
+      "steps": [
+        {
+          "text": "Step your right foot forward about 3‑4 feet and turn your left foot out 45 degrees",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Bend the right knee so the thigh is parallel to the floor, aligning the knee over the ankle",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Square your hips and shoulders toward the front of the mat",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Reach both arms overhead, palms facing each other, and lengthen through the spine",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Gaze forward or slightly upward, engage the core, and hold the position",
+          "breath": "Breathe"
+        }
+      ],
+      "breathing": "Maintain steady, diaphragmatic breathing, inhaling to lengthen the spine and exhaling to deepen the bend.",
+      "common_mistakes": [
+        {
+          "mistake": "Knee collapses inward",
+          "fix": "Press the knee outward toward the second toe"
+        },
+        {
+          "mistake": "Hips rotate toward the back leg",
+          "fix": "Keep hips facing forward, using a wall for cueing"
+        }
+      ],
+      "easier": [
+        "Place hands on hips for balance",
+        "Shorten the stance distance",
+        "Use a block under the back heel"
+      ],
+      "harder": [
+        "Lift the back heel off the ground",
+        "Add a gentle backbend by opening the chest",
+        "Transition into Warrior I to Warrior II flow"
+      ],
+      "props": [
+        "Yoga block under back heel for stability",
+        "Strap around the front thigh to cue alignment"
+      ],
+      "avoid_if": [
+        "Acute knee injury or instability",
+        "Severe low back pain",
+        "Vertigo or balance disorders"
+      ],
+      "pairs_with": [
+        "Sun Salutation A"
+      ]
+    },
+    "ustrasana-camel-pose": {
+      "name": "Ustrasana (Camel Pose)",
+      "sanskrit": "Ustrasana",
+      "english": "Camel Pose",
+      "summary": "Camel Pose is a kneeling backbend that opens the chest and stretches the front body. It builds spinal flexibility and strengthens the back, hips, and core.",
+      "level": "Intermediate",
+      "met": 3.5,
+      "hold": "30–60 seconds",
+      "hold_seconds": 30,
+      "focus_muscles": [
+        "spinal extensors",
+        "hip flexors",
+        "pectoralis major",
+        "shoulders",
+        "core"
+      ],
+      "benefits": [
+        "Improves thoracic spine mobility",
+        "Stretches the front of the body",
+        "Strengthens back muscles",
+        "Opens the heart area"
+      ],
+      "steps": [
+        {
+          "text": "Kneel on the mat with knees hip‑width apart and shins parallel",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Place your hands on the lower back with fingers pointing down",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Engage the core, lift the chest, and lengthen the tailbone toward the floor",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Slowly reach back, grasping the heels (or use a strap) while keeping shoulders relaxed",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Press the hips forward, keep the thighs engaged, and allow the head to drop back gently",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Hold the pose, breathing evenly",
+          "breath": "Breathe"
+        },
+        {
+          "text": "To exit, release the heels, bring the hands to the hips, and slowly rise to a kneeling position",
+          "breath": "Inhale"
+        }
+      ],
+      "breathing": "Maintain smooth, diaphragmatic breathing, inhaling to lengthen the spine and exhaling to deepen the backbend.",
+      "common_mistakes": [
+        {
+          "mistake": "Collapsing the lower back",
+          "fix": "Engage the core and keep the tailbone tucked slightly"
+        },
+        {
+          "mistake": "Straining the neck",
+          "fix": "Keep the neck relaxed; look gently upward or keep the chin tucked"
+        }
+      ],
+      "easier": [
+        "Place a block between the heels and hands",
+        "Keep hands on the sacrum instead of reaching for heels"
+      ],
+      "harder": [
+        "Straighten the arms and grasp the heels directly",
+        "Add a gentle backbend lift by pressing the hips forward more"
+      ],
+      "props": [
+        "Yoga block: hold in hands to reduce reach distance",
+        "Strap: loop around heels for those with limited flexibility"
+      ],
+      "avoid_if": [
+        "Severe lower back injury",
+        "Recent spinal surgery",
+        "Pregnancy beyond the first trimester"
+      ],
+      "pairs_with": [
+        "Bhujangasana (Cobra Pose)",
+        "Setu Bandhasana (Bridge Pose)",
+        "Matsyasana (Fish Pose)",
+        "Balasana (Child's Pose)"
+      ]
+    },
+    "halasana-plow-pose": {
+      "name": "Halasana (Plow Pose)",
+      "sanskrit": "Halasana",
+      "english": "Plow Pose",
+      "summary": "Halasana is an inversion where the legs are lowered over the head, stretching the spine and shoulders. Practitioners use it to calm the nervous system and aid digestion.",
+      "level": "Intermediate",
+      "met": 3.0,
+      "hold": "30–60 seconds",
+      "hold_seconds": 60,
+      "focus_muscles": [
+        "hamstrings",
+        "glutes",
+        "shoulders",
+        "spinal extensors",
+        "core"
+      ],
+      "benefits": [
+        "Improves spinal flexibility",
+        "Stimulates abdominal organs",
+        "Reduces stress and anxiety"
+      ],
+      "steps": [
+        {
+          "text": "Lie on your back with arms resting alongside the body, palms facing down",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Press into your hands and lift both legs to a 90‑degree angle",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Place your hands on your lower back for support as you begin to lower the legs",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Slowly guide the legs over your head, keeping them straight and together, until toes touch the floor behind you",
+          "breath": "Exhale"
+        },
+        {
+          "text": "If needed, adjust the hands to support the sacrum or keep them on the floor for balance",
+          "breath": "Breathe"
+        },
+        {
+          "text": "Hold the pose, breathing evenly, then roll down vertebra by vertebra to release",
+          "breath": "Exhale"
+        }
+      ],
+      "breathing": "Maintain slow, steady breaths, inhaling to lengthen the spine and exhaling to deepen the stretch.",
+      "common_mistakes": [
+        {
+          "mistake": "Neck compresses against the floor",
+          "fix": "Keep the neck relaxed, use a folded blanket under the shoulders for support"
+        },
+        {
+          "mistake": "Legs bend or splay outward",
+          "fix": "Engage the thighs to keep legs straight and together"
+        }
+      ],
+      "easier": [
+        "Place a folded blanket under the shoulders",
+        "Bend the knees and keep shins on the floor",
+        "Use a wall to support the legs"
+      ],
+      "harder": [
+        "Straighten legs fully and press toes into the floor",
+        "Interlace fingers behind the back for a deeper shoulder stretch"
+      ],
+      "props": [
+        "Blanket under shoulders – cushions the neck and supports the",
+        "Bolster against the lower back – provides extra support for ",
+        "Wall – allows legs to rest against for stability"
+      ],
+      "avoid_if": [
+        "Neck injury or cervical spine issues",
+        "High blood pressure or glaucoma",
+        "Pregnancy after the first trimester",
+        "Recent abdominal surgery"
+      ],
+      "pairs_with": [
+        "Setu Bandhasana (Bridge Pose)",
+        "Matsyasana (Fish Pose)",
+        "Balasana (Child's Pose)",
+        "Sirsasana (Headstand)"
+      ]
+    },
+    "cat-cow-stretch": {
+      "name": "Cat-Cow Stretch",
+      "sanskrit": "Marjaryasana-Bitilasana",
+      "english": "Cat-Cow Stretch",
+      "summary": "Cat-Cow is a gentle, synchronized movement of the spine performed on hands and knees. It warms the back, releases tension in the neck and improves spinal flexibility.",
+      "level": "Beginner",
+      "met": 2.5,
+      "hold": "continuous flow, each position 3–5 breaths",
+      "hold_seconds": 10,
+      "focus_muscles": [
+        "spine",
+        "core",
+        "back",
+        "neck"
+      ],
+      "benefits": [
+        "Increases spinal mobility",
+        "Reduces neck and upper back tension",
+        "Improves coordination of breath and movement"
+      ],
+      "steps": [
+        {
+          "text": "Start on hands and knees in a neutral tabletop position, wrists under shoulders and knees under hips.",
+          "breath": ""
+        },
+        {
+          "text": "Inhale, drop your belly, lift your chest and tailbone, and look up toward the ceiling (Cow).",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Exhale, round your spine, draw your belly toward your spine, and tuck your chin toward your chest (Cat).",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Continue to flow, moving with each breath, returning to Cow on the next inhale and Cat on the next exhale.",
+          "breath": "Breathe"
+        },
+        {
+          "text": "Repeat for 5–10 cycles, maintaining smooth, even breathing throughout.",
+          "breath": ""
+        }
+      ],
+      "breathing": "Synchronize each movement with a full inhalation or exhalation, keeping the breath steady and unforced.",
+      "common_mistakes": [
+        {
+          "mistake": "Hunching shoulders toward ears",
+          "fix": "Keep shoulders relaxed and away from ears"
+        },
+        {
+          "mistake": "Letting hips sag or lift too high",
+          "fix": "Maintain hips level over knees throughout"
+        }
+      ],
+      "easier": [
+        "Place a folded blanket under the knees for extra cushioning",
+        "Perform the movement while seated on a chair, using the same inhale‑exhale pattern"
+      ],
+      "harder": [
+        "Add a gentle arm reach forward on the inhale to deepen the extension",
+        "Transition into a low lunge after each Cow for added hip stretch"
+      ],
+      "props": [],
+      "avoid_if": [
+        "Recent spinal surgery or severe back injury",
+        "Pregnancy with lumbar discomfort",
+        "Acute neck injury"
+      ],
+      "pairs_with": [
+        "Balasana (Child's Pose)",
+        "Adho Mukha Svanasana (Downward Dog)"
+      ]
+    },
+    "plank-pose": {
+      "name": "Plank Pose",
+      "sanskrit": "Phalakasana",
+      "english": "Plank Pose",
+      "summary": "Plank Pose is a full‑body hold that strengthens the core, shoulders, and legs. It is used to build stability, endurance, and calorie burn for weight‑loss goals.",
+      "level": "Intermediate",
+      "met": 3.5,
+      "hold": "30–60 seconds",
+      "hold_seconds": 30,
+      "focus_muscles": [
+        "core",
+        "shoulders",
+        "glutes",
+        "quadriceps",
+        "spine stabilizers"
+      ],
+      "benefits": [
+        "Improves core strength and spinal stability",
+        "Increases muscular endurance across the whole body",
+        "Boosts calorie expenditure during practice"
+      ],
+      "steps": [
+        {
+          "text": "Start in Adho Mukha Svanasana (Downward Dog) with hands shoulder‑width apart and feet hip‑width apart",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Shift weight forward, lowering the hips until shoulders are directly over wrists",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Straighten the legs, pressing the heels toward the floor, forming a straight line from head to heels",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Engage the core, draw the belly button toward the spine, and squeeze the glutes",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Hold the position, keeping the neck neutral and gaze slightly forward",
+          "breath": "Breathe"
+        }
+      ],
+      "breathing": "Maintain steady, even breaths, inhaling and exhaling through the nose or mouth as comfortable.",
+      "common_mistakes": [
+        {
+          "mistake": "Hips sagging toward the floor",
+          "fix": "Press the hips up and engage the core to keep a straight line"
+        },
+        {
+          "mistake": "Shoulders creeping up toward ears",
+          "fix": "Roll the shoulders down and away from the ears"
+        }
+      ],
+      "easier": [
+        "Drop to the knees while keeping the same alignment",
+        "Place hands on an elevated surface such as a block or low bench"
+      ],
+      "harder": [
+        "Lift one leg a few inches off the floor",
+        "Transition to forearm plank (Phalakasana variation)"
+      ],
+      "props": [
+        "Yoga block under hands to reduce wrist extension"
+      ],
+      "avoid_if": [
+        "Wrist pain or carpal tunnel syndrome",
+        "Recent abdominal or lower‑back injury",
+        "Pregnancy (especially third trimester)"
+      ],
+      "pairs_with": [
+        "Adho Mukha Svanasana (Downward Dog)",
+        "Surya Namaskara (Sun Salutation)",
+        "Ustrasana (Camel Pose)"
+      ]
+    },
+    "tree-pose": {
+      "name": "Tree Pose",
+      "sanskrit": "Vrikshasana",
+      "english": "Tree Pose",
+      "summary": "Tree Pose is a standing balance that strengthens the legs and core while sharpening concentration. It is often used to develop steadiness and mental focus.",
+      "level": "Beginner",
+      "met": 2.5,
+      "hold": "30–60 seconds per side",
+      "hold_seconds": 30,
+      "focus_muscles": [
+        "quadriceps",
+        "glutes",
+        "calves",
+        "core",
+        "adductors"
+      ],
+      "benefits": [
+        "Improves single‑leg strength",
+        "Enhances balance and proprioception",
+        "Reduces stress through focused breathing"
+      ],
+      "steps": [
+        {
+          "text": "Begin in Tadasana (Mountain Pose) with feet hip‑width apart",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Shift weight onto your left foot, grounding the foot evenly",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Bend the right knee and place the right foot on the inner left thigh or calf, avoiding the knee joint",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Press the foot into the leg and the leg into the foot, engaging the standing thigh",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Bring the hands to prayer position at the heart or raise them overhead, lengthening the spine",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Find a steady gaze (drishti) and hold the pose",
+          "breath": "Breathe"
+        }
+      ],
+      "breathing": "Maintain slow, even breaths, inhaling to lengthen the spine and exhaling to deepen the balance.",
+      "common_mistakes": [
+        {
+          "mistake": "Foot placed too high on the knee",
+          "fix": "Keep the foot below the knee joint on the thigh or calf"
+        },
+        {
+          "mistake": "Hips wobble side to side",
+          "fix": "Engage the core and draw the standing hip inward toward the midline"
+        }
+      ],
+      "easier": [
+        "Place the foot lower on the shin instead of the thigh",
+        "Use a wall for light support",
+        "Keep hands at the heart instead of overhead"
+      ],
+      "harder": [
+        "Close the eyes to challenge proprioception",
+        "Extend arms overhead with palms facing each other",
+        "Transition from Tree Pose into a standing forward bend without returning to Tadasana"
+      ],
+      "props": [
+        "Yoga block under the lifted foot for added stability"
+      ],
+      "avoid_if": [
+        "Severe knee ligament injury",
+        "Acute ankle sprain",
+        "Vertigo or severe balance disorders"
+      ],
+      "pairs_with": []
+    },
+    "paschimottanasana-seated-forward-fold": {
+      "name": "Paschimottanasana (Seated Forward Fold)",
+      "sanskrit": "Paschimottanasana",
+      "english": "Seated Forward Fold",
+      "summary": "Paschimottanasana is a seated forward bend that lengthens the spine and stretches the hamstrings. It is practiced to improve flexibility and calm the nervous system.",
+      "level": "Beginner",
+      "met": 2.2,
+      "hold": "30–60 seconds",
+      "hold_seconds": 45,
+      "focus_muscles": [
+        "hamstrings",
+        "spine extensors",
+        "calves",
+        "lower back",
+        "glutes"
+      ],
+      "benefits": [
+        "Increases hamstring flexibility",
+        "Reduces lower back tension",
+        "Promotes calm and focused breathing"
+      ],
+      "steps": [
+        {
+          "text": "Sit with legs extended straight in front of you",
+          "breath": ""
+        },
+        {
+          "text": "Sit up tall, reaching the crown of your head toward the ceiling",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Hinge forward from the hips, keeping the spine long",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Reach for your feet, shins, or a strap, allowing the torso to fold",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Relax the neck and shoulders, maintaining a straight back as you deepen the fold",
+          "breath": "Breathe"
+        },
+        {
+          "text": "Hold the position, breathing deeply and evenly",
+          "breath": "Breathe"
+        }
+      ],
+      "breathing": "Inhale to lengthen the spine, exhale to deepen the fold, then breathe smoothly throughout the hold.",
+      "common_mistakes": [
+        {
+          "mistake": "Rounding the back",
+          "fix": "Lead with the hips and keep the spine long"
+        },
+        {
+          "mistake": "Straining to touch the toes",
+          "fix": "Use a strap or rest hands on shins, focus on the stretch, not the reach"
+        }
+      ],
+      "easier": [
+        "Place a folded blanket under the hips",
+        "Use a yoga strap around the feet",
+        "Bend the knees slightly"
+      ],
+      "harder": [
+        "Grab the big toes and pull gently for a deeper stretch",
+        "Straighten the legs fully and engage the quadriceps",
+        "Add a gentle twist by reaching opposite hand to opposite foot"
+      ],
+      "props": [
+        "Yoga strap: helps reach the feet without rounding",
+        "Blanket under hips: supports lower back",
+        "Block: place under hands for extra reach"
+      ],
+      "avoid_if": [
+        "Severe lower back injury or herniated disc",
+        "Hamstring strain or recent surgery",
+        "Pregnancy (modify with bent knees)"
+      ],
+      "pairs_with": [
+        "Balasana (Child's Pose)",
+        "Marichyasana (Marichi's Pose)",
+        "Sirsasana (Headstand)",
+        "Setu Bandhasana (Bridge Pose)"
+      ]
+    },
+    "virabhadrasana-ii-warrior-ii": {
+      "name": "Virabhadrasana II (Warrior II)",
+      "sanskrit": "Virabhadrasana II",
+      "english": "Warrior II",
+      "summary": "Warrior II is a standing strength pose that builds leg endurance and opens the hips. It also improves focus and stability for everyday activities.",
+      "level": "Intermediate",
+      "met": 3.0,
+      "hold": "30–60 seconds per side",
+      "hold_seconds": 45,
+      "focus_muscles": [
+        "quadriceps",
+        "glutes",
+        "hip abductors",
+        "core",
+        "shoulders",
+        "upper back"
+      ],
+      "benefits": [
+        "Increases lower‑body strength",
+        "Improves hip flexibility",
+        "Enhances concentration and balance"
+      ],
+      "steps": [
+        {
+          "text": "Stand with feet wide apart, about 3–4 feet distance",
+          "breath": ""
+        },
+        {
+          "text": "Turn your right foot out 90 degrees and align the heel with the arch of the left foot",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Turn your left foot in slightly, keeping the heel grounded",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Bend your right knee over the ankle, thigh parallel to the floor",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Extend both arms parallel to the floor, palms down, reaching actively",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Gaze over the right fingertips, keeping the neck long",
+          "breath": "Breathe"
+        },
+        {
+          "text": "Hold for 30–60 seconds, then release and repeat on the other side",
+          "breath": "Inhale"
+        }
+      ],
+      "breathing": "Maintain steady, diaphragmatic breathing, inhaling as you open the chest and exhaling as you deepen the bend.",
+      "common_mistakes": [
+        {
+          "mistake": "Knee collapses inward",
+          "fix": "Press the knee toward the second toe to keep alignment"
+        },
+        {
+          "mistake": "Hips tilt toward the back leg",
+          "fix": "Square the hips forward, engaging the core"
+        }
+      ],
+      "easier": [
+        "Place a block under the front hand for support",
+        "Shorten the stance width",
+        "Bend the back knee slightly"
+      ],
+      "harder": [
+        "Lift the back heel off the ground",
+        "Sink deeper into the front knee bend",
+        "Add a bind by threading the rear arm under the front arm"
+      ],
+      "props": [
+        "Yoga block under front hand to maintain arm height"
+      ],
+      "avoid_if": [
+        "Recent knee injury or ligament strain",
+        "Severe hip arthritis",
+        "High blood pressure with uncontrolled spikes"
+      ],
+      "pairs_with": []
+    },
+    "matsyasana-fish-pose": {
+      "name": "Matsyasana (Fish Pose)",
+      "sanskrit": "Matsyasana",
+      "english": "Fish Pose",
+      "summary": "Fish Pose is a supine backbend that opens the chest and throat, helping counteract forward‑rounded posture. It is practiced to increase thoracic mobility and promote a feeling of openness in the upper body.",
+      "level": "Intermediate",
+      "met": 2.5,
+      "hold": "15–30 seconds",
+      "hold_seconds": 20,
+      "focus_muscles": [
+        "pectoralis major",
+        "intercostals",
+        "erector spinae",
+        "sternocleidomastoid",
+        "gluteus maximus"
+      ],
+      "benefits": [
+        "Improves thoracic spine flexibility",
+        "Relieves mild upper‑back tightness",
+        "Opens the chest for better breathing"
+      ],
+      "steps": [
+        {
+          "text": "Lie on your back with legs extended and arms resting beside you, palms down",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Slide your hands under your hips, elbows close to your body, palms pressing into the floor",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Press firmly through your forearms and lift your chest, creating an arch in the upper back",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Allow the crown of your head to gently rest on the floor, keeping the neck relaxed",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Hold the position, keeping most of the weight on your forearms and shoulders",
+          "breath": "Breathe"
+        },
+        {
+          "text": "To release, slowly lower your chest and head back to the mat",
+          "breath": "Exhale"
+        }
+      ],
+      "breathing": "Maintain smooth, even breathing, inhaling as you lift the chest and exhaling as you settle deeper into the arch.",
+      "common_mistakes": [
+        {
+          "mistake": "Head bears full weight",
+          "fix": "Rest only the crown lightly; support with a folded blanket if needed"
+        },
+        {
+          "mistake": "Elbows flare outward",
+          "fix": "Keep elbows close together to protect shoulders"
+        }
+      ],
+      "easier": [
+        "Place a folded blanket under the head for neck support",
+        "Bend knees slightly to reduce lumbar strain"
+      ],
+      "harder": [
+        "Straighten legs and engage the core for a deeper arch",
+        "Lift one leg off the floor while maintaining the chest lift"
+      ],
+      "props": [
+        "Blanket under head – cushions the neck",
+        "Yoga block between forearms – adds stability"
+      ],
+      "avoid_if": [
+        "Severe neck injury or cervical spine instability",
+        "Acute shoulder pain",
+        "High blood pressure uncontrolled"
+      ],
+      "pairs_with": [
+        "Setu Bandhasana (Bridge Pose)",
+        "Bhujangasana (Cobra Pose)",
+        "Balasana (Child's Pose)",
+        "Ustrasana (Camel Pose)"
+      ]
+    },
+    "marichyasana-marichi-s-pose": {
+      "name": "Marichyasana (Marichi's Pose)",
+      "sanskrit": "Marichyasana",
+      "english": "Marichi's Pose",
+      "summary": "Marichyasana is a seated spinal twist that stretches the back, shoulders, and hips. It is practiced to improve spinal mobility, aid digestion, and release tension.",
+      "level": "Intermediate",
+      "met": 2.5,
+      "hold": "30–60 seconds per side",
+      "hold_seconds": 30,
+      "focus_muscles": [
+        "Obliques",
+        "Erector spinae",
+        "Shoulders",
+        "Hip flexors",
+        "Hamstrings"
+      ],
+      "benefits": [
+        "Increases spinal flexibility",
+        "Stimulates digestive organs",
+        "Reduces shoulder tension"
+      ],
+      "steps": [
+        {
+          "text": "Sit tall with legs extended forward, grounding both sitting bones.",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Bend the right knee, placing the right foot flat beside the left thigh.",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Wrap the left arm around the right shin, hugging the knee toward the chest.",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Place the right hand behind you, fingers pointing forward or resting on the floor.",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Lengthen the spine, then gently twist to the right, looking over the right shoulder.",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Maintain even breathing, keeping the hips square and the lower back long.",
+          "breath": "Breathe"
+        }
+      ],
+      "breathing": "Breathe smoothly and evenly, using the breath to deepen the twist on each exhale.",
+      "common_mistakes": [
+        {
+          "mistake": "Rounding the lower back",
+          "fix": "Lengthen the tailbone toward the floor before twisting"
+        },
+        {
+          "mistake": "Collapsing the shoulders",
+          "fix": "Draw shoulder blades down and away from ears"
+        }
+      ],
+      "easier": [
+        "Sit on a folded blanket for extra hip support",
+        "Place a strap around the bent knee to assist the arm wrap"
+      ],
+      "harder": [
+        "Bind the opposite arm around the back leg for a deeper bind",
+        "Straighten the bent leg and twist over the extended leg"
+      ],
+      "props": [
+        "Blanket under sit bones for cushioning",
+        "Yoga strap to help bind the arm around the shin"
+      ],
+      "avoid_if": [
+        "Severe spinal disc issues",
+        "Recent abdominal surgery",
+        "Shoulder impingement"
+      ],
+      "pairs_with": [
+        "Twisted Triangle"
+      ]
+    },
+    "legs-up-the-wall": {
+      "name": "Legs Up the Wall",
+      "sanskrit": "Viparita Karani",
+      "english": "Legs Up the Wall",
+      "summary": "Legs Up the Wall is a gentle, inverted restorative pose that eases circulation and calms the nervous system. It is used to relieve tired legs, reduce swelling, and promote relaxation.",
+      "level": "Beginner",
+      "met": 2.0,
+      "hold": "5–15 minutes",
+      "hold_seconds": 300,
+      "focus_muscles": [
+        "hamstrings",
+        "calves",
+        "lower back",
+        "glutes",
+        "core"
+      ],
+      "benefits": [
+        "Reduces leg swelling and fatigue",
+        "Helps you wind down before sleep",
+        "Improves venous return to the heart"
+      ],
+      "steps": [
+        {
+          "text": "Lie on your back on a comfortable mat with your hips a few inches from the wall",
+          "breath": ""
+        },
+        {
+          "text": "Scoot your sitting bones so that your lower back is close to the wall",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Swing your legs up, resting the backs of your calves against the wall; adjust distance for comfort",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Allow your arms to rest by your sides, palms facing up",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Close your eyes, soften your shoulders, and breathe slowly and evenly",
+          "breath": "Breathe"
+        },
+        {
+          "text": "Stay for the desired time, then gently bend knees and slide down the wall",
+          "breath": "Exhale"
+        }
+      ],
+      "breathing": "Maintain slow, diaphragmatic breaths, inhaling through the nose and exhaling through the nose or mouth.",
+      "common_mistakes": [
+        {
+          "mistake": "Legs too far from the wall, causing strain in the lower back",
+          "fix": "Move closer until the backs of the calves comfortably touch the wall"
+        },
+        {
+          "mistake": "Neck turned to one side, creating tension",
+          "fix": "Keep the neck neutral, eyes closed or gazing upward"
+        }
+      ],
+      "easier": [
+        "Place a folded blanket or bolster under the sacrum for gentle support",
+        "Bend knees slightly to reduce inversion intensity"
+      ],
+      "harder": [
+        "Let the legs open into a wide straddle against the wall",
+        "Add a gentle hip opener by placing a strap around the thighs"
+      ],
+      "props": [
+        "Blanket under sacrum – supports lower back",
+        "Bolster against the wall – reduces pressure on calves"
+      ],
+      "avoid_if": [
+        "Severe glaucoma or uncontrolled high blood pressure",
+        "Recent eye surgery or retinal issues",
+        "Deep vein thrombosis (ask your doctor first)"
+      ],
+      "pairs_with": [
+        "Balasana (Child's Pose)",
+        "Savasana (Corpse Pose)",
+        "Happy Baby",
+        "Paschimottanasana (Seated Forward Fold)"
+      ]
+    },
+    "twisted-triangle": {
+      "name": "Twisted Triangle",
+      "sanskrit": "Parivrtta Trikonasana",
+      "english": "Twisted Triangle",
+      "summary": "Twisted Triangle is a standing balance that combines a lateral stretch with a spinal twist. It helps improve digestion, detoxify the torso, and builds leg strength.",
+      "level": "Intermediate",
+      "met": 2.8,
+      "hold": "30–60 seconds per side",
+      "hold_seconds": 30,
+      "focus_muscles": [
+        "quadriceps",
+        "hamstrings",
+        "glutes",
+        "obliques",
+        "erector spinae",
+        "adductors"
+      ],
+      "benefits": [
+        "enhances spinal mobility",
+        "strengthens legs and core",
+        "stimulates digestive organs"
+      ],
+      "steps": [
+        {
+          "text": "Stand with feet wide apart, about 3–4 feet, grounding evenly through both feet",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Turn your right foot out 90 degrees and align the heel with the arch of your left foot",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Square your hips toward the front of the mat while keeping the left heel slightly turned in",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Place your left hand on the right shin, ankle, or the floor beside the right foot",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Reach your right arm up, opening the chest, and gently twist the torso to the right, looking toward the right hand",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Keep both legs straight but avoid locking the knees; engage the thigh muscles",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Hold the twist, breathing evenly, then release and repeat on the opposite side",
+          "breath": "Inhale"
+        }
+      ],
+      "breathing": "Maintain smooth, steady breaths, inhaling to lengthen the spine and exhaling to deepen the twist.",
+      "common_mistakes": [
+        {
+          "mistake": "Collapsing the chest",
+          "fix": "Open the ribs and keep the shoulders down away from the ears"
+        },
+        {
+          "mistake": "Locking the knees",
+          "fix": "Maintain a micro‑bend in the knees to protect the joints"
+        },
+        {
+          "mistake": "Looking forward instead of up",
+          "fix": "Turn the gaze toward the lifted hand to encourage a deeper twist"
+        }
+      ],
+      "easier": [
+        "Place a yoga block under the hand that reaches the floor",
+        "Use a chair for support, sitting on the edge and performing the twist seated"
+      ],
+      "harder": [
+        "Deepen the twist by reaching the lifted arm overhead and gazing at the thumb",
+        "Bring the bottom hand to the floor outside the front foot"
+      ],
+      "props": [
+        "Yoga block: supports the hand if the floor is unreachable"
+      ],
+      "avoid_if": [
+        "Severe lower back injury",
+        "Recent hip or knee surgery",
+        "High blood pressure that worsens with twisting"
+      ],
+      "pairs_with": [
+        "Virabhadrasana II (Warrior II)",
+        "Utthita Trikonasana (Triangle Pose)",
+        "Surya Namaskara (Sun Salutation)"
+      ]
+    },
+    "happy-baby": {
+      "name": "Happy Baby",
+      "sanskrit": "Ananda Balasana",
+      "english": "Happy Baby",
+      "summary": "Happy Baby is a supine hip opener that gently stretches the inner thighs and lower back while promoting relaxation. It is often used to release tension after a vigorous practice or to calm the nervous system.",
+      "level": "Beginner",
+      "met": 2.0,
+      "hold": "30–60 seconds",
+      "hold_seconds": 45,
+      "focus_muscles": [
+        "hip flexors",
+        "inner thighs",
+        "lower back",
+        "glutes"
+      ],
+      "benefits": [
+        "Increases hip flexibility",
+        "Reduces lower‑back stiffness",
+        "Calms the nervous system"
+      ],
+      "steps": [
+        {
+          "text": "Lie on your back with knees bent and feet flat on the floor",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Draw both knees toward your chest, hugging them with your arms",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Reach for the outer edges of the feet with your hands, keeping the arms on the inside of the knees",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Open the knees wider than your torso, allowing the ankles to flex outward",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Gently rock side to side, finding a comfortable range of motion",
+          "breath": "Breathe"
+        },
+        {
+          "text": "Hold the position, breathing calmly for 30–60 seconds",
+          "breath": "Breathe"
+        }
+      ],
+      "breathing": "Maintain slow, diaphragmatic breaths, inhaling to lengthen the spine and exhaling to deepen the hip opening.",
+      "common_mistakes": [
+        {
+          "mistake": "Gripping the toes instead of the outer edges of the feet",
+          "fix": "Hold the outer edges of the soles to keep shoulders relaxed"
+        },
+        {
+          "mistake": "Pressing the lower back into the floor forcefully",
+          "fix": "Allow a gentle arch; keep the lower back relaxed"
+        }
+      ],
+      "easier": [
+        "Place a yoga strap around the soles of the feet and hold the strap",
+        "Use a folded blanket under the head for support"
+      ],
+      "harder": [
+        "Straighten the knees while keeping the hips flexed",
+        "Hold longer, rocking gently side to side"
+      ],
+      "props": [
+        "Yoga strap – helps reach the feet without straining the shou",
+        "Blanket under the head – provides neck comfort"
+      ],
+      "avoid_if": [
+        "Severe lower‑back injury",
+        "Hip replacement or recent surgery",
+        "Pregnancy after the first trimester"
+      ],
+      "pairs_with": []
+    },
+    "sun-salutation-a": {
+      "name": "Sun Salutation A",
+      "sanskrit": "Surya Namaskara A",
+      "english": "Sun Salutation A",
+      "summary": "Sun Salutation A is a linked series of standing, forward‑fold, plank and back‑bending postures performed in a smooth flow. It raises heart rate, warms the muscles and prepares the body for deeper work.",
+      "level": "Intermediate",
+      "met": 3.5,
+      "hold": "One breath per movement, 3–5 rounds",
+      "hold_seconds": 60,
+      "focus_muscles": [
+        "quadriceps",
+        "hamstrings",
+        "glutes",
+        "core",
+        "shoulders",
+        "spine"
+      ],
+      "benefits": [
+        "Increases cardiovascular endurance",
+        "Improves overall flexibility",
+        "Builds functional strength"
+      ],
+      "steps": [
+        {
+          "text": "Start in Tadasana, feet together, arms at heart center",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Sweep arms overhead, gaze upward",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Fold forward, hands to the floor or shins",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Lift torso halfway, lengthen spine, hands on shins",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Step back one foot at a time into Plank Pose",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Lower slowly to the floor, keeping elbows close (low push‑up)",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Slide forward, roll onto the tops of the feet, lift chest into Bhujangasana",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Press back into Adho Mukha Svanasana, hips high",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Step right foot forward between hands, rise to standing",
+          "breath": "Inhale"
+        }
+      ],
+      "breathing": "Match each movement with a steady, diaphragmatic breath, inhaling on opening actions and exhaling on folding or lowering actions.",
+      "common_mistakes": [
+        {
+          "mistake": "Hunching shoulders in plank",
+          "fix": "Engage shoulder blades and keep a straight line from head to heels"
+        },
+        {
+          "mistake": "Rounding the back in cobra",
+          "fix": "Press the tops of the feet into the mat and lift chest without collapsing the lumbar spine"
+        }
+      ],
+      "easier": [
+        "Place hands on blocks for the forward fold",
+        "Drop knees to the mat in the low push‑up"
+      ],
+      "harder": [
+        "Add a jump back to plank instead of stepping",
+        "Lift one leg in Downward Dog for balance"
+      ],
+      "props": [
+        "Yoga blocks under hands in forward fold to maintain length"
+      ],
+      "avoid_if": [
+        "Recent shoulder injury or instability",
+        "Severe lower back pain",
+        "Uncontrolled high blood pressure"
+      ],
+      "pairs_with": [
+        "Plank Pose"
+      ]
+    },
+    "corpse-pose": {
+      "name": "Corpse Pose",
+      "sanskrit": "Savasana",
+      "english": "Corpse Pose",
+      "summary": "Savasana is a supine resting posture used at the end of a yoga session to integrate the practice. It promotes deep relaxation and helps the nervous system shift toward parasympathetic dominance.",
+      "level": "Beginner",
+      "met": 1.3,
+      "hold": "5–10 minutes",
+      "hold_seconds": 300,
+      "focus_muscles": [
+        "spine",
+        "core",
+        "back",
+        "legs"
+      ],
+      "benefits": [
+        "Helps the body shift into a resting state",
+        "Reduces feelings of stress and anxiety",
+        "Improves body awareness and mindfulness"
+      ],
+      "steps": [
+        {
+          "text": "Lie flat on your back with legs extended and feet falling naturally open",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Allow your arms to rest alongside the body, palms facing upward",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Close your eyes and soften the facial muscles",
+          "breath": "Breathe"
+        },
+        {
+          "text": "Take slow, natural breaths, feeling the rise and fall of the abdomen",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Mentally scan the body, releasing tension from each muscle group",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Stay in the position for the desired duration, maintaining relaxed breathing",
+          "breath": "Breathe"
+        }
+      ],
+      "breathing": "Breathe slowly and evenly through the nose, allowing the breath to become effortless.",
+      "common_mistakes": [
+        {
+          "mistake": "Head tilting to one side",
+          "fix": "Use a small pillow or folded blanket to keep the head centered"
+        },
+        {
+          "mistake": "Raising the shoulders toward the ears",
+          "fix": "Drop the shoulders away from the ears and relax the neck"
+        }
+      ],
+      "easier": [
+        "Place a bolster under the knees to relieve lower back",
+        "Use a folded blanket under the head for neck support"
+      ],
+      "harder": [
+        "Extend the stay to 15 minutes or incorporate a guided body scan"
+      ],
+      "props": [
+        "Blanket under the head for neck comfort",
+        "Bolster or folded blanket under the knees to support the low"
+      ],
+      "avoid_if": [
+        "Lower back discomfort lying flat (bend the knees or put a bolster under them)",
+        "Pregnancy beyond the first trimester (rest on your side instead)",
+        "Feeling anxious with eyes closed (keep them softly open)"
+      ],
+      "pairs_with": [
+        "Balasana (Child's Pose)",
+        "Legs Up the Wall",
+        "Happy Baby",
+        "Padmasana (Lotus Pose)"
+      ]
+    },
+    "utthita-trikonasana-triangle-pose": {
+      "name": "Utthita Trikonasana (Triangle Pose)",
+      "sanskrit": "Utthita Trikonasana",
+      "english": "Triangle Pose",
+      "summary": "Triangle Pose is a standing stretch that opens the sides of the torso and lengthens the hamstrings while building leg strength. It is practiced to improve balance, spinal alignment, and overall flexibility.",
+      "level": "Intermediate",
+      "met": 2.5,
+      "hold": "30–60 seconds per side",
+      "hold_seconds": 45,
+      "focus_muscles": [
+        "hamstrings",
+        "quadriceps",
+        "glutes",
+        "obliques",
+        "spinal erectors",
+        "calves"
+      ],
+      "benefits": [
+        "Increases lateral spinal flexibility",
+        "Strengthens lower body muscles",
+        "Improves balance and proprioception"
+      ],
+      "steps": [
+        {
+          "text": "Stand with feet wide apart, grounding evenly through both feet",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Turn your right foot out 90 degrees and align the heel with the left heel",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Square your right heel with the left heel, then hinge at the hip to the right, reaching the right hand toward the floor",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Place your right hand on your shin, ankle, or a block, and extend the left arm toward the ceiling",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Lengthen both sides of the waist, gaze up toward the left hand, and breathe evenly",
+          "breath": "Breathe"
+        }
+      ],
+      "breathing": "Maintain steady, even breaths, inhaling as you open the torso and exhaling as you deepen the hinge.",
+      "common_mistakes": [
+        {
+          "mistake": "Collapsing the chest forward",
+          "fix": "Engage the ribcage and keep the chest open toward the ceiling"
+        },
+        {
+          "mistake": "Hunching the shoulders",
+          "fix": "Roll shoulders down and away from ears"
+        }
+      ],
+      "easier": [
+        "Place a yoga block under the bottom hand",
+        "Practise with your back against a wall for alignment"
+      ],
+      "harder": [
+        "Lower the bottom hand to the floor outside the front foot",
+        "Reach the top hand overhead for a full lengthening"
+      ],
+      "props": [
+        "Block: supports the lower hand when reaching the floor",
+        "Chair: sit on it for a seated version of the pose"
+      ],
+      "avoid_if": [
+        "Severe lower back injury",
+        "Recent hip replacement or severe hip pain",
+        "Vertigo or balance disorders"
+      ],
+      "pairs_with": [
+        "Sun Salutation A"
+      ]
+    },
+    "setu-bandhasana-bridge-pose": {
+      "name": "Setu Bandhasana (Bridge Pose)",
+      "sanskrit": "Setu Bandhasana",
+      "english": "Bridge Pose",
+      "summary": "Bridge Pose is a supine backbend that lifts the spine and opens the chest. It is used to strengthen the back, glutes, and hamstrings while relieving mild back discomfort.",
+      "level": "Beginner",
+      "met": 2.7,
+      "hold": "30–60 seconds",
+      "hold_seconds": 45,
+      "focus_muscles": [
+        "glutes",
+        "hamstrings",
+        "erector spinae",
+        "lower back",
+        "quadriceps",
+        "chest"
+      ],
+      "benefits": [
+        "Improves spinal flexibility",
+        "Strengthens posterior chain muscles",
+        "Opens the chest and improves posture"
+      ],
+      "steps": [
+        {
+          "text": "Lie on your back with knees bent and feet flat on the floor",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Place feet hip‑width apart, heels a few inches from your sit bones",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Press through the feet, engage the thighs, and lift the hips toward the ceiling",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Interlace fingers under your back, rolling the shoulders back and down",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Keep knees tracking over the ankles and thighs parallel",
+          "breath": "Breathe"
+        },
+        {
+          "text": "Hold the lift, drawing the shoulder blades together, for the desired time",
+          "breath": "Breathe"
+        }
+      ],
+      "breathing": "Maintain steady, diaphragmatic breathing, inhaling to lengthen the spine and exhaling to deepen the lift.",
+      "common_mistakes": [
+        {
+          "mistake": "Hips saging toward the floor",
+          "fix": "Engage the glutes and press firmly through the heels"
+        },
+        {
+          "mistake": "Neck craning upward",
+          "fix": "Keep the neck neutral, gaze toward the ceiling or gently close eyes"
+        }
+      ],
+      "easier": [
+        "Place a yoga block or folded blanket under the sacrum for support",
+        "Bend the knees more to reduce the lift height"
+      ],
+      "harder": [
+        "Interlace the fingers under your back and roll onto the shoulders",
+        "Lift one leg while maintaining the bridge for added core challenge"
+      ],
+      "props": [
+        "Yoga block under sacrum – provides gentle support and reduce"
+      ],
+      "avoid_if": [
+        "Recent spinal disc injury or severe osteoporosis",
+        "Pregnancy after the first trimester",
+        "Acute lower‑back pain or herniated disc"
+      ],
+      "pairs_with": [
+        "Bhujangasana (Cobra Pose)",
+        "Cat-Cow Stretch",
+        "Balasana (Child's Pose)"
+      ]
+    },
+    "sirsasana-headstand": {
+      "name": "Sirsasana (Headstand)",
+      "sanskrit": "Sirsasana",
+      "english": "Headstand",
+      "summary": "Headstand is an inverted balance pose performed on the crown of the head and forearms. It is practiced to improve circulation, strengthen the core and shoulder girdle, and enhance mental focus.",
+      "level": "Advanced",
+      "met": 3.5,
+      "hold": "30–60 seconds",
+      "hold_seconds": 45,
+      "focus_muscles": [
+        "Core",
+        "Shoulders",
+        "Upper back",
+        "Glutes",
+        "Hip flexors"
+      ],
+      "benefits": [
+        "Builds controlled strength for inversions",
+        "Strengthens core and shoulder stabilizers",
+        "Enhances balance and concentration"
+      ],
+      "steps": [
+        {
+          "text": "Kneel and place forearms on the floor, elbows shoulder‑width apart",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Interlace fingers and create a cup for the crown of the head",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Place the crown of the head in the cupped hands, keeping neck neutral",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Tuck toes, lift hips up, and walk feet toward elbows to build a tripod base",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Slowly lift one leg, then the other, coming to a full vertical line",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Engage the core, keep legs straight, and find a steady gaze",
+          "breath": "Breathe"
+        },
+        {
+          "text": "Hold the pose for the desired time, maintaining even breathing",
+          "breath": "Breathe"
+        },
+        {
+          "text": "To exit, gently lower one leg at a time back to the floor",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Rest in Child's Pose to release the neck and spine",
+          "breath": "Exhale"
+        }
+      ],
+      "breathing": "Maintain slow, steady diaphragmatic breaths throughout, inhaling to prepare and exhaling to stabilize the pose.",
+      "common_mistakes": [
+        {
+          "mistake": "Neck collapses under weight",
+          "fix": "Keep the crown of the head lightly resting in the hands, never bearing full load"
+        },
+        {
+          "mistake": "Hips sag or rise too high",
+          "fix": "Engage the core and glutes to keep the spine in a straight line"
+        },
+        {
+          "mistake": "Legs wobble or bend",
+          "fix": "Press through the forearms and keep the core tight to stabilize the legs"
+        }
+      ],
+      "easier": [
+        "Place a folded blanket under the forearms for extra cushioning",
+        "Practise at a wall, lifting one leg at a time with control (never kick up)"
+      ],
+      "harder": [
+        "Practice a split‑leg variation (straddle)",
+        "Enter the pose with Lotus legs for increased hip flexibility"
+      ],
+      "props": [
+        "Yoga block under forearms to reduce wrist strain",
+        "Wall behind for safety during learning"
+      ],
+      "avoid_if": [
+        "You have not learned it with a qualified teacher yet",
+        "Neck injury or cervical instability",
+        "High blood pressure or glaucoma",
+        "Pregnancy",
+        "Recent abdominal surgery"
+      ],
+      "pairs_with": [
+        "Balasana (Child's Pose)",
+        "Halasana (Plow Pose)",
+        "Savasana (Corpse Pose)",
+        "Ustrasana (Camel Pose)"
+      ]
+    },
+    "savasana-corpse-pose": {
+      "name": "Savasana (Corpse Pose)",
+      "sanskrit": "Śavāsana",
+      "english": "Corpse Pose",
+      "summary": "Savasana is a supine resting posture performed at the end of a yoga session. It allows the nervous system to reset and integrates the physical and mental benefits of the practice.",
+      "level": "Beginner",
+      "met": 1.3,
+      "hold": "5–15 minutes",
+      "hold_seconds": 300,
+      "focus_muscles": [
+        "spine",
+        "lower back",
+        "hamstrings",
+        "glutes",
+        "shoulders"
+      ],
+      "benefits": [
+        "Helps the body shift into a resting state",
+        "Reduces stress and anxiety",
+        "Improves body awareness",
+        "Supports recovery after vigorous practice"
+      ],
+      "steps": [
+        {
+          "text": "Lie flat on your back with legs extended and feet falling naturally apart",
+          "breath": ""
+        },
+        {
+          "text": "Allow your feet to relax outward and let your knees soften if needed",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Place your arms alongside your body, palms facing upward",
+          "breath": "Inhale"
+        },
+        {
+          "text": "Close your eyes and soften your facial muscles",
+          "breath": "Exhale"
+        },
+        {
+          "text": "Scan your body and consciously release tension from each muscle group",
+          "breath": "Breathe"
+        },
+        {
+          "text": "Shift attention to the natural rhythm of your breath without trying to change it",
+          "breath": "Breathe"
+        },
+        {
+          "text": "Remain still and present for the allotted time, gently returning focus if the mind wanders",
+          "breath": "Breathe"
+        }
+      ],
+      "breathing": "Maintain a smooth, natural breath, observing the inhale and exhale without forcing them.",
+      "common_mistakes": [
+        {
+          "mistake": "Legs are too close together causing tension in hips",
+          "fix": "Allow knees to fall open naturally"
+        },
+        {
+          "mistake": "Head is turned to one side causing neck strain",
+          "fix": "Keep the head centered and use a small pillow if needed"
+        }
+      ],
+      "easier": [
+        "Place a folded blanket under the knees to relieve lower back",
+        "Use a bolster under the torso for extra support"
+      ],
+      "harder": [
+        "Extend the pose to 20 minutes for deeper relaxation",
+        "Practice with eyes slightly open focusing on a distant point"
+      ],
+      "props": [
+        "Blanket under knees – reduces lumbar pressure",
+        "Bolster under torso – supports a gentle chest lift",
+        "Eye pillow – blocks light and enhances relaxation"
+      ],
+      "avoid_if": [
+        "Lower back discomfort lying flat (bend the knees or put a bolster under them)",
+        "Pregnancy beyond the first trimester (rest on your side instead)",
+        "Feeling anxious with eyes closed (keep them softly open)"
+      ],
+      "pairs_with": [
+        "Balasana (Child's Pose)",
+        "Legs Up the Wall",
+        "Matsyasana (Fish Pose)",
+        "Padmasana (Lotus Pose)"
+      ]
+    }
+  }
+}

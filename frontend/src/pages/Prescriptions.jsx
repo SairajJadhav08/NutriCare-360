@@ -1,122 +1,134 @@
-import { useState, useEffect, useCallback } from 'react'
-import { useApi } from '../hooks/useApi'
-import React from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useOutletContext } from 'react-router-dom'
-import axios from 'axios' // Need manual axios call for FormData
+import axios from 'axios'
+import { useFlash } from '../context/FlashContext'
+import { parseUtc } from '../lib/format'
+import EmptyState from '../components/ui/EmptyState'
+
+const ACCEPT = 'image/*,.pdf'
+const isPdf = name => /\.pdf$/i.test(name)
 
 export default function Prescriptions() {
-  const { request, loading: apiLoading, error: apiError, setError } = useApi()
-  const [prescriptions, setPrescriptions] = useState([])
-  const [uploading, setUploading] = useState(false)
+  const { showFlash, openPrescriptionModal } = useFlash()
   const { globalSearch = '' } = useOutletContext() || {}
+  const [items, setItems] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [uploading, setUploading] = useState(false)
+  const [dragging, setDragging] = useState(false)
+  const inputRef = useRef(null)
 
-  const fetchPrescriptions = useCallback(async () => {
+  const fetchItems = useCallback(async () => {
     try {
-      const data = await request('get', '/api/prescriptions')
-      setPrescriptions(data.prescriptions)
-    } catch (err) {
-      console.error(err)
-    }
-  }, [request])
-
-  useEffect(() => {
-    fetchPrescriptions()
-  }, [fetchPrescriptions])
-
-  const handleUpload = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-
-    setUploading(true)
-    setError(null)
-
-    const formData = new FormData()
-    formData.append('prescription', file)
-
-    try {
-      // Direct axios call because useApi wrapper stringifies data by default
-      await axios.post('/api/prescriptions', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      })
-      fetchPrescriptions()
-      // reset file input
-      e.target.value = null
-    } catch (err) {
-      setError(err.response?.data?.error || 'Upload failed')
+      const r = await axios.get('/api/prescriptions')
+      setItems(r.data.prescriptions)
+    } catch {
+      showFlash('Could not load prescriptions', 'error')
     } finally {
-      setUploading(false)
+      setLoading(false)
     }
-  }
+  }, [showFlash])
 
-  const handleDelete = async (id) => {
-    if (confirm('Delete this prescription?')) {
+  useEffect(() => { fetchItems() }, [fetchItems])
+
+  async function upload(files) {
+    const list = [...files]
+    if (!list.length) return
+    setUploading(true)
+    let ok = 0
+    for (const file of list) {
+      const fd = new FormData()
+      fd.append('prescription', file)
       try {
-        await request('delete', `/api/prescriptions/${id}`)
-        fetchPrescriptions()
+        await axios.post('/api/prescriptions', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
+        ok++
       } catch (err) {
-        console.error(err)
+        showFlash(`${file.name}: ${err.response?.data?.error || 'upload failed'}`, 'error')
       }
     }
+    setUploading(false)
+    if (inputRef.current) inputRef.current.value = ''
+    if (ok) { showFlash(`Uploaded ${ok} file${ok === 1 ? '' : 's'}`, 'success'); fetchItems() }
   }
 
-  const formatDate = (dateStr) => {
-    const d = new Date(dateStr)
-    return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+  async function handleDelete(p) {
+    if (!confirm(`Delete ${p.original_filename}? This can't be undone.`)) return
+    try {
+      await axios.delete(`/api/prescriptions/${p.id}`)
+      fetchItems()
+    } catch {
+      showFlash('Could not delete', 'error')
+    }
   }
+
+  const visible = items.filter(p => p.original_filename.toLowerCase().includes(globalSearch.toLowerCase()))
 
   return (
-    <div className="page-wrapper animate-fade-in">
-      <div className="page-header">
+    <div className="stack-lg animate-in">
+      <header className="page-head">
         <div>
           <h1 className="page-title">Prescriptions</h1>
-          <p className="text-secondary">Securely store and access your medical documents.</p>
+          <p className="page-sub">Photos and PDFs of prescriptions and reports, kept in one place.</p>
         </div>
-        
-        <label className="btn btn-primary" style={{cursor: 'pointer'}}>
-          <input type="file" style={{display: 'none'}} onChange={handleUpload} accept="image/*,.pdf" disabled={uploading}/>
-          {uploading ? <div className="spinner" style={{width:'16px', height:'16px', borderWidth:'2px'}}></div> : <><i className="fa-solid fa-cloud-arrow-up"></i> Upload Document</>}
-        </label>
-      </div>
+      </header>
 
-      {(apiError) && <div className="flash-message flash-error">{apiError}</div>}
+      <label
+        className={`dropzone${dragging ? ' is-drag' : ''}${uploading ? ' is-busy' : ''}`}
+        onDragOver={e => { e.preventDefault(); setDragging(true) }}
+        onDragLeave={() => setDragging(false)}
+        onDrop={e => { e.preventDefault(); setDragging(false); upload(e.dataTransfer.files) }}
+      >
+        <input ref={inputRef} type="file" accept={ACCEPT} multiple className="sr-only"
+          onChange={e => upload(e.target.files)} disabled={uploading} />
+        <i className={`fa-solid ${uploading ? 'fa-circle-notch fa-spin' : 'fa-cloud-arrow-up'}`} aria-hidden="true" />
+        <div>
+          <p className="dropzone-title">{uploading ? 'Uploading' : 'Drop files here or click to upload'}</p>
+          <p className="muted small">JPG, PNG, WebP or PDF, up to 16 MB each</p>
+        </div>
+      </label>
 
-      <div className="prescriptions-grid">
-        {apiLoading && prescriptions.length === 0 ? (
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '3rem', gridColumn: '1/-1' }}><div className="spinner"></div></div>
-        ) : prescriptions.length === 0 ? (
-           <div className="empty-state" style={{gridColumn: '1/-1'}}>
-             <div className="empty-icon"><i className="fa-solid fa-file-medical"></i></div>
-             <h3>No Prescriptions Found</h3>
-             <p className="text-secondary">Upload your first prescription to keep it safe.</p>
-           </div>
-         ) : (
-          prescriptions.filter(p => p.original_filename.toLowerCase().includes(globalSearch.toLowerCase())).map(p => (
-            <div key={p.id} className="prescription-card hover-lift">
-              <div className="prescription-preview">
-                {/* Relying on backend static folder mapping through Vite proxy */}
-                <img src={`/api/uploads/${p.filename}`} alt={p.original_filename} onError={(e) => {
-                  e.target.onerror = null; 
-                  e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ccc'%3E%3Cpath d='M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z'/%3E%3C/svg%3E" 
-                }}/>
-                <button className="delete-prescription-btn" onClick={() => handleDelete(p.id)} aria-label="Delete">
-                  <i className="fa-solid fa-trash"></i>
-                </button>
-              </div>
-              <div className="prescription-info">
-                <h4 className="prescription-filename" title={p.original_filename}>{p.original_filename}</h4>
-                <div className="prescription-date">
-                  <i className="fa-regular fa-calendar"></i> {formatDate(p.upload_date)}
-                </div>
-                <div className="prescription-actions">
-                  <a href={`/api/uploads/${p.filename}`} target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-sm w-100">
-                    <i className="fa-regular fa-eye"></i> View Full File
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
+      {loading ? (
+        <div className="doc-grid">{[0, 1, 2, 3].map(i => <div key={i} className="skeleton block" style={{ height: '13.75rem' }} />)}</div>
+      ) : visible.length === 0 ? (
+        <div className="card">
+          <EmptyState image="/images/empty-prescriptions-240.webp" icon="fa-file-medical"
+            title={globalSearch ? 'No matching documents' : 'No documents yet'}>
+            {globalSearch ? 'Try a different filter.' : 'Upload a photo of a prescription so it is with you at the pharmacy or your next appointment.'}
+          </EmptyState>
+        </div>
+      ) : (
+        <>
+          <p className="muted small">{visible.length} document{visible.length === 1 ? '' : 's'}</p>
+          <ul className="doc-grid">
+            {visible.map(p => {
+              const url = `/api/uploads/${p.filename}`
+              const pdf = isPdf(p.filename)
+              const date = parseUtc(p.upload_date)
+              return (
+                <li key={p.id} className="doc">
+                  <button className="doc-preview" onClick={() => pdf ? window.open(url, '_blank', 'noopener') : openPrescriptionModal(url, p.original_filename)}
+                    aria-label={`Open ${p.original_filename}`}>
+                    {pdf
+                      ? <span className="doc-pdf"><i className="fa-regular fa-file-pdf" /><span>PDF</span></span>
+                      : <img src={url} alt="" loading="lazy" />}
+                  </button>
+                  <div className="doc-info">
+                    <div className="grow">
+                      <p className="doc-name" title={p.original_filename}>{p.original_filename}</p>
+                      <p className="muted small">{date ? date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : ''}</p>
+                    </div>
+                    <a href={url} target="_blank" rel="noopener noreferrer" className="btn btn-ghost btn-icon btn-sm" aria-label="Open in new tab">
+                      <i className="fa-solid fa-arrow-up-right-from-square" />
+                    </a>
+                    <button className="btn btn-ghost btn-icon btn-sm" onClick={() => handleDelete(p)} aria-label={`Delete ${p.original_filename}`}>
+                      <i className="fa-regular fa-trash-can" />
+                    </button>
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
+        </>
+      )}
     </div>
   )
 }

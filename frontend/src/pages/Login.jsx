@@ -1,97 +1,57 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { useTheme } from '../context/ThemeContext'
-import React from 'react'
+import AuthLayout from '../components/layout/AuthLayout'
 
 export default function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [showPw, setShowPw]     = useState(false)
   const [error, setError]       = useState('')
+  const [busy, setBusy]         = useState(false)
   const { login } = useAuth()
-  const { theme, toggle } = useTheme()
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    setBusy(true)
     try {
       await login(username, password)
       navigate('/dashboard')
     } catch (err) {
-      setError(err.response?.data?.error || 'Invalid credentials')
+      setError(err.response?.data?.error || 'Could not log in. Check your details and try again.')
+      setBusy(false)
     }
   }
 
   return (
-    <div className="auth-page">
-      {/* Navbar */}
-      <nav className="auth-nav">
-        <Link to="/" className="logo">
-          <i className="fa-solid fa-heart-pulse"></i>
-          <span>NutriCare-360</span>
-        </Link>
-        <button onClick={toggle} className="icon-btn theme-toggle" aria-label="Toggle theme">
-          <i className={theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'}></i>
+    <AuthLayout
+      title="Welcome back"
+      subtitle="Log in to see today's meals, medications and brief."
+      footer={<>New here? <Link to="/register">Create an account</Link></>}
+    >
+      <form onSubmit={handleSubmit} className="stack-md">
+        {error && <p className="callout callout-danger" role="alert"><i className="fa-solid fa-circle-exclamation" /> {error}</p>}
+        <div className="field">
+          <label className="label" htmlFor="username">Username</label>
+          <input id="username" className="input input-lg" required autoComplete="username" autoFocus
+            value={username} onChange={e => setUsername(e.target.value)} />
+        </div>
+        <div className="field">
+          <label className="label" htmlFor="password">Password</label>
+          <div className="input-action">
+            <input id="password" className="input input-lg" type={showPw ? 'text' : 'password'} required autoComplete="current-password"
+              value={password} onChange={e => setPassword(e.target.value)} />
+            <button type="button" onClick={() => setShowPw(v => !v)} aria-label={showPw ? 'Hide password' : 'Show password'}>
+              <i className={`fa-regular ${showPw ? 'fa-eye-slash' : 'fa-eye'}`} />
+            </button>
+          </div>
+        </div>
+        <button type="submit" className="btn btn-primary btn-lg btn-block" disabled={busy}>
+          {busy ? <><i className="fa-solid fa-circle-notch fa-spin" /> Logging in</> : 'Log in'}
         </button>
-      </nav>
-
-      <div className="auth-container">
-        <div className="auth-header">
-          <div className="auth-logo">
-            <i className="fa-solid fa-heart-pulse"></i>
-          </div>
-          <h1 className="auth-title">Welcome Back</h1>
-          <p className="auth-subtitle">Log in to your health dashboard</p>
-        </div>
-
-        {error && (
-          <div className="flash-message flash-error">
-            <i className="fa-solid fa-triangle-exclamation"></i>
-            <span>{error}</span>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="auth-form">
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <div className="input-with-icon">
-              <i className="fa-solid fa-user"></i>
-              <input
-                type="text"
-                id="username"
-                required
-                placeholder="Enter your username"
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <div className="input-with-icon">
-              <i className="fa-solid fa-lock"></i>
-              <input
-                type="password"
-                id="password"
-                required
-                placeholder="Enter your password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <button type="submit" className="btn btn-primary w-100" style={{ marginTop: '0.5rem' }}>
-            Log In
-          </button>
-        </form>
-
-        <div className="auth-footer">
-          <p>Don't have an account? <Link to="/register">Sign up</Link></p>
-        </div>
-      </div>
-    </div>
+      </form>
+    </AuthLayout>
   )
 }

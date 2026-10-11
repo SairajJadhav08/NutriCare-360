@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 
-const BG_COLORS = {
-  success: 'var(--success)',
-  error: 'var(--danger)',
+const ICONS = {
+  success: 'fa-circle-check',
+  error: 'fa-circle-exclamation',
 }
 
 export default function Toast({ message, type, onDismiss }) {
@@ -11,22 +11,12 @@ export default function Toast({ message, type, onDismiss }) {
     return () => clearTimeout(timer)
   }, [onDismiss])
 
-  const backgroundColor = BG_COLORS[type] ?? 'var(--primary)'
-
   return (
-    <div
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-lg shadow-lg text-white text-sm font-medium"
-      style={{ backgroundColor }}
-      role="alert"
-      aria-live="polite"
-    >
+    <div className={`toast toast-${type || 'info'}`} role="alert" aria-live="polite">
+      <i className={`fa-solid ${ICONS[type] || 'fa-circle-info'}`} aria-hidden="true" />
       <span>{message}</span>
-      <button
-        onClick={onDismiss}
-        className="ml-2 opacity-80 hover:opacity-100 transition-opacity"
-        aria-label="Dismiss notification"
-      >
-        ✕
+      <button onClick={onDismiss} className="toast-close" aria-label="Dismiss notification">
+        <i className="fa-solid fa-xmark" />
       </button>
     </div>
   )

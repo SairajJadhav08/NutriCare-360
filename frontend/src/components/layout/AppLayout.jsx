@@ -1,61 +1,60 @@
-import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Suspense, useState } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import TopHeader from './TopHeader'
 import { FlashProvider, useFlash } from '../../context/FlashContext'
+import { AssistantProvider } from '../../context/AssistantContext'
 import Toast from '../ui/Toast'
 import PrescriptionModal from '../ui/PrescriptionModal'
 import ErrorBoundary from '../ui/ErrorBoundary'
+import AssistantDrawer from '../ai/AssistantDrawer'
+
+function readCollapsed() {
+  try { return localStorage.getItem('nc_sidebar') === 'collapsed' } catch { return false }
+}
 
 function AppLayoutContent() {
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(readCollapsed)
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [globalSearch, setGlobalSearch] = useState('')
   const { flash, clearFlash, prescriptionModal, closePrescriptionModal } = useFlash()
+  const location = useLocation()
 
-  const toggleSidebar = () => setCollapsed(prev => !prev)
+  // Close the mobile menu and clear the page filter on navigation
+  const [lastPath, setLastPath] = useState(location.pathname)
+  if (lastPath !== location.pathname) {
+    setLastPath(location.pathname)
+    setMobileOpen(false)
+    setGlobalSearch('')
+  }
+
+  const toggleSidebar = () => {
+    if (window.matchMedia('(max-width: 960px)').matches) {
+      setMobileOpen(o => !o)
+      return
+    }
+    setCollapsed(c => {
+      try { localStorage.setItem('nc_sidebar', c ? 'expanded' : 'collapsed') } catch { /* ignore */ }
+      return !c
+    })
+  }
 
   return (
-    <div className="app-wrapper">
-      <Sidebar collapsed={collapsed} onToggle={toggleSidebar} />
-      <TopHeader onToggleSidebar={toggleSidebar} onSearch={setGlobalSearch} />
-      <main className="main-content">
-        {flash && flash.message && (
-          <div
-            className="flash-banner"
-            style={{
-              backgroundColor: flash.type === 'error' ? 'var(--danger)' : flash.type === 'success' ? 'var(--success)' : 'var(--primary)',
-              color: 'white',
-              padding: '1rem',
-              marginBottom: '1rem',
-              borderRadius: '0.5rem',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}
-            role="alert"
-          >
-            <span>{flash.message}</span>
-            <button
-              onClick={clearFlash}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'white',
-                fontSize: '1.5rem',
-                cursor: 'pointer',
-                padding: '0 0.5rem',
-                lineHeight: '1'
-              }}
-              aria-label="Dismiss flash message"
-            >
-              &times;
-            </button>
-          </div>
-        )}
-        <ErrorBoundary>
-          <Outlet context={{ globalSearch }} />
-        </ErrorBoundary>
-      </main>
+    <div className={`app-shell${collapsed ? ' is-collapsed' : ''}${mobileOpen ? ' is-mobile-open' : ''}`}>
+      <Sidebar collapsed={collapsed} />
+      <div className="scrim scrim-nav" onClick={() => setMobileOpen(false)} aria-hidden="true" />
+      <div className="app-main">
+        <TopHeader onToggleSidebar={toggleSidebar} search={globalSearch} onSearch={setGlobalSearch} />
+        <main className="page" id="main">
+          <ErrorBoundary key={location.pathname}>
+            {/* Page chunks load here, keeping the sidebar and top bar on screen */}
+            <Suspense fallback={<div className="page-loading"><div className="spinner" /></div>}>
+              <Outlet context={{ globalSearch }} />
+            </Suspense>
+          </ErrorBoundary>
+        </main>
+      </div>
+      <AssistantDrawer />
       {flash && <Toast message={flash.message} type={flash.type} onDismiss={clearFlash} />}
       {prescriptionModal && (
         <PrescriptionModal
@@ -71,7 +70,9 @@ function AppLayoutContent() {
 export default function AppLayout() {
   return (
     <FlashProvider>
-      <AppLayoutContent />
+      <AssistantProvider>
+        <AppLayoutContent />
+      </AssistantProvider>
     </FlashProvider>
   )
 }

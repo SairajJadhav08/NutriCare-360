@@ -1,143 +1,80 @@
 import { useState, useMemo } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { useTheme } from '../context/ThemeContext'
-import React from 'react'
+import AuthLayout from '../components/layout/AuthLayout'
 
 // ── password strength scorer ──────────────────────────────────────────
 function scorePassword(pw) {
-  if (!pw) return { score: 0, label: '', color: '' }
+  if (!pw) return { score: 0, label: '' }
   let score = 0
   if (pw.length >= 6)  score++
   if (pw.length >= 10) score++
   if (/[A-Z]/.test(pw)) score++
   if (/[0-9]/.test(pw)) score++
   if (/[^A-Za-z0-9]/.test(pw)) score++
-
-  const levels = [
-    { label: '',          color: '' },
-    { label: 'Weak',      color: '#ef4444' },
-    { label: 'Fair',      color: '#f97316' },
-    { label: 'Good',      color: '#f59e0b' },
-    { label: 'Strong',    color: '#22c55e' },
-    { label: 'Very Strong', color: '#0ea5e9' },
-  ]
-  return { score, ...levels[score] }
+  return { score, label: ['', 'Weak', 'Fair', 'Good', 'Strong', 'Very strong'][score] }
 }
 
 export default function Register() {
-  const [username, setUsername]   = useState('')
-  const [password, setPassword]   = useState('')
-  const [showPw, setShowPw]       = useState(false)
-  const [error, setError]         = useState('')
-  const { register }              = useAuth()
-  const { theme, toggle }         = useTheme()
-  const navigate                  = useNavigate()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPw, setShowPw]     = useState(false)
+  const [error, setError]       = useState('')
+  const [busy, setBusy]         = useState(false)
+  const { register, login }     = useAuth()
+  const navigate                = useNavigate()
 
   const strength = useMemo(() => scorePassword(password), [password])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    setBusy(true)
     try {
       await register(username, password)
-      navigate('/login')
+      // Sign straight in rather than making people type their details twice
+      await login(username, password)
+      navigate('/dashboard')
     } catch (err) {
       setError(err.response?.data?.error || 'Registration failed')
+      setBusy(false)
     }
   }
 
   return (
-    <div className="auth-page">
-      <nav className="auth-nav">
-        <Link to="/" className="logo">
-          <i className="fa-solid fa-heart-pulse"></i>
-          <span>NutriCare-360</span>
-        </Link>
-        <button onClick={toggle} className="icon-btn theme-toggle" aria-label="Toggle theme">
-          <i className={theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'}></i>
+    <AuthLayout
+      title="Create your account"
+      subtitle="Free, and it takes about a minute."
+      footer={<>Already have an account? <Link to="/login">Log in</Link></>}
+    >
+      <form onSubmit={handleSubmit} className="stack-md">
+        {error && <p className="callout callout-danger" role="alert"><i className="fa-solid fa-circle-exclamation" /> {error}</p>}
+        <div className="field">
+          <label className="label" htmlFor="username">Username</label>
+          <input id="username" className="input input-lg" required minLength={3} autoComplete="username" autoFocus
+            value={username} onChange={e => setUsername(e.target.value)} />
+          <p className="hint">At least 3 characters.</p>
+        </div>
+        <div className="field">
+          <label className="label" htmlFor="password">Password</label>
+          <div className="input-action">
+            <input id="password" className="input input-lg" type={showPw ? 'text' : 'password'} required minLength={6} autoComplete="new-password"
+              value={password} onChange={e => setPassword(e.target.value)} />
+            <button type="button" onClick={() => setShowPw(v => !v)} aria-label={showPw ? 'Hide password' : 'Show password'}>
+              <i className={`fa-regular ${showPw ? 'fa-eye-slash' : 'fa-eye'}`} />
+            </button>
+          </div>
+          {password ? (
+            <div className="strength" data-score={strength.score}>
+              <div className="strength-track">{[1, 2, 3, 4, 5].map(i => <span key={i} className={i <= strength.score ? 'on' : ''} />)}</div>
+              <span className="strength-label">{strength.label}</span>
+            </div>
+          ) : <p className="hint">At least 6 characters. Longer is stronger.</p>}
+        </div>
+        <button type="submit" className="btn btn-primary btn-lg btn-block" disabled={busy}>
+          {busy ? <><i className="fa-solid fa-circle-notch fa-spin" /> Creating account</> : 'Create account'}
         </button>
-      </nav>
-
-      <div className="auth-container">
-        <div className="auth-header">
-          <div className="auth-logo">
-            <i className="fa-solid fa-heart-pulse"></i>
-          </div>
-          <h1 className="auth-title">Create Account</h1>
-          <p className="auth-subtitle">Join NutriCare-360 to start managing your health</p>
-        </div>
-
-        {error && (
-          <div className="flash-message flash-error">
-            <i className="fa-solid fa-triangle-exclamation"></i>
-            <span>{error}</span>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="auth-form">
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <div className="input-with-icon">
-              <i className="fa-solid fa-user"></i>
-              <input
-                type="text"
-                id="username"
-                required
-                minLength={3}
-                placeholder="Choose a username (min 3 chars)"
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <div className="input-with-icon pw-input-wrap">
-              <i className="fa-solid fa-lock"></i>
-              <input
-                type={showPw ? 'text' : 'password'}
-                id="password"
-                required
-                minLength={6}
-                placeholder="Create a password (min 6 chars)"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-              <button type="button" className="pw-toggle-btn" onClick={() => setShowPw(v => !v)} tabIndex={-1} aria-label="Toggle password visibility">
-                <i className={`fa-solid ${showPw ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-              </button>
-            </div>
-
-            {/* Strength meter */}
-            {password.length > 0 && (
-              <div className="pw-strength-wrap">
-                <div className="pw-strength-track">
-                  {[1,2,3,4,5].map(i => (
-                    <div
-                      key={i}
-                      className="pw-strength-segment"
-                      style={{ background: i <= strength.score ? strength.color : 'var(--border)' }}
-                    ></div>
-                  ))}
-                </div>
-                <span className="pw-strength-label" style={{ color: strength.color }}>
-                  {strength.label}
-                </span>
-              </div>
-            )}
-          </div>
-
-          <button type="submit" className="btn btn-primary w-100" style={{ marginTop: '0.5rem' }}>
-            Sign Up
-          </button>
-        </form>
-
-        <div className="auth-footer">
-          <p>Already have an account? <Link to="/login">Log in</Link></p>
-        </div>
-      </div>
-    </div>
+      </form>
+    </AuthLayout>
   )
 }
