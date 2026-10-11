@@ -6,7 +6,7 @@ Fill static/data/yoga_details.json with AI-written details (Groq) for every pose
     python generate_pose_details.py --force all      # regenerate everything
 
 To add a pose: append {name, category, description, image_url, steps} to static/data/yoga.json,
-add its photo to frontend/image-sources/ (see IMAGE_PROMPTS.md), then run this script.
+add its photo to frontend/image-sources/ as yoga-<slug>.png, then run this script.
 The file is mirrored to ../api/static/data so the Vercel deployment serves the same details.
 Review new entries before committing; the "avoid_if" lists are safety guidance.
 """

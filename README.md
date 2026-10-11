@@ -96,8 +96,6 @@ To point the dev proxy at another backend port: `API_PROXY=http://localhost:5055
 
 **Adding a yoga pose:** add it to `backend/static/data/yoga.json` (and `api/static/data/`), drop its photo in `frontend/image-sources/` as `yoga-<slug>.png`, then run both scripts. Review the new entry in `yoga_details.json` before committing — its "avoid if" list is safety guidance.
 
-Image prompts used to generate the photography are in [IMAGE_PROMPTS.md](IMAGE_PROMPTS.md).
-
 ---
 
 ## Project structure
@@ -120,7 +118,6 @@ NutriCare-360/
 │       ├── hooks/ · lib/         useApi, useAiStatus · formatting helpers
 │       └── styles/               index.css (app) · landing.css
 ├── docs/                         API · Schema · Case study · screenshots
-├── IMAGE_PROMPTS.md
 └── vercel.json                   Rewrites + cache headers
 ```
 
